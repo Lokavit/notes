@@ -6,9 +6,9 @@
     </thead>
     <tbody>
         <tr>
-            <td><a href="">Develop</a></td>
-            <td><a href="">Git</a></td>
-            <td><a href="">OS</a></td>
+            <td><a href="https://github.com/Lokavit/notes/blob/master/Develop.md">Develop</a></td>
+            <td><a href="https://github.com/Lokavit/notes/blob/master/Git.md">Git</a></td>
+            <td><a href="https://github.com/Lokavit/notes/blob/master/OS.md">OS</a></td>
         </tr>
     </tbody>
 </table>
@@ -23,8 +23,8 @@
     </thead>
     <tbody>
         <tr>
-            <td><a href="">C Sharp</a></td>
-            <td><a href="">Python</a></td>
+            <td><a href="https://github.com/Lokavit/notes/blob/master/Csharp.md">C Sharp</a></td>
+            <td><a href="https://github.com/Lokavit/notes/blob/master/Python.md">Python</a></td>
         </tr>
     </tbody>
 </table>
@@ -73,9 +73,9 @@
     </thead>
     <tbody>
         <tr>
-            <td><a href="">Nodejs</a></td>
-            <td><a href="">React</a></td>
-            <td><a href="">Vue</a></td>
+            <td><a href="https://github.com/Lokavit/notes/blob/master/Nodejs.md">Nodejs</a></td>
+            <td><a href="https://github.com/Lokavit/notes/blob/master/React.md">React</a></td>
+            <td><a href="https://github.com/Lokavit/notes/blob/master/Vue.md">Vue</a></td>
         </tr>
     </tbody>
 </table>
