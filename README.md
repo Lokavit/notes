@@ -1,8 +1,3 @@
-
-notes
-- example: 一个存放所有示例的文件夹内部根据示例分类(每个具有自己的html,css,js)
-- - html、css和简单的js，直接写在示例页面。并且在index.html中做超链接
-
 <table>
     <thead>
         <tr>
