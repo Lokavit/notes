@@ -68,14 +68,23 @@
 <table>
     <thead>
         <tr>
-            <th colspan="3">JavaScript</th>
+            <th colspan="5">JavaScript</th>
         </tr>
     </thead>
     <tbody>
         <tr>
-            <td><a href="https://github.com/Lokavit/notes/blob/master/Nodejs.md">Nodejs</a></td>
-            <td><a href="https://github.com/Lokavit/notes/blob/master/React.md">React</a></td>
-            <td><a href="https://github.com/Lokavit/notes/blob/master/Vue.md">Vue</a></td>
+            <td><a href="https://github.com/Lokavit/notes/blob/master/js/Nodejs.md">Nodejs</a></td>
+            <td><a href="https://github.com/Lokavit/notes/blob/master/js/React.md">React</a></td>
+            <td><a href="https://github.com/Lokavit/notes/blob/master/js/Vue.md">Vue</a></td>
+            <td><a href="https://github.com/Lokavit/notes/blob/master/js/BundleCompile.md">BundleCompile</a></td>
+            <td><a href="https://github.com/Lokavit/notes/blob/master/js/WebComponents.md">Web Components</a></td>
+        </tr>
+        <tr>
+            <td><a href="https://github.com/Lokavit/notes/blob/master/js/.md"></a></td>
+            <td><a href="https://github.com/Lokavit/notes/blob/master/js/.md"></a></td>
+            <td><a href="https://github.com/Lokavit/notes/blob/master/js/.md"></a></td>
+            <td><a href="https://github.com/Lokavit/notes/blob/master/js/Optimization.md">Optimization</a></td>
+            <td><a href="https://github.com/Lokavit/notes/blob/master/js/Functional.md">Functional</a></td>
         </tr>
     </tbody>
 </table>

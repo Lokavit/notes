@@ -16,14 +16,210 @@
 - [Array 数组方法](#Array数组方法)
 - [GitHub API](#GitHub)
 
-### js module 的区别
 
-- 未标记[type="module"]的 js 会优先且完整执行。
-- 若皆标记[type="module"]则视为 js 模块，按照书写顺序执行。
+
+ ```js
+```
+
+# Temp Note
+```js
+function fn(){}
+console.dir(fn) // prototype __proto__
+const fn2=(a,b)=>console.log(a+b);
+console.dir(fn2) // __proto__
+// 由上可知:箭头函数没有prototype。不是函数构造函数，不能用作原型
+```
+
+```js
+/**
+ * 创建prototype的新实例
+ * 使用 new 的语法
+ * 1. 函数调用构造函数
+ * 2.new object{} 已创建
+ * 3. __proto__ 已添加
+ * 4. props已添加(可选)
+ * 5. 对象由构造函数返回
+ * @param {*} props
+ */
+function CivilPlane(props) {
+  console.log(this); // {__proto__:...}
+  console.log(this.__proto__); // CiviPlane.prototype
+  this.numberOfSeats = props.numberOfSeats;
+  console.log(this); // {numberOfSeats:...,__proto__:...}
+
+  /** 不要这样写。该方法将添加到原型每个实例中 */
+  //   this.seatsInfo = function () {
+  //     console.log(`?${this.numberOfSeats}`);
+  //   };
+}
+
+/** 此为，正确将方法添加到原型的方式
+ * 注:此方式不可写为箭头函数形式,会发生undefined(因箭头函数会this到window)
+ */
+CivilPlane.prototype.seatsInfo = function () {
+  console.log(this); // 原型实例
+  console.log(`?${this.numberOfSeats}`);
+};
+
+CivilPlane.prototype.modifySeatsNumber = function (newSeatsOty) {
+  this.numberOfSeats = newSeatsOty;
+};
+
+const propsForSmallPlane = {
+  numberOfSeats: 5,
+};
+const smallPlane = new CivilPlane(propsForSmallPlane);
+console.log(smallPlane);
+console.log(smallPlane.__proto__ === CivilPlane.prototype); // true
+console.log(smallPlane.seatsInfo());
+smallPlane.seatsInfo(); // 5
+smallPlane.modifySeatsNumber(7); // 7
+smallPlane.seatsInfo(); // 7
+smallPlane.numberOfSeats = 9; // 直接改变其值
+
+const propsForLagePlane = { numberOfSeats: 333 };
+const lagePlane = new CivilPlane(propsForLagePlane);
+
+const Parent = {
+  type: "Parent",
+  typeInfo: function () {
+    console.log(`form ${this.type}`);
+  },
+  modifyType: function (newType) {
+    this.type = newType;
+  },
+};
+console.log(Parent.type); // "Parent"
+Parent.typeInfo(); // form Parent
+console.log(Parent.prototype); // undefined
+
+/** 这样创建的child __proto__是Parent相关 */
+const child = Object.create(Parent);
+console.log(child.__proto__ === Parent); // true
+child.typeInfo(); // from Parent
+child.type = "Child"; //Child
+child.typeInfo(); // from Child
+child.modifyType("Modified Child");
+console.log(child.type); // Modified Child
+child.typeInfo(); // from Modified Child
+
+// 17节 原型链
+
+// 21节 instanceof typeof
+smallPlane instanceof CivilPlane; // true
+CivilPlane instanceof Airplane; // false
+// 以上两个不同结果，则因前者new 创建，后者Object.create()创建
+
+```
+
+
+
+## 库 函数版
+```js
+/** lib/uid.js */
+export function GenerateUID(){}
+export const Add = () => {};
+
+/** lib/convert-types.js */
+export const StyleToString = (styleObj) => {return str};
+
+/** lib/index.js */
+import * as Uid from "./uid";
+import * as ConvertTypes from "./convert-types";
+export default { ConvertTypes, Uid};
+
+/** use/test.js */
+import Commonjs from 'commonjs';
+console.log("CLASS:",Commonjs);
+// 如下:调用通用库中类型转换模块下的样式转字符串函数
+this.props.domElement.style.cssText = Commonjs.ConvertTypes.StyleToString(this.props.style);
+```
+
+## 库 类-对象prototype
+
+```js
+/** lib/colour.js */
+class Colour {
+  constructor() {
+    this._colour = "black";
+  }
+  getColour() {
+    console.log("类=获取颜色函数:", this._colour);
+    return "aqua";
+  }
+}
+export default Colour;
+
+/** lib/index.js */
+import * as Colour from "./colour";
+export default {Colour};
+
+/** use/test.js */
+import Commonjs from 'commonjs';
+console.log('引入私有库:',Commonjs.Colour.default.prototype.getColour());
+```
+
+## 库 类版 使用时类实例化
+```js
+/** lib/colour.js */
+class Colour {
+  constructor() {
+    this._colour = "black";
+  }
+  getColour() {
+    console.log("类=获取颜色函数:", this._colour);
+    return "aqua";
+  }
+}
+export default Colour;
+
+/** lib/index.js */
+import Colour from "./colour";
+export default {Colour};
+
+/** use/test.js */
+import Commonjs from 'commonjs';
+let Colour = new Commonjs.Colour();
+console.log('颜色类实例化:',Colour.getColour())
+```
+
+## Module
+
+- 天然严格模式
+- import 关键字允许从其他模块中导入一些诸如函数之类的功能等等。[取代 require]
+- export 关键字表示在当前模块之外可以访问的变量和功能。[取代 module.exports]
+- 如果模块只有一个输出值，就使用 export default，多个则在 function 前加[export],不要同时使用
+- 不要在模块导入中使用通配符。确保模块之中，有一个默认输出（export default）
+
+### 无凭证
+
+如果请求来自同一个源（域名一样），大多数基于 CORS 的 API 将发送凭证（如 cookie 等），但 fetch()和模块脚本是例外 – 除非您要求，否则它们不会发送凭证。
+
+- crossorigin:HTML 属性,可以明确<script>以及<img>等可外链元素在获取资源时候，是否带上凭证。
+- anonymous:元素的跨域资源请求不需要凭证标志设置。
+- use-credentials:元素的跨域资源请求需要凭证标志设置，意味着该请求需要提供凭证。
+- 只要 crossOrigin 的属性值不是 use-credentials，全部都会解析为 anonymous
 
 ```html
+<!-- 未标记[type="module"]的 js 会优先且完整执行。 -->
 <script src="./recursion.js" type="module"></script>
+<!-- 若皆标记[type="module"]则视为 js 模块，按照书写顺序执行。 -->
 <script src="./filter.js"></script>
+
+<!-- ① 获取资源会带上凭证（如cookie等） 传统JS加载，都是默认带凭证的 -->
+<script src="1.js"></script>
+
+<!-- ② 获取资源不带凭证 module模块加载默认不带凭证 -->
+<script type="module" src="1.mjs"></script>
+
+<!-- ③ 获取资源带凭证 -设置crossOrigin为匿名anonymous，将带凭证 ->
+<script type="module" crossorigin src="1.mjs?"></script>
+
+<!-- ④ 获取资源不带凭证  import模块跨域，则设置crossOrigin为anonymous不带凭证 -->
+<script type="module" crossorigin src="//cdn.zhangxinxu.com/.../1.mjs"></script>
+
+<!-- ⑤ 获取资源带凭证 import模块跨域，且明确设置crossOrigin为使用凭证use-credentials，则带凭证 -->
+<script type="module" crossorigin="use-credentials" src="//cdn.zhangxinxu.com/.../1.mjs?"></script>
 ```
 
 ```js IIFE 立即调用函数表达式
@@ -136,774 +332,9 @@ let hasError = field => {
 };
 ```
 
-## 性能优化
-
-- 样式放在 header 中，脚本放在</body>之前
-- 查找元素:id 查找 > 样式类查找 > 属性查找
-- DOM 添加修改删除,避免不必要的渲染
-
-```js
-divUpdate.innerHTML = "";
-for (var i = 0; i < 100; i++) {
-  divUpdate.innerHTML += "<SPAN>This is a slower method! </SPAN>";
-}
-// 改为如下方式:
-var str = "";
-for (var i = 0; i < 100; i++) {
-  str += "<SPAN>This is faster because it uses a string! </SPAN>";
-}
-divUpdate.innerHTML = str;
-```
-
-- DOM 样式类改变，减少不必要的操作
-
-```js
-var el = document.getElementById("mydiv");
-el.style.borderLeft = "1px";
-el.style.borderRight = "2px";
-el.style.padding = "5px";
-var el = document.getElementById("mydiv");
-el.style.cssText = "border-left: 1px; border-right: 2px; padding: 5px;";
-```
-
-- 批量修改 DOM:从文档流摘除该元素,对其应用多重改变，将元素带回文档中
-
-```js
-// 具体方法:
-// 1. 隐藏元素,进行修改，然后再显示它。
-// 2.将原始元素拷贝到一个脱离文档的节点中，修改副本，然后覆盖原始元素。
-```
-
-## js 创建 DOM 节点
-
-· crateAttribute(name)：　　　　　 　　用指定名称 name 创建特性节点
-· createComment(text)：　　　　　　　创建带文本 text 的注释节点
-· createDocumentFragment()：　　　　创建文档碎片节点
-· createElement(tagname)：　　　　　 创建标签名为 tagname 的节点
-· createTextNode(text)：　　　　　　 创建包含文本 text 的文本节点
-
-### createDocumentFragment()，创建一个空白文档片段
-
-- 非主 DOM 一部分。通常创建文档片段，将元素附加到文档片段，然后将文档片段加到 DOM 树，于树中，文档片段被其所有的子元素所代替。
-- 因文档片段在内存中，将子元素插入到文档片段时不会引起页面回流。
-
-```js
-// 数据一万:[41,54,50],[47,53,53],[51,54,52]
-// 数据五万:[109,134,97],[142,129,123],[99,137,123]
-// 数据十万: [345,237,213],[312,243,214],[318,245,208]
-// 经测试，单次操作元素达十万，优选使用[createDocumentFragment]
-// 若单次操作元素在一万以下，区别不大。
-```
-
-## Web Components
-
-- 自己的 js 类
-- DOM 结构,该只由自己的类管理，无法被外部代码操作
-- CSS 样式，作用在组件上
-- API:事件，类方法等，让组件可以与其他组件交互
-- lifecycle callbacks 生命周期回调[主要四个函数]
-- ShadowDOM 用于封装 HTML、CSS、JS
-- 对象和数组需要以 JSON 格式的字符串形式传递。
-- 为自定义元素设置全局样式:host{}
-- 传递属性，监听属性变化，get/set 属性，传递事件(监听器),生命周期回调
-- html.js 和 css.js 因为都是``形式，所以可以任意加上变量，如 css 使用了全局某个 color:#222。
-
-```js 封装的目录结构
-/*  组件命名方式: c-button c-dropdown
-  compoments 
-    common 通用的css.js文件 只用于封装组件 
-      global-style.js 存放所有全局的样式设置
-    button 按钮
-      button-html.js 结构文件
-      button-css.js  样式文件
-      button.js 封装组件文件
-    dropdown  下拉
-      dropdown-html.js 结构文件
-      dropdown-css.js  样式文件
-      dropdown.js 封装组件文件
-    
-
-*/
-```
-
-```js 执行顺序
-/*  非嵌套情况下:
-
-
-*/
-
-/*  嵌套情况下： [自定义组件嵌套自定义组件]
-  子组件  指定监听的属性，以及对应get/set static get observedAttributes(){return['','']}
-  父组件  指定监听的属性，以及对应get/set static get observedAttributes(){return['','']}
-
-  子组件  构造函数中shadowDOM子级添加克隆的模板内容
-  子组件  自定义元素加入页面时，被调用 connectedCallback(){} // 此时，子组件在父组件中渲染完成
-
-  父组件  构造函数中shadowDOM子级添加克隆的模板内容  
-  父组件  属性发生变化时，被调用 attributeChangedCallback(name,oldValue,newValue){}
-  父组件  执行渲染函数
-  父组件  get option()属性值:option2 // 即外部使用组件元素时,option设置的对象属性option2
-
-  子组件  自定义元素属性发生变化时被调用 attributeChangedCallback(name, oldValue, newValue){}
-  子组件  获取label的最新属性值 get label(){} // 即外部元素设置的option='option2'的label值 [Option 2]
-  子组件  因属性值改变，在内中调用渲染函数，进行重新渲染
-
-  父组件  get option()属性值:option2 // 此处，输出了4遍
-  父组件  属性变更后，重新渲染
-  父组件  自定义元素加入页面时，被调用 [以上逻辑全部处理完成，才将本组件添加到页面]
-
-//======  点击button,显示下拉列表  =========//
-  button.js 添加事件监听器
-  dropdown.js 触发状态切换函数，状态切换函数结束
-
-//======  于下拉列表中，选择一项  =========//
-  父组件  属性发生变化时，被调用 attributeChangedCallback(name,oldValue,newValue){}
-  父组件  执行渲染函数
-  父组件  get option()属性值:option1 // 也就是外部使用,js代码部分options对象中的option1对象
-
-  子组件  自定义元素属性发生变化时被调用 attributeChangedCallback(name, oldValue, newValue){}
-  子组件  获取label的最新属性值Option 1。// 该值为option1对象的label值，并将其赋值给button的label属性。
-  子组件  因属性值改变，在内中调用渲染函数，进行重新渲染
-
-  父组件  get option()属性值:option1 // 此处，输出了4遍
-  父组件  因属性值改变，在内中调用渲染函数，进行重新渲染
-  父组件  set option()属性值:option1 // 选中的项
-  父组件  单个选项点击事件  option1对象
-  父组件  触发状态切换函数，函数执行结束
-
-  外部使用时，选项变更:option1
-
-  父组件  执行渲染函数
-  父组件  get option()属性值:option1 
-
-  子组件  自定义元素属性发生变化时被调用 attributeChangedCallback(name, oldValue, newValue){}
-  子组件  获取label的最新属性值Option 1。// 该值为option1对象的label值，并将其赋值给button的label属性。
-  子组件  因属性值改变，在内中调用渲染函数，进行重新渲染
-
-  父组件  get option()属性值:option1 // 此处，输出了4遍
-
-*/
-```
-
-```js 事件监听器的多种方式
-// 添加事件监听器  组件.js构造函数内
-this._button.addEventListener("click", () => {
-  console.log(`添加事件监听器`);
-  this.onClick("Hello from within the Custom Element");
-});
-// 外部使用事件监听器
-document.querySelector("my-button").onClick = value => console.log(`外部的事件监听器${value}`);
-
-/* ============================== */
-
-// 添加事件监听器 组件.js构造函数内
-this._button.addEventListener("click", () => {
-  console.log(`添加事件监听器`);
-});
-// 外部使用事件监听器
-document.querySelector("my-button").addEventListener("click", value => console.log(`外部的事件监听器`, value));
-
-/* ============================== */
-// 添加事件监听器 组件.js构造函数内
-// 添加事件监听器
-this._button.addEventListener("click", () => {
-  console.log(`添加事件监听器`);
-  this.dispatchEvent(
-    new CustomEvent("onClick", {
-      detail: "Hello from within the Custom Element",
-    }),
-  );
-});
-// 外部使用事件监听器
-document.querySelector("my-button").addEventListener("onClick", value => console.log(`外部的事件监听器`, value));
-```
-
-- 于自定义组件元素上添加特性
-
-```js
-// 获取容器元素 组件.js构造函数内
-this._container = this._shadowRoot.querySelector('.container');
-connectedCallback() {
-  console.log(`自定义元素加入页面时，被调用`);
-  // 如果 该自定义元素有 as-atom属性，则执行内部代码
-  if (this.hasAttribute('as-atom')) this._container.style.padding = '0px';
-}
-// 外部使用 设置as-atom与 未设置时，页面style效果不一。
-<my-button as-atom></my-button>
-```
-
-```js
-/* 由以下几种方式推论，想要实现 component(html,css,js)文件形式。
-因最终是将自定义组件的js文件，创建出来自定义的组件。以下为暂行方式: */
-// 自定义组件从创建<template>标签开始
-const template = document.createElement("template");
-// html.js和css.js字符串文件。 此处也可以是 .html和.css文件读取，再进行拼接
-template.innerHTML = ``;
-// 将该模板插入到 影子根节点中
-this.shadowRoot.appendChild(template.conten.cloneNode(true));
-
-// 最终根据 组件.js文件，创建出来一个组件。若是在其它js文件中使用：
-import Dropdown from "./dropdown/dropdown.js"; // 引入 自定义的下拉组件
-const dropdown = new Dropdown(); // 组件实例化
-
-// 注:直接在html中使用时，需写作，指定类型为模块
-<script type="module" src="./组件名.js"></script>;
-```
-
-```js
-/**
- * 定义一个 名为 word-count的自定义元素
- * 这个元素叫做 word-count，它的类对象是 WordCount, 继承自 <p> 元素
- */
-customElements.define("word-count", WordCount, {
-  extends: "p",
-});
-
-/** 定义个类元素 ，继承自 HTML段落元素 */
-class WordCount extends HTMLParagraphElement {}
-```
-
-```html
-<!-- Autonomous custom elements 独立元素，继承自 HTMLElement 抽象类，不继承其他内建HTML。
-创建类元素语法:class PopUpInfo extends HTMLElement{/*内部函数*/}
-元素语法: <popup-info>
-js创建: document.createElement("popup-info")
--->
-<!-- Customized built-in elements 继承内置的 HTML 元素，必须指定扩展元素。
-创建类元素语法:class HelloButton extends HTMLButtonElement{/*内部函数*/}
-html使用元素语法：<p is="word-count">
-js创建:document.createElement("p", { is: "word-count" })
--->
-```
-
-### Shadow DOM
-
-创建组件级别 DOM 的一种方法。为组件创造内部 DOM，它对外部是不可见的。
-
-- 在每个元素中，只能创建一个 shadow root。
-- 有自己的 id 空间。
-- 对主文档的 JavaScript 选择器隐身，比如 querySelector。
-- 只使用 shadow tree 内部的样式，不使用主文档的样式
-- 有 shadow root 的元素叫做「shadow tree host」，可以通过 shadow root 的 host 属性访问：
-
-```js
-// 假设 {mode: "open"}，否则 elem.shadowRoot 是 null
-alert(elem.shadowRoot.host === elem); // true
-```
 
 ---
 
-### 代码优化
-
-```js
-// 隐式 return 写法
-export const createElement = element => document.createElement(element);
-// 显示 return 写法
-export const createElement = element => {
-    return document.createElement(element);
-}
-```
-
-## 函数式编程入门经典
-
-- 函数的原则:小,更小。
-- 引用透明性
-- 声明式，抽象
-
-### 函数与方法的区别
-
-```js
-// 函数
-let simple = a => {
-  return a;
-};
-simple(5);
-
-// 方法
-let obj = {
-  simple: a => {
-    return a;
-  },
-};
-obj.simple(5); // 用其名称及其关联对象调用。
-```
-
-### 纯函数
-
-- 产生可测试的代码
-- 不应改变任意一个外部变量，就能马上理解其中含义
-- 纯函数总能够根据输入来做缓存
-
-```js
-// 非纯函数
-let number = 1;
-const increment = () => (number += 1);
-increment(); // 2
-
-// 纯函数
-const increment = n => n + 1;
-increment(1); // 2
-
-// 纯函数 ，加法计算。
-const sum = (a, b) => a + b;
-sum(3, sum(5, 8)); // 16
-sum(1, sum(2, sum(3, 4))); // 10
-```
-
-### 高阶函数
-
-- 函数把其他函数当做参数传递使用或者返回一个函数
-- 最常见的应用如 map, reduce. 都是以传入不同的函数来以不同的方式操作数组元素
-
-#### 函数作为返回值输出
-
-- isType 函数:判断类型的时候可以通过 Object.prototype.toString.call 来获取对应对象返回的字符串
-
-```js
-let isString = obj => Object.prototype.toString.call(obj) === "[object String]";
-let isArray = obj => Object.prototype.toString.call(obj) === "[object Array]";
-let isNumber = obj => Object.prototype.toString.call(obj) === "[object Number]";
-
-// 封装成一个判断类型的方法
-let isType = type => obj => {
-  return Object.prototype.toString.call(obj) === "[object " + type + "]";
-};
-isType("String")("123"); // true
-isType("Array")([1, 2, 3]); // true
-isType("Number")(123); // true
-// 这里就是一个高阶函数，因为 isType 函数将 obj => { ... } 这一函数作为返回值输出。
-```
-
-```js
-// 加法
-const sum = (x, y) => x + y;
-const calculate = (fn, x, y) => fn(x, y);
-calculate(sum, 1, 2); // 3
-
-// filter
-let students = [{ name: "Asura", grade: 6 }, { name: "Satya", grade: 4 }, { name: "Shakya", grade: 9 }];
-const isApproved = student => student.grade >= 6; // filter
-const byName = obj => obj.name; // map
-// 链式 使用 filter 和 map
-console.log(students.filter(isApproved).map(byName));
-
-// Reduce
-const totalGrades = students.reduce((sum, student) => sum + student.grade, 0);
-totalGrades; // 19
-
-// 对象排序 [逆序则将减号左右的xy互换]
-[{ id: 1, name: "one" }, { id: 3, name: "three" }, { id: 2, name: "two" }, { id: 5, name: "five" }, { id: 4, name: "four" }].sort((x, y) => x.id - y.id);
-```
-
-```js 命令式&声明式
-// 命令式 命令式的循环要求你必须先实例化一个数组，而且执行完这个实例化语句之后，解释器才继续执行后面的代码。然后再直接迭代 cars 列表，手动增加计数器，把各种零零散散的东西都展示出来
-var makes = [];
-for (i = 0; i < cars.length; i++) {
-  makes.push(cars[i].make);
-}
-// 声明式
-var makes = cars.map(function(car) {
-  return car.make;
-});
-
-// compose 表达式只是简单地指出了这样一个事实：用户验证是 toUser 和 logIn 两个行为的组合。
-
-// 命令式
-var authenticate = function(form) {
-  var user = toUser(form);
-  return logIn(user);
-};
-// 声明式
-var authenticate = compose(
-  logIn,
-  toUser,
-);
-```
-
-```js
-// 命令式   获取数组中所有偶数
-const even = n => n % 2 == 0;
-const listOfNumbers = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
-listOfNumbers.filter(even); // [0, 2, 4, 6, 8, 10]
-
-/** 声明式
- *  可以理解为，将filter的条件提取出来，声明一下，然后在filter中使用
- */
-// 获取数组中<3的数
-function smaller(number) {
-  return number < this;
-}
-function filterArray(x, listOfNumbers) {
-  // filter函数中的第二个参数表示上面 this， 也就是 x 值
-  return listOfNumbers.filter(smaller, x);
-}
-let numbers = [10, 9, 8, 2, 7, 5, 1, 3, 0];
-filterArray(3, numbers); // [2, 1, 0]
-
-// 找出age>21的人
-const olderThan21 = person => person.age > 21;
-const overAge = people => people.filter(olderThan21);
-overAge(people); // [{ name: 'TK', age: 26 }, { name: 'Kazumi', age: 30 }]
-
-// 购物车里类型为 books的总数
-let shoppingCart = [{ productTitle: "Functional Programming", type: "books", amount: 10 }, { productTitle: "Kindle", type: "eletronics", amount: 30 }, { productTitle: "Shoes", type: "fashion", amount: 20 }, { productTitle: "Clean Code", type: "books", amount: 60 }];
-// 一个reduce就可以搞定：
-let sum = shoppingCart.reduce((item, next) => {
-  return next.type === "books" ? item + next.amount : item;
-}, 0);
-console.log(sum);
-```
-
-### curry 柯里化
-
-- 传递给函数一部分参数来调用它，返回一个函数去处理剩下的参数
-- 一个函数有多个参数,把每个参数通过链式的形式返回下一个函数,直到最后返回结果
-
-```js
-// 加法函数柯里化   [ES6写法，也是比较正统的函数式写法]
-const add = x => y => x + y;
-const increment = add(1);
-const addFive = add(5);
-increment(3); //4
-addFive(10); // 15
-
-//比较容易读懂的ES5写法
-var add = function(x) {
-  return function(y) {
-    return x + y;
-  };
-};
-
-// 对象柯里化
-const student = name => grade => `Name: ${name} | Grade: ${grade}`;
-student("Matt")(8); // Name: Matt | Grade: 8
-
-// 柯里化函数接口
-var multiple = function(a) {
-  return function(b) {
-    return +b * a + "";
-  };
-};
-var plus = function(a) {
-  return function(b) {
-    return +b + a + "";
-  };
-};
-var concatArray = function(chars, stylishChar) {
-  return chars.map(stylishChar).reduce(function(a, b) {
-    return a.concat(b);
-  });
-};
-console.log(concatArray(["1", "2", "3"], multiple(2)));
-console.log(concatArray(["1", "2", "3"], plus(2)));
-
-// 写一个函数，可以连接字符串数组 如 f(['1','2']) => '12'
-var concatArray = function(chars) {
-  return chars.reduce(function(a, b) {
-    return a.concat(b);
-  });
-};
-concat(["1", "2", "3"]); // => '123'
-// 将所有数字+1
-var concatArray = function(chars, inc) {
-  return chars
-    .map(function(char) {
-      return +char + inc + "";
-    })
-    .reduce(function(a, b) {
-      return a.concat(b);
-    });
-};
-console.log(concatArray(["1", "2", "3"], 1)); // => '234'
-// 所有数字乘以2
-var multiple = function(a, b) {
-  return +a * b + "";
-};
-var concatArray = function(chars, inc) {
-  return chars
-    .map(function(char) {
-      return multiple(char, inc);
-    })
-    .reduce(function(a, b) {
-      return a.concat(b);
-    });
-};
-console.log(concatArray(["1", "2", "3"], 2)); // => '246'
-```
-
-```js
-const changeGender = gender => () => (user.gender = gender);
-$("input[value=male]").onChange(changeGender("male"));
-$("input[value=female]").onChange(changeGender("female"));
-```
-
-### Compose 代码组合
-
-- 通过组合两个或更多的函数生成一个新的函数
-
-```js
-// 组合两个函数生成一个新的函数
-const compose = (f, g) => x => f(g(x));
-const toUpperCase = x => x.toUpperCase();
-const exclaim = x => `${x}!`;
-const angry = compose(
-  exclaim,
-  toUpperCase,
-);
-angry("stop this"); // STOP THIS!
-
-// 组合三个函数生成一个新的
-const compose = (f, g) => x => f(g(x));
-const toUpperCase = x => x.toUpperCase();
-const exclaim = x => `${x}!`;
-const moreExclaim = x => `${x}!!!!!`;
-const reallyAngry = compose(
-  exclaim,
-  compose(
-    toUpperCase,
-    moreExclaim,
-  ),
-);
-reallyAngry("stop this"); // STOP THIS!!!!!!
-
-// 结合律: （associativity）  无论是把 g 和 h 分到一组，还是把 f 和 g 分到一组都不重要
-// var associative = compose(f, compose(g, h)) == compose(compose(f, g), h);
-// 因调用分组不重要，结果一样。所以可以写一个可变的组合
-
-groupedTasks = [[{ completed: false, id: 1 }, { completed: true, id: 2 }], [{ completed: false, id: 4 }, { completed: true, id: 3 }]];
-var completedAndSorted = compose(
-  sortBy(task => task.id),
-  filter(task => task.completed === true),
-);
-map(completedAndSorted, groupedTasks);
-```
-
-### 解构
-
-- 从数组中提取数据或对象使用一种语法混合数组和对象文本的建设。或“模式匹配”。
-
-```js
-// Select from pattern
-const foo = () => [1, 2, 3];
-const [a, b] = foo();
-console.log(a, b); // 1 2
-
-// 接收 rest 值
-const [a, ...b] = [1, 2, 3];
-console.log(a, b); // 1 [2, 3]
-
-// 可选参数
-const ajax = ({ url = "localhost", port: p = 80 }, ...data) => console.log("Url:", url, "Port:", p, "Rest:", data);
-ajax({ url: "someHost" }, "additional", "data", "hello");
-// Url: someHost Port: 80 Rest: [ 'additional', 'data', 'hello' ]
-ajax({}, "additional", "data", "hello");
-// Url: localhost Port: 80 Rest: [ 'additional', 'data', 'hello' ]
-```
-
-#### pointfree 模式
-
-- 函数无须提及将要操作的数据是什么
-
-```js
-// 非 pointfree，因为提到了数据：word
-var snakeCase = function(word) {
-  return word.toLowerCase().replace(/\s+/gi, "_");
-};
-
-// pointfree
-var snakeCase = compose(
-  replace(/\s+/gi, "_"),
-  toLowerCase,
-);
-```
-
-#### 获取所有偶数
-
-```js
-// 该函数接收一个断言[值为true or false]
-const unless = (predicate, fn) => {
-  if (!predicate) fn();
-};
-// 查找列表中的偶数
-const times = (times, fun) => {
-  for (let i = 0; i < times; i++) {
-    fun(i);
-  }
-};
-/**
- * 参数一:传入一个 number类型的数值
- * 参数二:一个参数为n的函数
- * 使用[unless]函数，其中参数如下:
- * 参数一:[n%2]得偶数
- * 参数二:一个匿名无参函数
- * output:最终输出[number]内所有偶数
- */
-times(100, n => {
-  unless(n % 2, () => {
-    console.log(`${n} is even`);
-  });
-});
-```
-
-- every 检查数组的所有元素是否为 true
-
-```js
-/** [实际上低效,应该在遇到第一个不匹配条件的元素时就停止迭代数组]
- * @param {*} arr 传入的数组
- * @param {*} fn 传入的fn需返回一个布尔值
- * 使用[&&]运算确保所有的数组内容遵循fn给出的条件
- */
-const every = (arr, fn) => {
-  let result = true;
-  for (let i = 0; i < arr.length; i++) result = result && fn(arr[i]);
-  return result;
-};
-
-console.log(every([NaN, NaN, NaN], isNaN)); // true
-console.log(every([NaN, NaN, 4], isNaN)); // false
-```
-
-- sortBy 排序
-
-```js
-/* 接收一个属性，并返回另一个函数 */
-const sortBy = property => {
-  return (a, b) => {
-    let result = a[property] < b[property] ? -1 : a[property] > b[property] ? 1 : 0;
-    return result;
-  };
-};
-// 使用。接收一个属性，并返回另一个函数,返回函数作为[比较函数]传给sort
-arr.sort(sortBy("firstName"));
-```
-
-- unary 函数
-
-```js
-let array = ["1", "2", "3"];
-/* 由于[parseInt]接收两个参数(parse,radix)如果可能该函数会把传入的[parse]转换为数字.
-    如果把[parseInt]传给map函数,map会把index的值传给parseInt的tadix参数。导致结果如下: */
-array.map(parseInt); // 输出结果为: [1,NaN,NaN]
-
-/**
- * 改善以上，使其正确输出。把parseInt函数转换为另一个只接受一个参数的函数。
- * @param {*} fn
- * 接受一个给定的多参数函数，并把它转换为一个只接受一个参数的函数
- * 检查fn是否有一个长度为1的参数列表,如果没有，就返回一个新函数
- * 它只接受一个参数arg，并用该参数调用fn
- */
-const unary = fn => (fn.length === 1 ? fn : arg => fn(arg));
-/* 返回了一个新函数(parseInt的克隆体),只接受一个参数。
-如此,map函数传入的index,arr参数就不会对程序产生影响 */
-array.map(unary(parseInt)); // [1, 2, 3]
-```
-
-- once 函数 控制函数被调用的次数
-
-```js
-/* 接受一个参数fn并通过调用它的apply方法返回结果 
-    声明一个done变量，初始值为false。返回的函数会形成一个覆盖它的闭包作用域.
-    返回的函数会访问并检查done是否为true，是则返回undefined,否则将done设置为true[阻止下次执行] 
-    并用必要的参数调用函数fn */
-const once = fn => {
-  let done = false;
-  return function() {
-    return done ? undefined : ((done = true), fn.apply(this, arguments));
-  };
-};
-let doPayment = once(() => {
-  console.log("Payment is done");
-});
-doPayment();
-console.log("模拟二次调用:", doPayment()); // undefined
-```
-
-- memoized 函数 使函数能够记住其计算结果
-
-```js
-const memoized = fn => {
-  const lookupTable = {};
-  /* 返回函数将接受一个参数并检查它是否存在 [lookupTable]中
-        如果存在，返回对应值;否则，使用新的输入作为key，fn的结果作为value，更新[lookupTable]对象 */
-  return arg => lookupTable[arg] || (lookupTable[arg] = fn(arg));
-};
-
-let fastFactorial = memoized(n => {
-  if (n === 0) return 1;
-  return n * fastFactorial(n - 1);
-});
-
-console.log(fastFactorial(5)); // 120
-console.log(fastFactorial(3)); // 6
-console.log(fastFactorial(7)); //5040
-```
-
-### 数组的函数式编程
-
-### SVG
-
-```js
-const canvas = document.getElementById("canvas");
-const ctx = canvas.getContext("2d");
-// 这条路径将先移动到点 (M10 10) 然后再水平移动80个单位(h 80)，然后下移8个单位 (v 8)，接着左移80个单位 (h -80)，再回到起点处 (z)。
-let p = new Path2D("M10 10 h 80 v 8 h -80 Z");
-ctx.fill(p);
-```
-
-```js
-let percentValue = 5;
-let calculateTax = value => {
-  return (value / 100) * (100 + percentValue);
-};
-
-/** 优化以上代码
- * 将 [percentValue] 作为函数的参数
- */
-let calculateTax2 = (value, percentValue) => {
-  return (value / 100) * (100 + percentValue);
-};
-
-// 引用透明性
-let identity = i => {
-  return i;
-};
-// 用命令式方法迭代数组
-let arr = [1, 2, 3];
-for (let i = 0; i < arr.length; i++) {
-  console.log(arr[i]);
-}
-// 用声明方式迭代数组
-arr.forEach(element => console.log(element));
-
-const sortBy = property => {
-  return (a, b) => {
-    let result = a[property] < b[property] ? -1 : a[property] > b[property] ? 1 : 0;
-    return result;
-  };
-};
-// 使用
-// arr.sort(sortBy('firstName'));
-
-// page:75
-
-const double = n => n * 2;
-const increment = n => n + 1;
-
-// 没有用管道操作符
-double(increment(double(5))); // 22
-
-let Chain = {
-  sav: "",
-  a1: function(val) {
-    this.sav = this.sav + val;
-    return this;
-  },
-};
-Chain.a1("aaa")
-  .a1("bbb")
-  .a1("ccc");
-console.log(Chain.sav); //返回 aaabbbccc
-```
 
 ## Document
 
@@ -1044,69 +475,6 @@ button.onclick = test(); // wrong
 </script>
 ```
 
-## Mixin 模式
-
-- 一个包含许多供其它类使用的方法的类，而且这个类不必是其它类的父类。
-
-### instanceof 类型检测
-
-- 类型检查，在检测中会将原型链考虑在内
-- 在涉及多层类结构的场合中比较实用，这种情况下需要将类的继承关系考虑在内。
-- typeof [用于:]基本数据类型
-- {}.toString [用于:]基本数据类型、内置对象以及包含 Symbol.toStringTag 属性的对象 [返回:string]
-- instanceof 任意对象 [返回:true/false]
-
-```js
-class Rabbit {}
-let rabbit = new Rabbit();
-// rabbit 是 Rabbit 类的实例对象吗?
-alert(rabbit instanceof Rabbit); // true
-
-// 构造函数而非 class
-function Rabbit() {}
-alert(new Rabbit() instanceof Rabbit); // true
-
-let arr = [1, 2, 3];
-alert(arr instanceof Array); // true
-alert(arr instanceof Object); // true
-```
-
-### 使用 Object 的 toString 方法来揭示类型
-
-- 一个普通对象被转化为字符串时为 [object Object]
-
-```js
-/*
-按照 规范 上所讲，内置的 toString 方法可以从对象中提取出来，以其他值作为上下文（context）对象进行调用，调用结果取决于传入的上下文对象。
-如果传入的是 number 类型，返回 [object Number]
-如果传入的是 boolean 类型，返回 [object Boolean]
-如果传入 null，返回 [object Null]
-传入 undefined，返回 [object Undefined]
-传入数组，返回 [object Array]
-…等等（例如一些自定义类型）
-*/
-let obj = {};
-alert(obj); // [object Object]
-alert(obj.toString()); // 同上
-
-// 保存 toString 方法的引用，方便后面使用
-let objectToString = Object.prototype.toString;
-// 猜猜是什么类型？
-let arr = [];
-alert(objectToString.call(arr)); // [object Array]
-
-//  装饰和转发，call/apply 里提到的 call 方法来调用 this=arr 上下文的方法 objectToString。
-let s = Object.prototype.toString;
-alert(s.call(123)); // [object Number]
-alert(s.call(null)); // [object Null]
-alert(s.call(alert)); // [object Function]
-
-// 对象的 toString 方法可以使用 Symbol.toStringTag 这个特殊的对象属性进行自定义输出。
-let user = {
-  [Symbol.toStringTag]: "User",
-};
-alert({}.toString.call(user)); // [object User]
-```
 
 ## Class 类
 
@@ -1458,60 +826,6 @@ function sortRestArgs(...theArgs) {
 alert(sortRestArgs(5, 3, 7, 1)); // 弹出 1,3,5,7
 ```
 
-## Module
-
-- 天然严格模式
-- import 关键字允许从其他模块中导入一些诸如函数之类的功能等等。[取代 require]
-- export 关键字表示在当前模块之外可以访问的变量和功能。[取代 module.exports]
-- 如果模块只有一个输出值，就使用 export default，多个则在 function 前加[export],不要同时使用
-- 不要在模块导入中使用通配符。确保模块之中，有一个默认输出（export default）
-
-### 无凭证
-
-如果请求来自同一个源（域名一样），大多数基于 CORS 的 API 将发送凭证（如 cookie 等），但 fetch()和模块脚本是例外 – 除非您要求，否则它们不会发送凭证。
-
-- crossorigin:HTML 属性,可以明确<script>以及<img>等可外链元素在获取资源时候，是否带上凭证。
-- anonymous:元素的跨域资源请求不需要凭证标志设置。
-- use-credentials:元素的跨域资源请求需要凭证标志设置，意味着该请求需要提供凭证。
-- 只要 crossOrigin 的属性值不是 use-credentials，全部都会解析为 anonymous
-
-```html
-<!-- ① 获取资源会带上凭证（如cookie等） 传统JS加载，都是默认带凭证的 -->
-<script src="1.js"></script>
-
-<!-- ② 获取资源不带凭证 module模块加载默认不带凭证 -->
-<script type="module" src="1.mjs"></script>
-
-<!-- ③ 获取资源带凭证 -设置crossOrigin为匿名anonymous，将带凭证 ->
-<script type="module" crossorigin src="1.mjs?"></script>
-
-<!-- ④ 获取资源不带凭证  import模块跨域，则设置crossOrigin为anonymous不带凭证 -->
-<script type="module" crossorigin src="//cdn.zhangxinxu.com/.../1.mjs"></script>
-
-<!-- ⑤ 获取资源带凭证 import模块跨域，且明确设置crossOrigin为使用凭证use-credentials，则带凭证 -->
-<script type="module" crossorigin="use-credentials" src="//cdn.zhangxinxu.com/.../1.mjs?"></script>
-```
-
-```JavaScript
-import * as myObject './importModule'; // bad
-import myObject from './importModule'; // good
-
-// 如果模块默认输出一个函数，函数名的首字母应该小写。
-function makeStyleGuide() { }
-export default makeStyleGuide;
-
-// 如果模块默认输出一个对象，对象名的首字母应该大写。
-const StyleGuide = { es6: { } };
-export default StyleGuide;
-```
-
-#### Chrome 遇到的问题
-
-- live server 插件启个服务来解决【带 html 及 js 的页面动态更新】
-- 使用 nodejs 写个简易服务来解决
-- file 协议:访问本地计算机中的文件,类似资源管理器中打开文件
-- http:访问本地 html,相当于将本机作为 http 服务器,动态解析拿到文件。
-
 ## async/await
 
 - async:函数前面的「async」：该函数总是返回一个 promise。允许在函数内部使用 await。
@@ -1550,11 +864,6 @@ f();
 - 异步编程的一种解决方案，比传统的——回调函数和事件——更合理更强大
 
 ```js
-/** HTTP 请求封装 */
-class HTTP {
-  /** 构造函数 */
-  constructor() {}
-
   /**
    * get 请求
    * @param {*} url 请求的url
@@ -1582,8 +891,6 @@ class HTTP {
       request.send();
     });
   }
-}
-export default new HTTP(); // 导出 HTTP类实例化
 
 /* ues.js 具体使用 */
 import HTTP from "./common/http.js";
@@ -1618,15 +925,6 @@ export function getMaterial(query) {
     params:query
   })
 }
-```
-
-```js
-async function asyncFunc() {
-  return new Promise((resolve, reject) => {
-    resolve(123);
-  });
-}
-asyncFunc().then(x => console.log(x));
 ```
 
 ```js
@@ -2396,191 +1694,16 @@ console.log(Reflect.ownKeys(array1));
 // expected output: Array ["length"]
 ```
 
+
+
+
+
+
+
+
+
 # JS_INFO
 
-## 属性的 getter 和 setter
-
-```js
-function User(name, birthday) {
-  this.name = name;
-  this.birthday = birthday;
-  // age 是由当前日期和生日计算出来的
-  Object.defineProperty(this, "age", {
-    get() {
-      let todayYear = new Date().getFullYear();
-      return todayYear - this.birthday.getFullYear();
-    },
-  });
-}
-let john = new User("John", new Date(1992, 6, 1));
-alert(john.birthday); // birthday 是可访问的
-alert(john.age); // ...age 也是可访问的
-```
-
-## 属性的标志和描述符
-
-### Object.getOwnPropertyDescriptor 方法允许查询有关属性的完整信息
-
-```js
-// 语法:  obj需要获取信息的对象  propertyName属性的名称
-let descriptor = Object.getOwnPropertyDescriptor(obj, propertyName);
-
-let user = { name: "Satya" };
-let descriptor = Object.getOwnPropertyDescriptor(user, "name");
-alert(JSON.stringify(descriptor, null, 2));
-/* property descriptor:
-{
-  "value": "Satya",
-  "writable": true,
-  "enumerable": true,
-  "configurable": true
-}
-*/
-```
-
-### Object.defineProperty 修改标志
-
-```js
-/** 语法:
- * @param: obj，propertyName 要处理的对象和属性
- *         descriptor:将被定义或修改属性的描述符
- * @return: 被传递给函数的对象
- * 如果该属性存在，则 defineProperty 更新其标志。否则，它会创建具有给定值和标志的属性；在这种情况下，如果没有提供标志，则会假定它是 false。
- */
-Object.defineProperty(obj, propertyName, descriptor);
-```
-
-```js
-// 使用所有的伪造标志创建一个属性 name
-let user = {};
-Object.defineProperty(user, "name", { value: "Satya" });
-let descriptor = Object.getOwnPropertyDescriptor(user, "name");
-alert(JSON.stringify(descriptor, null, 2));
-/* 注意，以下全为 false
-{
-  "value": "Satya",
-  "writable": false,
-  "enumerable": false,
-  "configurable": false
-}
- */
-```
-
-### writable 是否可写
-
-```js
-// 修改 writable 标志来把 user.name 设置为只读
-let user = { name: "Satya" };
-Object.defineProperty(user, "name", { writable: false });
-user.name = "Pete"; // 错误：不能设置只读属性'name'...
-
-// 属性不存在的话
-let user = {};
-Object.defineProperty(user, "name", {
-  value: "Pete",
-  // 对于新的属性，需要明确的列出哪些为 true
-  enumerable: true,
-  configurable: true,
-});
-
-alert(user.name); // Pete
-user.name = "Alice"; // Error
-```
-
-### enumerable 是否可枚举
-
-- 通常，对象的内置 toString 是不可枚举的，它不会显示在 for..in 中。但是如果添加自己的 toString，那么默认情况下它将显示在 for..in 中
-
-```js
-let user = {
-  name: "John",
-  toString() {
-    return this.name;
-  },
-};
-
-Object.defineProperty(user, "toString", {
-  enumerable: false, // 设置，则不会出现在for..in中
-});
-
-// 默认情况下，我们的两个属性都会列出：
-for (let key in user) alert(key); // name, toString
-```
-
-### configurable 是否可配置
-
-- 不可配置的属性不能被 defineProperty 删除或修改
-- 使属性不可配置是一条单行道。不能将其改回，因 defineProperty 不适用于不可配置的属性
-
-```js
-// 将 user.name 设为【永久封闭】的常量
-let user = {};
-Object.defineProperty(user, "name", {
-  value: "John",
-  writable: false, // 不可写
-  configurable: false, // 不可配置
-});
-
-// 不能修改 user.name 或 它的标志
-// 下面的所有操作都不起作用：
-//   user.name = "Pete"
-//   delete user.name
-//   defineProperty(user, "name", ...)
-Object.defineProperty(user, "name", { writable: true }); // 错误
-```
-
-### Object.defineProperties(obj, descriptors)，允许一次定义多个属性
-
-```js
-// 语法
-Object.defineProperties(obj, {
-  prop1: descriptor1,
-  prop2: descriptor2,
-  // ...
-});
-// 示例
-Object.defineProperties(user, {
-  name: { value: "John", writable: false },
-  surname: { value: "Smith", writable: false },
-  // ...
-});
-```
-
-### Object.getOwnPropertyDescriptors(obj) 获取所有属性描述符
-
-- 返回包含 symbolic 属性在内的所有属性描述符
-
-```js
-let clone = Object.defineProperties({}, Object.getOwnPropertyDescriptors(obj));
-for (let key in user) {
-  clone[key] = user[key];
-}
-```
-
-## 链表
-
-- 存储一个有序的对象列表,快速插入、删除元素
-- 链表元素是一个被递归定义的对象
-
-```js
-/**
- * value
- * next 属性引用下一个链表元素或者代表末尾的 null
- */
-// list 是链条的第一个对象，顺着 next 指针，我们可以抵达任何元素
-let list = { value: 1 };
-list.next = { value: 2 };
-list.next.next = { value: 3 };
-list.next.next.next = { value: 4 };
-// 列表可以很容易被分为几个部分，然后重新组装回去
-let secondList = list.next.next;
-list.next.next = null;
-list.next.next = secondList; // 合并
-// 将新值添加到列表头部
-list = { value: "new item", next: list };
-// 为了移除中间的一个值，修改前一个元素的 next：
-list.next = list.next.next;
-```
 
 ## Objects 对象
 
@@ -2590,46 +1713,6 @@ list.next = list.next.next;
 ```js
 let a = new Object(); // 构造函数的语法
 let b = {}; // 字面量的语法
-
-// 创建对象，添加属性及属性值
-let c = {
-  name: "Satya",
-  age: 15,
-};
-alert(c.name); // 读取属性值
-c.isBoy = true; // 添加 boolean类型的属性
-delete c.isBoy; // 移除一个属性
-
-/**
- * 计算属性:在对象字面量中使用方括号
- */
-let e = prompt("WHT?", "E");
-let f = {
-  [e]: 5, // 属性名从 e 变量中计算
-};
-alert(f.E); // 5 如果输入E 结果为5
-
-/**
- * "key" in object // 存在值检查
- */
-let g = {
-  age: 15,
-};
-let key = "age";
-alert(key in g); // 检查g 里是否有key属性
-
-/**
- * for……in 循环
- * for(key in object){}
- */
-let h = {
-  name: "Satya",
-  age: 15,
-};
-for (let key in h) {
-  alert(key); //
-  alert(h[key]);
-}
 
 /**
  * Object.assign 复制和合并
@@ -2656,7 +1739,6 @@ Object.assign(user, permissions1, permissions2);
 - 值表示唯一的标识符,无法自动转换;
 - 保证是唯一的。即使我们创建了许多具有相同描述的 Symbol，它们的值也是不同。描述只是一个不影响任何东西的标签。
 - 隐藏对象属性，属性不参与 for..in 循环
--
 
 ```js
 // id 是 symbol 的一个实例化对象
@@ -2700,7 +1782,7 @@ alert(Symbol.keyFor(sym2)); // id
 - 对象方法：存储在对象中的函数
 - 方法可以将该对象引用为 this
 - this 不受限制，可以用于任何函数
-- this 在运行时求职，可以为任何值
+- this 在运行时求值，可以为任何值
 - 箭头函数没有自己的 this
 
 ```js
