@@ -1,27 +1,13 @@
 # Charts
+- gojs
+- d3js
+- echart
 
-[GOJS](#GOJS)
-[ECharts](#ECharts)
 
 # GOJS
 
 - 两个基本元素[node,link],点和线。可以组成一个Group
 - 所有元素都在图层[Layer]上，并且可以对它们进行布局[Layout]
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 ```Bash
