@@ -8,7 +8,7 @@
         <tr>
             <td><a href="https://github.com/Lokavit/notes/blob/master/Develop.md">Develop</a></td>
             <td><a href="https://github.com/Lokavit/notes/blob/master/Git.md">Git</a></td>
-            <td><a href="https://github.com/Lokavit/notes/blob/master/OS.md">OS</a></td>
+            <td><a href="https://github.com/Lokavit/notes/blob/master/RIME.md">OS</a></td>
         </tr>
     </tbody>
 </table>
@@ -18,7 +18,7 @@
 <table>
     <thead>
         <tr>
-            <th colspan="2">Programming language</th>
+            <th colspan="2">Programming Language</th>
         </tr>
     </thead>
     <tbody>
