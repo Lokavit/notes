@@ -6,14 +6,9 @@ Node 支持 WebAssembly
 
 ## TOC
 
-- 合并 GET 和 POST 获取数据的方法
-- 处理前端提交的 POST 请求
-- 处理前端提交的 GET 请求
-- 搭建可访问本地文件的服务器
-
-  [Server](#Server)
-  [递归文件](#fileDisplay)
-  [合并 HTML](#compileHTML)
+- [Server](#Server)
+- [递归文件](#fileDisplay)
+- [合并 HTML](#compileHTML)
 
 # nodejs 服务端
 

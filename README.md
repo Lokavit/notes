@@ -6,9 +6,9 @@
     </thead>
     <tbody>
         <tr>
-            <td><a href="https://github.com/Lokavit/notes/blob/master/Develop.md">Develop</a></td>
-            <td><a href="https://github.com/Lokavit/notes/blob/master/Git.md">Git</a></td>
-            <td><a href="https://github.com/Lokavit/notes/blob/master/RIME.md">OS</a></td>
+            <td><a href="https://github.com/Lokavit/notes/blob/master/md/Develop.md">Develop</a></td>
+            <td><a href="https://github.com/Lokavit/notes/blob/master/md/Git.md">Git</a></td>
+            <td><a href="https://github.com/Lokavit/notes/blob/master/md/RIME.md">OS</a></td>
         </tr>
     </tbody>
 </table>
@@ -23,8 +23,8 @@
     </thead>
     <tbody>
         <tr>
-            <td><a href="https://github.com/Lokavit/notes/blob/master/Csharp.md">C Sharp</a></td>
-            <td><a href="https://github.com/Lokavit/notes/blob/master/Python.md">Python</a></td>
+            <td><a href="https://github.com/Lokavit/notes/blob/master/md/Csharp.md">C Sharp</a></td>
+            <td><a href="https://github.com/Lokavit/notes/blob/master/md/Python.md">Python</a></td>
         </tr>
     </tbody>
 </table>
@@ -80,7 +80,7 @@
             <td><a href="https://github.com/Lokavit/notes/blob/master/js/WebComponents.md">Web Components</a></td>
         </tr>
         <tr>
-            <td><a href="https://github.com/Lokavit/notes/blob/master/js/.md"></a></td>
+            <td><a href="https://github.com/Lokavit/notes/blob/master/js/pixi.md">Pixijs</a></td>
             <td><a href="https://github.com/Lokavit/notes/blob/master/js/.md"></a></td>
             <td><a href="https://github.com/Lokavit/notes/blob/master/js/.md"></a></td>
             <td><a href="https://github.com/Lokavit/notes/blob/master/js/Optimization.md">Optimization</a></td>
