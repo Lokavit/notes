@@ -1,3 +1,430 @@
+# React 16.13
+
+## TOC
+
+```html
+<!-- 项目结构/src
+
+components 目录包含所有的展示组件。
+containers 目录包含所有的容器组件。
+actions 目录包含所有 action 构造函数。
+reducers 目录包含所有 Redux 的 reducer。
+actionTypes.js 定义action类型。
+actions.js 定义action构造函数。
+reducer.js 定义这个功能模块如果响应actions.js定义的动作
+index.js 把所有的角色导入，然后统一导出。 -->
+```
+
+## 子组件中的 defaultProps、propTypes
+
+- 父组件调用子组件时未传值，则使用子组件`defaultProps`定义的默认值
+
+```jsx
+// ============= Children.jsx =====================
+import React, { Component } from "react";
+import PropTypes from "prop-types"; // 验证父组件传入值的合法性
+class Children extends Component {
+  constructor(props) {
+    super(props);
+    // 当前组件的state
+    this.state = {
+      name: "子组件 name",
+      msg: "子组件 msg",
+    };
+  }
+
+  render() {
+    return (
+      <div>
+        <h2>{this.state.name}</h2>
+        {/* 当前组件内部值 this.state */}
+        <h3>子组件的msg:{this.state.msg}</h3>
+        {/* 需要父组件值时 ，this.props */}
+        <h3>父组件传入的msg:{this.props.msg}</h3>
+        <h3>父组件中传入的num值：{this.props.num}</h3>
+      </div>
+    );
+  }
+}
+/**
+ * 若父组件调用子组件时，未传值，则子组件使用以下默认值
+ */
+Children.defaultProps = {
+  msg: "默认值，当父组件有传入值，此处值被重写",
+};
+/**
+ * 验证父组件传入值的合法性
+ */
+Children.propTypes = {
+  num: PropTypes.number, // num值需为数组类型
+};
+
+// 导出子组件
+export default Children;
+
+// ============== Parent.jsx ====================
+import React, { Component } from "react";
+import Children from "./Children";
+
+export default class Parent extends Component {
+  constructor(props) {
+    super(props);
+    // 当前组件的state
+    this.state = {
+      name: "父组件 name",
+      msg: "父组件 msg",
+      num: "123", // 此处字符串类型，则控制台报错
+    };
+  }
+
+  render() {
+    return (
+      <div>
+        <h2>{this.state.name}</h2>
+        <h3>以下为引入的子组件:</h3>
+        {/* 以下赋值方式皆可 */}
+        <Children msg="父组件中使用子组件，并为其msg赋值" />
+        {/* 父组件中使用子组件，并为其msg赋值为父组件的msg值 */}
+        <Children msg={this.state.msg} />
+        {/* 父组件调用子组件时，将num的值传入子组件 */}
+        <Children num={this.state.num} />
+      </div>
+    );
+  }
+}
+
+// ============== App.js ====================
+import Parent from "./testProps/Parent";
+function App() {
+  return (
+    <div className="App">
+      <header className="App-header">
+        {/* 引入父组件，渲染于页面 */}
+        <Parent />
+      </header>
+    </div>
+  );
+}
+```
+
+## Hook 钩子
+
+- 编写函数组件且需要向其添加一些 state，以前是必须将其它转为 class。现在可以在现有的函数组件中使用 Hook。
+- Effect Hook 可以让你在函数组件中执行副作用操作
+- 规则:只在最顶层使用 Hook,不要在循环，条件或嵌套函数中调用 Hook,只在 React 函数中调用 Hook,将条件判断放置在 effect 中
+- 什么时候我会用 Hook？ 如果你在编写函数组件并意识到需要向其添加一些 state
+- useState 建议用来处理像数字或者字符串这种简单的值,只能使用 setValue 方法
+- userReducer 处理复杂的数据结构,允许定义你想要的任何函数(如对象数组增删更)
+- React Context：将 useState 或 userReducer 提升到全局，允许在组件中分享值，无需通过 props 向下传递
+
+### useContext()：共享状态钩子
+
+```js
+```
+
+### useReducer()：action 钩子
+
+### useState()：数据
+
+- 在需要向下传递的组件上使用，而非最子组件
+
+```jsx
+// ============== StateHook.jsx ====================
+import React, { useState, useEffect } from "react";
+
+function StateHook() {
+  /**
+   * 函数组件中，没有 this，不能分配或读取 this.state。直接在组件中调用 useState Hook
+   * useState() 方法里面唯一的参数就是初始 state,可以按需使用数字或字符串对其进行赋值，而不一定是对象。如果我们想要在 state 中存储两个不同的变量，只需调用 useState() 两次即可
+   * useState 方法的返回值为：当前 state 以及更新 state 的函数
+   * 如下：声明一个叫count的state的变量，通过调用 setCount 来更新当前的 count
+   * 注:该声明方式为数组结构语法 const [属性, 操作属性的方法] = useState(默认值);
+   */
+  const [count, setCount] = useState(0);
+
+  /**
+   * useEffect Hook 可以看作时React class生命周期中componentDidMount，componentDidUpdate 和 componentWillUnmount 这三个函数的组合。
+   * React 组件中有两种常见副作用操作：需要清除的和不需要清除的
+   * 无需清除的 effect：只想在 React 更新 DOM 之后运行一些额外的代码。比如发送网络请求，手动变更 DOM，记录日志，这些都是常见的无需清除的操作。
+   * 将 useEffect 放在组件内部可以在 effect 中直接访问 count state 变量（或其他 props）。不需要特殊的 API 来读取它 —— 它已经保存在函数作用域中。Hook 使用了 JavaScript 的闭包机制。
+   * useEffect默认情况下，在第一次渲染之后和每次更新之后都会执行。
+   * 可以在 effect 中获取到最新的 count 值，因为他在函数的作用域内。当 React 渲染组件时，会保存已使用的 effect，并在更新完 DOM 后执行它。
+   * 使用 useEffect 调度的 effect 不会阻塞浏览器更新屏幕，让应用看起来响应更快。大多数情况下，effect 不需要同步地执行。
+   */
+  useEffect(() => {
+    // 使用浏览器API更新文档标题
+    document.title = `You chicked ${count} times`;
+  }, [count]); // 仅在 count 更改时更新(跳过 Effect 进行性能优化)
+
+  return (
+    <div>
+      {/* 读取State的不同：
+            class中显示当前count,读取 this.state.count
+            函数中，使用{count}就可以读取
+        */}
+      <p>You chilked {count} times</p>
+      {/* 更新 State的不同：
+          class中需要调用 this.setState() 来更新 count 值
+          函数中，已经有 setCount 和 count 变量，所以不需要 this
+          当点击按钮，传递一个新值给setCount。React会重新渲染本组件，并把最新count传给它
+      */}
+      <button onClick={() => setCount(count + 1)}> Chick me</button>
+    </div>
+  );
+}
+// 导出该钩子
+export default StateHook;
+
+// ============== App.js ====================
+import StateHook from "./testProps/StateHook";
+function App() {
+  return (
+    <div className="App">
+      <header className="App-header">
+        {/* 引入父组件，渲染于页面 */}
+        <StateHook />
+      </header>
+    </div>
+  );
+}
+
+// ============== EffectHook.jsx ====================
+import React, { useState, useEffect } from "react";
+
+function EffectHook(props) {
+  const [isOnline, setIsOnline] = useState(null);
+  /**
+   * 需要清除的 effect
+   * 如订阅外部数据源。这种情况下，清除工作是非常重要的，可以防止引起内存泄露
+   */
+  useEffect(() => {
+    function handleStatusChange(status) {
+      setIsOnline(status.isOnline);
+    }
+    ChatAPI.subscribeToFriendStatus(props.friend.id, handleStatusChange);
+    /**
+     * 在 effect 中返回一个函数是 effect 可选的清除机制。每个 effect 都可以返回一个清除函数。如此可以将添加和移除订阅的逻辑放在一起。它们都属于 effect 的一部分。
+     * React 会在组件卸载的时候执行清除操作。
+     * 并不是必须为 effect 中返回的函数命名，以下return可以为箭头函数或别的名字
+     * 指定此效果后如何清除：
+     */
+    return () => {
+      // return function cleanup() {
+      ChatAPI.unsubscribeFromFriendStatus(props.friend.id, handleStatusChange);
+    };
+  }, [props.friend.id]); // 仅在 props.friend.id 发生变化时，重新订阅
+
+  if (isOnline === null) return "Loading...";
+  return isOnline ? "Online" : "Offline";
+}
+```
+
+```js
+import React, { useState, useEffect } from "react";
+import ReactDOM from "react-dom";
+import axios from "axios";
+
+function SearchResults() {
+  const [data, setData] = useState({ hits: [] });
+  const [query, setQuery] = useState("react");
+
+  useEffect(() => {
+    let ignore = false;
+
+    async function fetchData() {
+      const result = await axios(
+        "https://hn.algolia.com/api/v1/search?query=" + query
+      );
+      if (!ignore) setData(result.data);
+    }
+
+    fetchData();
+    return () => {
+      ignore = true;
+    };
+  }, [query]);
+
+  return (
+    <>
+      <input value={query} onChange={(e) => setQuery(e.target.value)} />
+      <ul>
+        {data.hits.map((item) => (
+          <li key={item.objectID}>
+            <a href={item.url}>{item.title}</a>
+          </li>
+        ))}
+      </ul>
+    </>
+  );
+}
+
+const rootElement = document.getElementById("root");
+ReactDOM.render(<SearchResults />, rootElement);
+```
+
+## 将以上父子组件代码改写为 Hook 形式
+
+- 以.js 文件写，在引入组件时，或许需要加后缀名
+
+```js
+// ============= Children.js (.jsx文件相同) =====================
+import React, { useState, useEffect } from "react";
+import PropTypes from "prop-types"; // 验证父组件传入值的合法性
+
+/**
+ * 函数式编程 自定义组件
+ * @param {*} props 需父组件传入值时使用
+ */
+// function Children(props) {
+const Children = (props) => {
+  console.log("Children函数的参数值:", props);
+  const { num } = props; // 在此重新声明父组件props中属性，并对象展开
+  // 本组件内 const [属性, 操作属性的方法] = useState(默认值);
+  const [name, setName] = useState("useState 子组件的name");
+  const [mssg, setMsg] = useState("useState 子组件的mssg");
+
+  useEffect(() => {
+    document.title = props.msg;
+  }, [props]); // 值相同时，跳过
+
+  return (
+    <div>
+      <h2>{name}</h2>
+      {/* 当前组件内部值 */}
+      <h3>子组件的msg:{mssg}</h3>
+      {/* 当前组件需要父组件值时， props.属性 (父组件class时，this.state={msg}) */}
+      <h3>父组件传入的msg:{props.msg}</h3>
+      {/* 当前组件需要父组件值时，通过 const {num} =props; 在此处使用变量 */}
+      <h3>父组件中传入的num值：{num}</h3>
+    </div>
+  );
+};
+
+/**
+ * 若父组件调用子组件时，未传值，则子组件使用以下默认值
+ */
+Children.defaultProps = {
+  msg: "默认值，当父组件有传入值，此处值被重写",
+};
+
+/**
+ * 验证父组件传入值的合法性
+ */
+Children.propTypes = {
+  num: PropTypes.number, // num值需为数组类型
+};
+
+// 导出子组件
+export default Children;
+
+// ============= Parent.js (.jsx文件相同) =====================
+import React, { useState, useEffect } from "react";
+import Children from "./Children.js";
+
+const Parent = (props) => {
+  const [name, setName] = useState("useState 父组件 name");
+  const [msg, setMsg] = useState("useState 父组件 msg");
+  const [num, setNum] = useState(123);
+
+  return (
+    <div>
+      <h2>{name}</h2>
+      {/* 调用子组件时，以下赋值方式皆可 */}
+      {/* <Children msg="父组件中使用子组件，并为其msg赋值" /> */}
+      {/* 父组件中使用子组件，并为其msg赋值为父组件的msg值 */}
+      {/* <Children msg={msg} /> */}
+      {/* 父组件调用子组件时，将num的值传入子组件 */}
+      {/* <Children num={num}/> */}
+      {/* 父组件调用子组件时，传入本组件中msg及num值，渲染时，将重写子组件的这部分值 */}
+      <Children msg={msg} num={num} />
+    </div>
+  );
+};
+
+export default Parent;
+
+// ============== App.js ====================
+import Parent from "./testProps/Parent.js";
+function App() {
+  return (
+    <div className="App">
+      <header className="App-header">
+        {/* 引入父组件，渲染于页面 */}
+        <Parent />
+      </header>
+    </div>
+  );
+}
+```
+
+## className 的多种方式
+
+一、React 动态添加类名
+
+已知变量：value = { class: 'class1', class2: 'class2', value: '你好' }，想得到结果如下：
+
+<div class="class1 class2">你好</div>
+实现方式如下：
+React 实现 双类名/多类名
+常用（字符串写法）
+<div className={value.class + " " + value.class2}>{value.value}</div>
+（模板字符串写法）
+<div className={`${value.class} ${value.class2}`}>{value.value}</div>
+ 
+其他（引入依赖）
+import cs from 'classnames' // 引入classnames依赖库
+const addClass2 = true
+ 
+<div className=cs({"class1":true,"class2":addClass2})>{value.value}</div>
+// （数组类名）
+<div className={[value.class,value.class2].join(" ")}>{value.value}</div>
+2.动态判断添加类名
+
+// 动态判断添加单类名
+
+<div className={index===this.state.currentState?"active":null}>hello</div>
+// 已有多类名，动态判断再添加类名
+// ( 数组法)
+<div className{[classA,'box',index===this.state.currentState?"active":null].join('')}>hello</div>
+// （模板字符串法）
+<div className={`box${classA}${index===this.state.currentState?"active":null}`}>hello</div>
+二、React动态添加样式
+
+1.某元素需要动态添加一个 display:block | none  样式
+
+实现方式如下：
+
+// 标签是否隐藏 （单样式）
+
+<div style={{display: (index===this.state.currentState) ? "block" : "none"}}>hello</div>
+ 
+// 标签是否隐藏 （多样式）
+<div style={{
+        display: (index===this.state.currentState) ? "block" : "none",
+        color:"red",
+        fontSize: 16,  }}>hello</div>
+
+# redux
+
+- 适用场景：多交互、多数据源
+
+```
+某个组件的状态，需要共享
+某个状态需要在任何地方都可以拿到
+一个组件需要改变全局状态
+一个组件需要改变另一个组件的状态
+```
+
+```bash
+npm install redux
+```
+
+getState： getter（取）
+dispatch： setter（存）
+subscribe： 订阅
+
+---
+
 # React Sample
 
 ## Boilerplate
