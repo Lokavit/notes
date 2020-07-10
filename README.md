@@ -94,16 +94,37 @@
 <table>
     <thead>
         <tr>
-            <th colspan="5">Scratch</th>
+            <th colspan="5">Kid Programming</th>
         </tr>
     </thead>
     <tbody>
         <tr>
-            <td><a href="https://github.com/Lokavit/notes/blob/master/scratch/Dev.md">DEV</a></td>
-            <td><a href="https://github.com/Lokavit/notes/blob/master/js/Nodejs.md">Blocks</a></td>
-            <td><a href="https://github.com/Lokavit/notes/blob/master/js/React.md">VM</a></td>
-            <td><a href="https://github.com/Lokavit/notes/blob/master/js/Vue.md">GUI</a></td>
-            <td><a href="https://github.com/Lokavit/notes/blob/master/js/WebComponents.md"></a></td>
+            <td>Pro</td>
+            <td><a href="https://github.com/Lokavit/notes/blob/master/kid/pro/ProBlocks.md">Blocks</a></td>
+            <td><a href="https://github.com/Lokavit/notes/blob/master/kid/pro/ProVM.md">VM</a></td>
+            <td><a href="https://github.com/Lokavit/notes/blob/master/kid/pro/ProGUI.md">GUI</a></td>
+            <td><a href="https://github.com/Lokavit/notes/blob/master/kid/pro/ProRender.md">Render</a></td>
+        </tr>
+        <tr>
+            <td>Jr</td>
+            <td><a href="https://github.com/Lokavit/notes/blob/master/kid/jr/JrBlocks.md">Blocks</a></td>
+            <td><a href="https://github.com/Lokavit/notes/blob/master/kid/jr/JrVM.md">VM</a></td>
+            <td><a href="https://github.com/Lokavit/notes/blob/master/kid/jr/JrGUI.md">GUI</a></td>
+            <td><a href="https://github.com/Lokavit/notes/blob/master/kid/jr/JrRender.md">Render</a></td>
+        </tr>
+        <tr>
+            <td>Game</td>
+            <td><a href="https://github.com/Lokavit/notes/blob/master/kid/game/JrBlocks.md"></a></td>
+            <td><a href="https://github.com/Lokavit/notes/blob/master/kid/game/JrVM.md"></a></td>
+            <td><a href="https://github.com/Lokavit/notes/blob/master/kid/game/JrGUI.md"></a></td>
+            <td><a href="https://github.com/Lokavit/notes/blob/master/kid/game/JrRender.md"></a></td>
+        </tr>
+        <tr>
+            <td>Code</td>
+            <td><a href="https://github.com/Lokavit/notes/blob/master/kid/code/JrBlocks.md"></a></td>
+            <td><a href="https://github.com/Lokavit/notes/blob/master/kid/code/JrVM.md"></a></td>
+            <td><a href="https://github.com/Lokavit/notes/blob/master/kid/code/JrGUI.md"></a></td>
+            <td><a href="https://github.com/Lokavit/notes/blob/master/kid/code/JrRender.md"></a></td>
         </tr>
     </tbody>
 </table>
