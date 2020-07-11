@@ -2,7 +2,7 @@
  * @Author: Satya
  * @Date: 2020-07-02 12:00:24
  * @Last Modified by: Satya
- * @Last Modified time: 2020-07-11 17:19:32
+ * @Last Modified time: 2020-07-11 17:23:00
  * doc:迷宫，主程序
  */
 
@@ -25,7 +25,7 @@ let stage = app.stage;
 // 获取渲染器
 let renderer = app.renderer;
 // 挂在应用的容器
-let game_contener = document.getElementById("game_contener");
+let game_contener = document.querySelector("#game_contener");
 // 将 Pixi 创建的 canvas 添加到页面上
 game_contener.appendChild(renderer.view);
 
