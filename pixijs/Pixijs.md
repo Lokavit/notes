@@ -1,7 +1,7 @@
 # pixijs
 `pixi.js v5.3.0  webgl 2D`
 
-[DEMO](#https://lokavit.github.io/notes/pixijs/pixijs.html)
+[DEMO](https://lokavit.github.io/notes/pixijs/pixijs.html)
 
 <!-- <a href="https://lokavit.github.io/notes/pixijs/pixijs.html">Pixijs demo</a> -->
 
