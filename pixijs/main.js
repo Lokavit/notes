@@ -2,7 +2,7 @@
  * @Author: Satya
  * @Date: 2020-07-02 12:00:24
  * @Last Modified by: Satya
- * @Last Modified time: 2020-07-11 17:23:00
+ * @Last Modified time: 2020-07-11 17:29:25
  * doc:迷宫，主程序
  */
 
@@ -50,14 +50,14 @@ loader
   // 数组形式添加 ,可以考虑使用 PIXI.utils.TextureCache
   .add([
     "./assets/sprites/map_tiled.png",
-    "./media/category/control.png",
-    "./media/category/events.png",
-    "./media/category/looks.png",
-    "./media/category/made.png",
-    "./media/category/motion.png",
-    "./media/category/pen.png",
-    "./media/category/sound.png",
-    "./media/category/stop.png",
+    "./assets/category/control.png",
+    "./assets/category/events.png",
+    "./assets/category/looks.png",
+    "./assets/category/made.png",
+    "./assets/category/motion.png",
+    "./assets/category/pen.png",
+    "./assets/category/sound.png",
+    "./assets/category/stop.png",
   ])
   // text
   .add("./assets/json/text.json")
