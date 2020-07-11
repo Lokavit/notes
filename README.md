@@ -81,7 +81,6 @@
         </tr>
         <tr>
             <td><a href="https://github.com/Lokavit/notes/blob/master/pixijs/Pixijs.md">Pixijs</a></td>
-            <td><a href="https://lokavit.github.io/notes/pixijs/pixijs.html">Pixijs demo</a></td>
             <td><a href="https://github.com/Lokavit/notes/blob/master/js/.md"></a></td>
             <td><a href="https://github.com/Lokavit/notes/blob/master/js/.md"></a></td>
             <td><a href="https://github.com/Lokavit/notes/blob/master/js/Optimization.md">Optimization</a></td>
