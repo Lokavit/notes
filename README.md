@@ -80,7 +80,7 @@
             <td><a href="https://github.com/Lokavit/notes/blob/master/js/WebComponents.md">Web Components</a></td>
         </tr>
         <tr>
-            <td><a href="https://github.com/Lokavit/notes/blob/master/js/pixi.md">Pixijs</a></td>
+            <td><a href="https://github.com/Lokavit/notes/blob/master/pixijs/pixijs.html">Pixijs</a></td>
             <td><a href="https://github.com/Lokavit/notes/blob/master/js/.md"></a></td>
             <td><a href="https://github.com/Lokavit/notes/blob/master/js/.md"></a></td>
             <td><a href="https://github.com/Lokavit/notes/blob/master/js/Optimization.md">Optimization</a></td>
