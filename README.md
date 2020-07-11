@@ -99,6 +99,13 @@
     </thead>
     <tbody>
         <tr>
+            <td>Library</td>
+            <td><a href="https://github.com/Lokavit/notes/blob/master/kid/lib/SvgRenderer.md">Svg Renderer</a></td>
+            <td><a href="https://github.com/Lokavit/notes/blob/master/kid/lib/xx.md"></a></td>
+            <td><a href="https://github.com/Lokavit/notes/blob/master/kid/lib/xx.md"></a></td>
+            <td><a href="https://github.com/Lokavit/notes/blob/master/kid/lib/xx.md"></a></td>
+        </tr>
+        <tr>
             <td>Pro</td>
             <td><a href="https://github.com/Lokavit/notes/blob/master/kid/pro/ProBlocks.md">Blocks</a></td>
             <td><a href="https://github.com/Lokavit/notes/blob/master/kid/pro/ProVM.md">VM</a></td>

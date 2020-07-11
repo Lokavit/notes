@@ -1,23 +1,34 @@
-# scratch-dev
+# KID-DEV
+
+## 已更改的库
+
+```bash
+# 2020.07.11
+https://github.com/LLK/scratch-svg-renderer.git
+
+```
+
+---
 
 - 提交至远程仓库时，删除每个主文件夹中的.git 文件夹
 
 ```bash
-scratch-paint：绘图拓展 
-scratch-render：舞台渲染，在舞台区域出现的基于 WebGL 的处理器。 
-scratch-storage：作品存储加载 
-scratch-svg-renderer：svg 处理 
+scratch-paint：绘图拓展
+scratch-render：舞台渲染，在舞台区域出现的基于 WebGL 的处理器。
+scratch-storage：作品存储加载
+scratch-svg-renderer：svg 处理
 scratch-vm：虚拟机，管理状态并执行业务逻辑。
 ```
+
 ```bash
-# scratch-audio：声音拓展 
+# scratch-audio：声音拓展
 $ git clone https://github.com/LLK/scratch-audio.git
 $ npm install
 $ npm test
 ```
 
 ```bash
-# scratch-l10n：国际化  
+# scratch-l10n：国际化
 $ git clone https://github.com/LLK/scratch-l10n.git
 $ npm install
 $ npm test
@@ -25,11 +36,9 @@ $ npm test
 $ npm install -D scratch-l10n
 ```
 
-
 ## 本地开发环境搭建
 
 ```bash
-git clone https://github.com/llk/scratch-vm # 主程序状态的虚拟机
 git clone https://github.com/llk/scratch-gui # 主界面显示相关
 cd scratch-vm # 进入vm主文件夹
 npm install # 装载依赖
@@ -55,4 +64,3 @@ npm start # 启动服务
 ```
 
 ## 安装报错及解决方案
-
