@@ -26,13 +26,26 @@ webpack webpack-cli
 ```js
 /** font-converter.js 2.0字体转换为3.0 移除该文件 */
 /** font-inliner.js 移除该文件 */
-
-import SVGRenderer from "kid-svg-renderer";
-
-// var svgRenderer = new SvgRenderer();
-// svgRenderer.fromString(svgData, callback);
 ```
 
-- 改为 import export 模式
+- 该库改为 import export 模式
+
+## 问题
+- 报错找不到 identity 之类的问题。
+```js
+/* kid-svg-renderer\src\transform-applier.js */
+// import Matrix from "transformation-matrix";
+// 该库的内容需要已{}方式引入
+import {
+  identity,
+  compose,
+  rotateDEG,
+  translate,
+  scale,
+  skewDEG,
+  toString,
+  applyToPoint,
+} from "transformation-matrix";
+```
 
 ## TODO:

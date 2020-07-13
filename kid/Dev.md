@@ -8,6 +8,9 @@ https://github.com/LLK/scratch-svg-renderer.git
 
 ```
 
+## blocks
+- 已模块化形式重新边写。就可以按照Pro和js所需，导出不同版本的blocks库
+
 ---
 
 - 提交至远程仓库时，删除每个主文件夹中的.git 文件夹
