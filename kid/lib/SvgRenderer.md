@@ -1,4 +1,6 @@
-# SVG 渲染器 通用版
+# KID-SVG 渲染器 通用版
+
+`svg 处理`
 
 ```bash
 # 2020.07.11
@@ -6,8 +8,7 @@ https://github.com/LLK/scratch-svg-renderer.git
 
 npm install # 装载依赖
 npm link # 开启链接
-# 有所更改后，执行重新编译
-npm run build
+npm run build # 有所更改后，执行重新编译
 ```
 
 ## 依赖变更
@@ -19,7 +20,7 @@ json scratch-render-fonts rimraf xmldom jsdom mkdirp tap
 copy-webpack-plugin eslint-plugin-import
 
 # 更新的依赖
-webpack webpack-cli 
+webpack webpack-cli
 @babel/core babel-loader @babel/preset-env
 ```
 
@@ -31,7 +32,9 @@ webpack webpack-cli
 - 该库改为 import export 模式
 
 ## 问题
+
 - 报错找不到 identity 之类的问题。
+
 ```js
 /* kid-svg-renderer\src\transform-applier.js */
 // import Matrix from "transformation-matrix";

@@ -17,36 +17,28 @@ npm run build
 # 移除的依赖
 babel-eslint eslint eslint-config-scratch gh-pages
 eslint-import-resolver-webpack eslint-plugin-import
-eslint-plugin-jest eslint-plugin-react @babel/cli babel-core @babel/plugin-proposal-object-rest-spread @babel/plugin-syntax-dynamic-import @babel/plugin-transform-async-to-generator chromedriver enzyme enzyme-adapter-react-16 jest jest-junit mkdirp rimraf selenium-webdriver uglifyjs-webpack-plugin  
-
-# 新增的依赖
-terser-webpack-plugin uglify-js # 打包时，某库有错误，需排查
-axios 
+eslint-plugin-jest eslint-plugin-react @babel/cli babel-core @babel/plugin-proposal-object-rest-spread @babel/plugin-syntax-dynamic-import @babel/plugin-transform-async-to-generator chromedriver enzyme enzyme-adapter-react-16 jest jest-junit mkdirp rimraf selenium-webdriver uglifyjs-webpack-plugin minlog raf
+react-ga react-test-renderer redux-mock-store
+lodash.isequal lodash.pick
 
 # 更新的依赖
 webpack webpack-cli webpack-dev-server
 react react-dom react-redux redux
 @babel/core @babel/preset-env babel-loader @babel/preset-react
-copy-webpack-plugin
+copy-webpack-plugin core-js
 
+# 新增的依赖
+terser-webpack-plugin # 打包压缩
 
 # link的依赖
 pro-blocks kid-vm kid-storage kid-render kid-svg-renderer
 ```
 
+## 解决 HTTPS 问题
 
+- 该项目设置为 HTTPS 请求方式后，需将内中使用外链资源及 API 皆改为 HTTPS
 
+## 代码优化
 
-
-
-
-
-
-
-
-
-## TODO:
-- 登录注册
-- 保存到草稿箱
-- 发布作品
-- 查看我的作品
+- 压缩使用 terser-webpack-plugin
+- 代码分块 optimization.splitChunks{}中设置
