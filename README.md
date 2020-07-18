@@ -41,7 +41,7 @@
 
 <table>
     <tr>
-        <td colspan="5">Javascript</td>
+        <th colspan="5">Javascript</th>
     </tr>
     <tr>
         <td>Game</td>
@@ -85,7 +85,7 @@
 ---
 
 <table>
-    <tr><td colspan="5">Kid Programming</td></tr>
+    <tr><th colspan="5">Kid Programming</th></tr>
     <tr>
         <td>Library</td>
         <td><a href="https://github.com/Lokavit/notes/blob/master/kid/lib/SvgRenderer.md">Svg Renderer</a></td>
