@@ -12,6 +12,10 @@ web-components
 markdown 存放不适合或无必要转化为html的笔记
     csharp.md
 
+jslib 放所有收集js代码的地方，.md文件罗列所有？
+
+
+
 // or
 一级全部以文件夹分类
 每种分类下，包含其文件及md文件
