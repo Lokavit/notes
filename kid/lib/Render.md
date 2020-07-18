@@ -17,15 +17,24 @@ npm run build # 有所更改后，执行重新编译
 # 移除的依赖
 babel-eslint docdash eslint eslint-config-scratch
 gh-pages jsdoc json webpack-dev-server travis-after-all
-tap playwright-chromium copy-webpack-plugin babel-polyfill
+tap playwright-chromium babel-polyfill 
+minilog
 
 # 更新的依赖
-webpack webpack-cli
+webpack webpack-cli copy-webpack-plugin
 @babel/core babel-loader @babel/preset-env
 
+# 新增的依赖
+terser-webpack-plugin
+
 # link的依赖
-kid-svg-renderer
+kid-svg-renderer # 虽然用到，但在打包时该库被排除
 
 # 其他说明
 kid-vm kid-storage 似乎都没用到，暂时不link这两个库
 ```
+
+## 改动
+- 更改为import export模式
+- playground从src中拿出来
+- webpack打包去掉.min.js，因为输出kid-render.js已带有压缩
