@@ -13,7 +13,7 @@
 - 每版又有纵横两版布局
 
 # Blockly 多个二开版本比较
-- 经过比较，采用pxt-blockly为蓝本
+- 经过比较，采用pxt-blockly为基础版本
 
 <!-- ## google/blockly
 - google 出品，对 windows 兼容不好，难编译。
@@ -22,15 +22,12 @@
 
 ## pxt-blockly
 
-- microsoft 出品，修复大量 Edge 下的问题
+- microsoft 出品，修复大量 Edge 下的问题，并附带一系列pxt扩展
 
 ```bash
 # 通过以下方式，可以直接编译成功该项目
-git clone https://github.com/google/closure-library
-cd closure-library
-git checkout v20180805 # 该行无法执行
-cd ../
 git clone https://github.com/Microsoft/pxt-blockly
 cd pxt-blockly
 npm install .
+npm run build:core --closure-library
 ```
