@@ -72,16 +72,20 @@
         <td><a href="https://github.com/Lokavit/notes/blob/master/js/Optimization.md">Optimization</a></td>
         <td colspan="2"><a href="https://github.com/Lokavit/notes/blob/master/js/WebComponents.md">Web Components</a></td>
     </tr>    
-    <!-- <tr>
-        <td >Common</td> 
-        <td><a href="https://github.com/Lokavit/notes/blob/master/.md">Library</a></td>
-    </tr> -->
+    <tr><td colspan="5">Library Common</td></tr>
+    <tr>
+        <td><a href="https://github.com/Lokavit/notes/blob/master/.md">Colour</a></td>
+        <td><a href="https://github.com/Lokavit/notes/blob/master/.md">UserAgent</a></td>
+        <td><a href="https://github.com/Lokavit/notes/blob/master/.md"></a></td>
+        <td><a href="https://github.com/Lokavit/notes/blob/master/.md"></a></td>
+        <td><a href="https://github.com/Lokavit/notes/blob/master/.md"></a></td>
+    </tr>
 </table>
 
 ---
 
 <table>
-    <tr><th colspan="5">Kid Programming</th></tr>
+    <tr><td colspan="5">Kid Programming</td></tr>
     <tr>
         <td>Library</td>
         <td><a href="https://github.com/Lokavit/notes/blob/master/kid/lib/SvgRenderer.md">Svg Renderer</a></td>
