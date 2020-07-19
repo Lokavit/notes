@@ -72,7 +72,7 @@
         <td><a href="https://github.com/Lokavit/notes/blob/master/js/Optimization.md">Optimization</a></td>
         <td colspan="2"><a href="https://github.com/Lokavit/notes/blob/master/js/WebComponents.md">Web Components</a></td>
     </tr>    
-    <tr><td colspan="5">Common Util</td></tr>
+    <tr><td colspan="9">Common Util</td></tr>
     <tr>
         <td><a href="https://github.com/Lokavit/notes/blob/master/jsutil/colour.js">Colour</a></td>
         <td><a href="https://github.com/Lokavit/notes/blob/master/jsutil/user_agent.js">UserAgent</a></td>
