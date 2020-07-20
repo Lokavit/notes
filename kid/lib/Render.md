@@ -4,8 +4,6 @@
 
 ```bash
 # 2020.07.11
-https://github.com/LLK/scratch-render.git
-
 npm install # 装载依赖
 npm link # 开启链接
 npm run build # 有所更改后，执行重新编译
@@ -29,9 +27,6 @@ terser-webpack-plugin
 
 # link的依赖
 kid-svg-renderer # 虽然用到，但在打包时该库被排除
-
-# 其他说明
-kid-vm kid-storage 似乎都没用到，暂时不link这两个库
 ```
 
 ## 改动

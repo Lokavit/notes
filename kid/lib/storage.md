@@ -4,8 +4,6 @@
 
 ```bash
 # 2020.07.11
-https://github.com/LLK/scratch-storage.git
-
 npm install # 装载依赖
 npm link # 开启链接
 npm run build # 有所更改后，执行重新编译
