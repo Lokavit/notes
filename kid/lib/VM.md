@@ -19,10 +19,7 @@ npm run build # 有所更改后，执行重新编译
 
 # 更新的依赖
 webpack webpack-cli @babel/core @babel/preset-env babel-loader copy-webpack-plugin
-
-# link的依赖
-scratch-blocks scratch-svg-renderer scratch-render
 ```
 
 ## 改动
-- 
+- playground文件夹中可以作为示例，暂时不删除
