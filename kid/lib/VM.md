@@ -24,3 +24,4 @@ terser-webpack-plugin
 
 ## 改动
 - playground文件夹中可以作为示例，暂时不删除
+- 将原本VM中的jr版指令实现合并到pro版指令实现中
