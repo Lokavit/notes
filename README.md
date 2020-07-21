@@ -86,13 +86,26 @@
 ---
 
 <table>
+    <tr><th colspan="5">Vanilla JavaScript</th></tr>
+    <tr>
+        <td>Component</td>
+        <td><a href="https://github.com/Lokavit/notes/blob/master/vanillajs/ .md"></a></td>
+        <td><a href="https://github.com/Lokavit/notes/blob/master/vanillajs/ .md"></a></td>
+        <td><a href="https://github.com/Lokavit/notes/blob/master/vanillajs/ .md"></a></td>
+        <td><a href="https://github.com/Lokavit/notes/blob/master/vanillajs/ .md"></a></td>
+    </tr>
+</table>
+
+---
+
+<table>
     <tr><th colspan="5">Kid Programming</th></tr>
     <tr>
         <td>Library</td>
         <td><a href="https://github.com/Lokavit/notes/blob/master/kid/lib/SvgRenderer.md">Svg Renderer</a></td>
         <td><a href="https://github.com/Lokavit/notes/blob/master/kid/lib/Render.md">Render</a></td>
         <td><a href="https://github.com/Lokavit/notes/blob/master/kid/lib/Storage.md">Storage</a></td>
-        <td><a href="https://github.com/Lokavit/notes/blob/master/kid/lib/xx.md">VM</a></td>
+        <td><a href="https://github.com/Lokavit/notes/blob/master/kid/lib/VM.md">VM</a></td>
     </tr>
     <tr>
         <td>Project</td>
