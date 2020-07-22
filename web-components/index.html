@@ -4,11 +4,81 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Web Components</title>
+
+    <!-- 组件   modal -->
+    <script src="./modal/modal-html.js"></script>
+    <script src="./modal/modal-css.js"></script>
+    <script src="./modal/modal.js"></script>
+
+    <!-- 组件   太极 -->
+    <script src="./taichi/taichi-html.js"></script>
+    <script src="./taichi/taichi-css.js"></script>
+    <script src="./taichi/taichi.js"></script>
   </head>
 
   <body>
+    <!-- 太极展示 -->
     <tai-chi></tai-chi>
-    <!-- 链接到每个必要示例中 -->
-    <script type="module" src="./taichi/taichi.js"></script>
+
+    <!-- Modal -->
+    <h3>Please confirme your choice</h3>
+
+    <button id="video_show">Open Modal</button>
+    <button id="form_show">Open Modal</button>
+
+    <dd-modal not-mask id="video_modal">
+      <h1 slot="title">Video Title</h1>
+      <div slot="main">
+        <video
+          controls
+          width="480"
+          src="https://interactive-examples.mdn.mozilla.net/media/examples/flower.mp4"
+        ></video>
+      </div>
+    </dd-modal>
+
+    <!-- 带有遮罩的 -->
+    <dd-modal id="form_modal">
+      <h1 slot="title">MASK</h1>
+      <div slot="main">
+        <form action="">
+          这是个表单
+        </form>
+      </div>
+    </dd-modal>
+
+    <script>
+      const btnVideo = document.querySelector("#video_show");
+      const modalVideo = document.querySelector("#video_modal");
+      modalVideo.addEventListener("confirmed", () => {
+        console.log("视频播放");
+      });
+
+      modalVideo.addEventListener("cancelled", () => {
+        console.log("cancelled event");
+      });
+      btnVideo.addEventListener("click", () => {
+        if (!modalVideo.isOpen) {
+          modalVideo.open();
+          console.log("open", modalVideo.isOpen);
+        }
+      });
+
+      const btnForm = document.querySelector("#form_show");
+      const modalForm = document.querySelector("#form_modal");
+      modalForm.addEventListener("confirmed", () => {
+        console.log("提交表单");
+      });
+
+      modalForm.addEventListener("cancelled", () => {
+        console.log("关闭表单");
+      });
+      btnForm.addEventListener("click", () => {
+        if (!modalForm.isOpen) {
+          modalForm.open();
+          console.log("open", modalForm.isOpen);
+        }
+      });
+    </script>
   </body>
 </html>

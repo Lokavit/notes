@@ -1,14 +1,19 @@
-"use strict";
+/*
+ * @Author: Satya
+ * @Date: 2020-07-22 17:53:33
+ * @Last Modified by: Satya
+ * @Last Modified time: 2020-07-22 18:07:32
+ * doc:太极组件主文件
+ */
 
-import { TaiChiHTML } from "./taichi-html.js";
-import { TaiChiCSS } from "./taichi-css.js";
+"use strict";
 
 // 创建模板标签
 const template = document.createElement("template");
 // 将导入的内容，拼接成模板标签的完整内容，
-template.innerHTML = `<style>${TaiChiCSS}</style>${TaiChiHTML}`;
+template.innerHTML = `${TaiChiCSS}${TaiChiHTML}`;
 
-export default class TaiChiComponent extends HTMLElement {
+class TaiChiComponent extends HTMLElement {
   constructor() {
     super();
     // 创建一个shadowroot。 attachShadow函数 返回 shadow root
