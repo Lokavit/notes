@@ -1,0 +1,60 @@
+body {
+    height: 100vh;
+    display: flex;
+}
+
+.memory-game {
+    width: 800px;
+    height: 800px;
+    margin: auto;
+    display: flex;
+    flex-wrap: wrap;
+    perspective: 1000px;
+}
+
+.memory-card {
+    width: calc(25% - 10px);
+    height: calc(33.333% - 10px);
+    margin: 5px;
+    position: relative;
+    transform: scale(1);
+    transform-style: preserve-3d;
+    transition: transform .5s;
+    box-shadow: 1px 1px 1px rgba(0, 0, 0, .3);
+}
+
+.memory-card:active {
+    transform: scale(0.97);
+    transition: transform .2s;
+}
+
+.memory-card.flip {
+    transform: rotateY(180deg);
+}
+
+/* 阳面 */
+.front-face {
+    background-color: tomato;
+    transform: rotateY(180deg);
+}
+
+/* 阴面 */
+.back-face {
+    background-color: skyblue;
+}
+/* 阴面 子级元素 */
+.back-face>p {
+    margin: 0 40%;
+    font-size: 1.5rem;
+}
+
+/* 阴阳双面 通用样式 */
+.front-face,
+.back-face {
+    width: 100%;
+    height: 100%;
+    padding: 20px;
+    position: absolute;
+    border-radius: 5px;
+    backface-visibility: hidden;
+}

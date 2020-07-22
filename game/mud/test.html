@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <section style="display:flex;justify-content: space-around;">
+        <div>
+            <h3>ID:{{role1.id}}</h3>
+            <h3>NAME:{{role1.name}}</h3>
+            <h3>HP:{{role1.hp}}</h3>
+            <h3>MP:{{role1.mp}}</h3>
+            <button @click="onAttackRole">攻击</button>
+        </div>
+        <div>
+            <h3>ID:{{enemy1.id}}</h3>
+            <h3>NAME:{{enemy1.name}}</h3>
+            <h3>HP:{{enemy1.hp}}</h3>
+            <h3>MP:{{enemy1.mp}}</h3>
+            <button @click="onAttackEnemy">攻击</button>
+        </div>
+    </section>
+</body>
+<script>
+    import Role from "./role";
+    import Enemy from "./enemy";
+    const role = new Role(1, "闪退江湖", 500, 400, 100, 70);
+    const enemy = new Enemy(3, "BOSS", 300, 100);
+
+
+
+    function onAttackRole() {
+        console.log("开始攻击！");
+        role.onAttack();
+        console.log("输出元气值:", role.mp);
+        console.log("enemy防御！");
+        enemy.onDefense();
+    }
+
+    function onAttackEnemy() {
+        console.log("开始攻击！");
+        enemy.onAttack();
+        console.log("输出元气值:", enemy.mp);
+        console.log("role防御！");
+        role.onDefense();
+    }
+</script>
+
+</html>

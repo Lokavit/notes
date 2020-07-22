@@ -8,6 +8,174 @@
 - 中划线表示字符链接
 - 非百分百确定不嵌套，不考虑使用标签选择器
 
+- 字体特效
+
+```css
+/* 字体特效  */
+.masked h6 {
+  display: block;
+  width: auto;
+  height: auto;
+  /*渐变背景 给文字加线性渐变背景色 */
+  background-image: -webkit-linear-gradient(
+    left,
+    #3498db,
+    #f47920 10%,
+    #d71345 20%,
+    #f7acbc 30%,
+    #ffd400 40%,
+    #3498db 50%,
+    #f47920 60%,
+    #d71345 70%,
+    #f7acbc 80%,
+    #ffd400 90%,
+    #3498db
+  );
+  color: transparent;
+  /*文字填充色为透明*/
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  /*背景剪裁为文字，只将文字显示为背景*/
+  -webkit-background-clip: text;
+  background-size: 200% 100%;
+  /*背景图片向水平方向扩大一倍，这样background-position才有移动与变化的空间*/
+  /* 动画 */
+  animation: masked-animation 4s infinite linear;
+}
+
+@keyframes masked-animation {
+  0% {
+    background-position: 0 0;
+    /*background-position 属性设置背景图像的起始位置。*/
+  }
+
+  100% {
+    background-position: -100% 0;
+  }
+}
+
+.hsl h1 {
+  font-size: 5em;
+  color: hsl(184, 80%, 25%);
+  text-shadow: 0 0 2px currentColor, /*highlight*/ -1px -1px 1px hsl(184, 80%, 50%),
+    0 -1px 1px hsl(184, 80%, 55%), 1px -1px 1px hsl(184, 80%, 50%),
+    /*light shadow*/ 1px 1px 1px hsl(184, 80%, 10%), 0 1px 1px hsl(184, 80%, 10%),
+    -1px 1px 1px hsl(184, 80%, 10%), /*outline*/ -2px -2px 1px hsl(184, 80%, 15%),
+    -1px -2px 1px hsl(184, 80%, 15%), 0 -2px 1px hsl(184, 80%, 15%),
+    1px -2px 1px hsl(184, 80%, 15%), 2px -2px 1px hsl(184, 80%, 15%),
+    2px -1px 1px hsl(184, 80%, 15%), 2px 0 1px hsl(184, 80%, 15%),
+    2px 1px 1px hsl(184, 80%, 15%), -2px 0 1px hsl(184, 80%, 15%),
+    -2px -1px 1px hsl(184, 80%, 15%), -2px 1px 1px hsl(184, 80%, 15%),
+    /*dark shadow*/ 2px 2px 2px hsl(184, 80%, 5%), 1px 2px 2px hsl(184, 80%, 5%),
+    0 2px 2px hsl(184, 80%, 5%), -1px 2px 2px hsl(184, 80%, 5%),
+    -2px 2px 2px hsl(184, 80%, 5%);
+}
+```
+
+- 图形
+
+```css
+/* 图形 css */
+
+/* 三角形 */
+
+#demo15 {
+  position: relative;
+}
+
+#demo15:after {
+  border: 10px solid transparent;
+  border-left: 10px solid #f00;
+  width: 0;
+  height: 0;
+  position: absolute;
+  content: " ";
+}
+
+/* 
+ * 项目中所有图形绘制 ，减少svg文件
+ * 八方向三角形
+*/
+
+/* 八方向 三角形 之 四角四色 */
+.triangle {
+  width: 0;
+  height: 0;
+  border-top: 20px solid #eeb422;
+  border-right: 20px solid #c0ff3e;
+  border-bottom: 20px solid #a020f0;
+  border-left: 20px solid #7cfc00;
+}
+
+/* 八方向 三角形 之 上 */
+.triangle-up {
+  width: 0;
+  height: 0;
+  border-right: 20px solid transparent;
+  border-bottom: 40px solid #a020f0;
+  border-left: 20px solid transparent;
+}
+
+/* 八方向 三角形 之 下 */
+.triangle-down {
+  width: 0;
+  height: 0;
+  border-top: 40px solid #eeb422;
+  border-right: 20px solid transparent;
+  border-left: 20px solid transparent;
+}
+
+/* 八方向 三角形 之 左 */
+.triangle-left {
+  width: 0;
+  height: 0;
+  border-top: 20px solid transparent;
+  border-bottom: 20px solid transparent;
+  border-left: 40px solid #7cfc00;
+}
+
+/* 八方向 三角形 之 右 */
+.triangle-right {
+  width: 0;
+  height: 0;
+  border-top: 20px solid transparent;
+  border-bottom: 20px solid transparent;
+  border-right: 40px solid #c0ff3e;
+}
+
+/* 八方向 三角形 之 左上 */
+.triangle-left-top {
+  width: 0;
+  height: 0;
+  border-top: 100px solid red;
+  border-right: 100px solid transparent;
+}
+
+/* 八方向 三角形 之 右上 */
+.triangle-right-top {
+  width: 0;
+  height: 0;
+  border-top: 100px solid red;
+  border-left: 100px solid transparent;
+}
+
+/* 八方向 三角形 之 左下 */
+.triangle-left-bottom {
+  width: 0;
+  height: 0;
+  border-top: 40px solid transparent;
+  border-left: 40px solid #7cfc00;
+}
+
+/* 八方向 三角形 之 右下 */
+.triangle-right-bottom {
+  width: 0;
+  height: 0;
+  border-top: 40px solid transparent;
+  border-right: 40px solid #c0ff3e;
+}
+```
+
 ```CSS
 /* BEM 命名规范  块级之下才需要，便于读懂代码 */
 .block{} /* 代表了更高级别的抽象或组件 */
@@ -35,6 +203,221 @@
 .site-search--full{} /* 修饰符 */
 ```
 
+- form
+
+```css
+.search-form {
+  --searchButtonWidth: 75px;
+  max-width: 320px;
+  margin: 0 auto;
+  overflow: hidden;
+  position: relative;
+}
+
+.search-input {
+  border: 0;
+  margin: 0;
+  padding: 0.5rem calc(var(--searchButtonWidth) + 0.5rem) 0.5rem 0.5rem;
+  border-radius: 8px;
+  width: 100%;
+  background: #ddd;
+  -webkit-appearance: none;
+  font-size: 13px;
+}
+
+.search-input:focus {
+  outline: 0;
+  background: white;
+}
+
+/* 内容验证正确，启动查询按钮滑入动效 [该方式较好] */
+.search-input:valid ~ .search-button {
+  transform: translateX(calc(-1 * var(--searchButtonWidth)));
+}
+
+/* 占位符元素，启动查询按钮滑入动效 */
+.search-input:not(:placeholder-shown) ~ .search-button {
+  transform: translateX(calc(-1 * var(--searchButtonWidth)));
+}
+
+.search-button {
+  border: 0;
+  padding: 0.5rem;
+  border-radius: 8px;
+  position: absolute;
+  top: 5;
+  left: 100%;
+  width: var(--searchButtonWidth);
+  transition: 0.2s;
+  background: #455a64;
+  color: white;
+  font-size: 13px;
+  height: 60%;
+}
+
+.search-button:focus {
+  outline: 0;
+  background: #222;
+}
+
+fieldset {
+  border: 2px #33a0af solid;
+  border-radius: 10px;
+}
+
+/* 列布局 */
+.role_info {
+  display: flex;
+}
+```
+
+- flex 布局
+
+```css
+/* flex row 水平布局，不折行 */
+.flex-row {
+  display: flex;
+  flex-flow: row;
+  align-items: flex-start;
+  /* overflow: hidden; */
+}
+
+/* flex row 水平布局，折行 */
+.flex-row-wrap {
+  display: flex;
+  flex-flow: row;
+  align-items: flex-start;
+  flex-wrap: wrap;
+}
+
+/* flex col 垂直布局，不折列 */
+.flex_col {
+  display: flex;
+  flex-flow: column;
+  align-items: flex-start;
+}
+```
+
+```css
+/*  */
+.role_info > table {
+  border-collapse: collapse;
+  /* margin: 0 auto; */
+  text-align: center;
+}
+.role_info > table td,
+.role_info > table th {
+  border: 1px solid #cad9ea;
+  color: #666;
+  height: 30px;
+}
+.role_info > table thead th {
+  background-color: #3f3f3f;
+  color: #fff;
+  width: 100px;
+}
+.role_info > table tr:nth-child(odd) {
+  background: #fff;
+}
+.role_info > table tr:nth-child(even) {
+  background: #f5fafa;
+}
+.role_info > table tr td:last-child {
+  text-align: left;
+}
+```
+
+- css 绘制地图方式一
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>MAP</title>
+    <style>
+        /*  网格背景式body */
+        body {
+            background-color: #269;
+            background-image: linear-gradient(white 2px, transparent 2px),
+                linear-gradient(90deg, white 2px, transparent 2px),
+                linear-gradient(rgba(255, 255, 255, .3) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 255, 255, .3) 1px, transparent 1px);
+            background-size: 100px 100px, 100px 100px, 20px 20px, 20px 20px;
+            background-position: -2px -2px, -2px -2px, -1px -1px, -1px -1px;
+        }
+
+        /* 正方体 */
+        .item_1 {
+            width: calc(20px * 5);
+            height: calc(20px * 5);
+            background-color: rgba(16, 25, 122, 0.6);
+            /* float: left; */
+            margin: 20px;
+            position: absolute;
+        }
+
+        .item_4 {
+            width: calc(20px * 5);
+            height: calc(20px * 5);
+            background-color: rgba(16, 25, 122, 0.6);
+            margin: 20px;
+            left: 120px;
+            position: absolute;
+        }
+
+        /* 长方体 - 横 */
+        .item_2 {
+            width: calc(20px * 10);
+            height: calc(20px * 5);
+            background-color: rgba(255, 255, 255, 0.3);
+            position: absolute;
+            top: 0;
+            left: 300px;
+        }
+
+        /* 长方体 - 纵 */
+        .item_3 {
+            width: calc(20px * 5);
+            height: calc(20px * 10);
+            background-color: rgba(33, 136, 136, 0.3);
+            top: 200px;
+            left: 300px;
+            position: absolute;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>地图</h1>
+
+
+    <!--
+        JSON中，每个地理位置(建筑物)对象结构为：
+        {name:"XXX",width:5,height:5,backgroundColor:#333,top:2,left:6}
+        建筑物名字,宽度倍数，高度倍数，背景色，距上倍数，距左倍数
+
+        {name:"XXX",type:"gong"},{name:"OOO",type:"lou"}
+        建筑物名称，建筑物类型。 根据类型，判断使用哪一个css 的class
+
+     -->
+
+    <main>
+        <div class="item_1">正方体1</div>
+        <div class="item_4">正方体2</div>
+        <div class="item_2">长方体 - 横</div>
+        <div class="item_3">长方体 - 纵</div>
+    </main>
+
+    </script>
+</body>
+
+</html>
+```
+
 ```css 字体统一设定
 /* var.css */
 .font-size__defalut {
@@ -50,7 +433,14 @@
 
 ```css
 /* .blockName-elName.modifier */
-.menu .menu-item .menu-item.active .shopCart .shopCart-title .shopCart-item .shopCart-item.selected .article {
+.menu
+  .menu-item
+  .menu-item.active
+  .shopCart
+  .shopCart-title
+  .shopCart-item
+  .shopCart-item.selected
+  .article {
 } // 文章块
 .article__header {
 } // 文章头部元素
@@ -340,7 +730,11 @@ HSL 设置颜色为例，将任何负值限制为 0（不管色相和饱和度�
 
 /* src/assets/styles/button.css */
 .btn {
-  background-color: hsl(var(--hue), calc(var(--saturation) * 1%), calc(var(--light) * 1%));
+  background-color: hsl(
+    var(--hue),
+    calc(var(--saturation) * 1%),
+    calc(var(--light) * 1%)
+  );
 }
 ```
 
@@ -418,7 +812,12 @@ This results in a border that's either fully transparent or fully opaque
 */
   --border-alpha: calc((var(--lightness) - var(--border-threshold)) * 100);
 
-  border-color: rgba(calc(var(--red) - 50), calc(var(--green) - 50), calc(var(--blue) - 50), var(--border-alpha));
+  border-color: rgba(
+    calc(var(--red) - 50),
+    calc(var(--green) - 50),
+    calc(var(--blue) - 50),
+    var(--border-alpha)
+  );
 
   /* 3)sets the background for the base class*/
   background: rgb(var(--red), var(--green), var(--blue));

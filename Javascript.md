@@ -16,17 +16,367 @@
 - [Array 数组方法](#Array数组方法)
 - [GitHub API](#GitHub)
 
+```js
+/**
+ * 创建dom元素 [隐式return写法]
+ * @param {*} element 元素名
+ * return:根据传入的元素名，返回创建的元素
+ * use:createElement('div');
+ */
+export const createElement = (element) => document.createElement(element);
 
+/**
+ * 创建Input 元素，设定其必要属性
+ * @param {*} name 元素的name属性值(外部传入)
+ * @param {*} text 元素的提示明文(外部传入)
+ */
+export const createInput = (name, text) => {
+  let _input = createElement("input");
+  // _input.type = "text"; // input类型
+  _input.name = name; // name属性
+  _input.required = "required"; // 校验
+  _input.placeholder = `请输入${text}`; // 输入提示
+  _input.style.marginLeft = "20px"; // input的外左边距
+  return _input; // 返回创建的元素
+};
 
- ```js
+/**
+ * 创建Label 元素，设定必要属性
+ * @param {*} text 元素的明文(外部传入)
+ */
+export const createLabel = (text) => {
+  let _label = createElement("label");
+  _label.innerHTML = `${text}`;
+  _label.style.paddingRight = "20px"; // label的内右边距
+  return _label;
+};
+
+/** form.js */
+/** 表单序列化
+ * 获取form下所有输入值，最终输出为JSON对象
+ * @param {*} formName 表单的name属性值
+ * @return JSON对象，用于POST提交的body
+ */
+export function serializeForm(formName) {
+  // let formData = {}; // 用于存储序列化的JSON对象
+  // 利用 FormData 对象获取 roleForm 提交内容
+  const formData = new FormData(formName);
+  // // 这是一种取值的方式。具体如何组织内容，此处不展开
+  // console.table([...formData.entries()]);
+  // 获取所有 当前表单中，所有 label 标签。返回结果为类数组形式
+  let allLabel = formName.getElementsByTagName("label");
+  console.log("所有LABEL:", allLabel);
+  let infoData = []; // 用于存储info数组对象
+  /**
+   * 将类数组转数组，而后遍历
+   * 参数一:待转换类数组
+   * 参数二:在集合中每个项目上调用的函数。即将遍历函数作为参数二使用。
+   * 也可写作:Array.from(allLabel).forEach((item,index)=>{some code ……})
+   */
+  Array.from(allLabel, (item, index) => {
+    // 每个label的明文内容，其下input的 name属性值，以及其value
+    // console.log(`ITEM内容:${item.textContent},其第一个子元素input的name属性值:${item.firstElementChild.name},及value:${item.firstElementChild.value}`);
+    // 如果是名字项
+    if (item.firstElementChild.name == "name") {
+      // 最终返回表单对象的name属性，赋值为当前项的value
+      formData.name = item.firstElementChild.value;
+    }
+    // 如果 input的name属性值，包含[info_]字符串，将他们存为一个数组对象
+    if (item.firstElementChild.name.indexOf("info_") > -1) {
+      console.log(`找到包含info_前缀的:${item.firstElementChild.name}`);
+      infoData.push({
+        key: item.textContent, // "年龄",即label的明文
+        value: item.firstElementChild.value, //
+      });
+    }
+  });
+
+  console.table(infoData);
+  formData.info = infoData;
+
+  // formData = {
+  //     // name: formName.name.value,
+  //     // info: [{
+  //     //     key: config.role.info[0].key,
+  //     //     value: formName.info_0.value,
+  //     // }, {
+  //     //     key: config.role.info[1].key,
+  //     //     value: formName.info_1.value
+  //     // }]
+  //     // infoData,
+  // }
+
+  console.log("表单数据:", formData);
+  return formData;
+}
+
+/** modal.js */
+class Modal {
+  constructor() {}
+
+  /**
+   * 创建一个弹层，展示章节具体内容
+   * @param {*} data modal中显示的内容
+   */
+  createModal(data) {
+    let modalMask = document.createElement("div"); // modal遮罩
+    modalMask.setAttribute("class", "modal_mask"); // 遮罩样式
+    modalMask.setAttribute("id", "modal"); // 遮罩id
+    modalMask.style.display = "block"; // 遮罩块级
+
+    let modal = document.createElement("div"); // modal整体
+    modal.setAttribute("class", "modal"); // modal整体样式
+
+    let modalHeader = document.createElement("header"); // modal 头部
+    let cwordCount = document.createElement("label"); // header 字数统计部分
+    cwordCount.innerText = `字数:${data.length}`; // 此处调用字数统计函数，
+    modalHeader.appendChild(cwordCount);
+    let close = document.createElement("span"); // 头部右侧关闭按钮
+    close.innerText = "X";
+    close.onclick = (event) => {
+      closeModal(); // 点击按钮，调用关闭事件
+    };
+    modalHeader.appendChild(close);
+    let modalBody = document.createElement("main"); // 内容主体
+    modalBody.setAttribute("class", "scrollbar"); // 主体下超长隐藏所需div
+    let scrollbarInsetDiv = document.createElement("div"); // 主体下超长隐藏所需div 之内层div
+    scrollbarInsetDiv.setAttribute("class", "scrollbar_inset_div");
+    let modalSection = document.createElement("section"); // 实际渲染的文章内容区域
+    modalSection.innerText = data; // 请求的文章内容，原样输出 [innerHTML则会改格式]
+
+    scrollbarInsetDiv.appendChild(modalSection);
+    modalBody.appendChild(scrollbarInsetDiv);
+    modal.appendChild(modalHeader);
+    modal.appendChild(modalBody);
+
+    modalMask.appendChild(modal);
+    document.body.appendChild(modalMask);
+  }
+}
+
+export default new Modal();
+
+/**
+ * 关闭 模态框 事件
+ */
+function closeModal() {
+  let modal = document.getElementById("modal");
+  modal.style.display = "none";
+  modal.parentElement.removeChild(modal); // 找到modal父级，删除modal节点
+}
+
+/** util.js */
+/**
+ * 切割文件后缀名
+ * @param {*} value 需切割的文件名(含后缀名)
+ */
+export const excisionFileExtension = (value) =>
+  value.substring(0, value.lastIndexOf("."));
+
+/**
+ * 字符串转数组 将文章名字按照一个数字一位，进行转换，如10转换为['1','0']
+ * @param {*} value 传入的字符串，将其切分为数组
+ */
+export const stringToArray = (value) => value.split("");
+
+/**
+ * 数组转字符串，如['一','〇']转换为一〇
+ * @param {*} value 待转换的数组
+ */
+export const arrayToString = (value) => value.join("");
+
+/**
+ * 将数组元素反转
+ * @param {*} value 待反转的数组
+ */
+export const arrayReverse = (value) => value.reverse();
+
+/**
+ * 数字转为汉字 0-9=> 〇-九
+ * @param {*} value 传入的数字，只接收单个数字
+ */
+export const numberToString = (value) => {
+  console.log("传入的数字:", value); // 切分为单个数字
+  let result = "";
+  switch (value) {
+    case "0":
+      result = "〇";
+      break;
+    case "1":
+      result = "一";
+      break;
+    case "2":
+      result = "二";
+      break;
+    case "3":
+      result = "三";
+      break;
+    case "4":
+      result = "四";
+      break;
+    case "5":
+      result = "五";
+      break;
+    case "6":
+      result = "六";
+      break;
+    case "7":
+      result = "七";
+      break;
+    case "8":
+      result = "八";
+      break;
+    case "9":
+      result = "九";
+      break;
+    default:
+      return;
+  }
+  console.log("转换后的值：", result);
+  return result;
+};
+
+/**
+ * 产生随机整数，包含下限值，包括上限值
+ * @param {Number} lower 下限
+ * @param {Number} upper 上限
+ * @return {Number} 返回在下限到上限之间的一个随机整数
+ */
+export function randomIntNumber(lower, upper) {
+  return Math.floor(Math.random() * (upper - lower + 1)) + lower;
+}
+
+/**
+ * 生成随机值
+ * @param {*} data 可以随机的数组
+ * return: 数组中，随机值的那个元素值
+ */
+export function genterateRandomString(data) {
+  if (!data.length) return;
+  return data[randomIntNumber(0, data.length - 1)];
+}
+
+/**
+ * 返回随机值下标的字符
+ * @param {*} data 字符串
+ * return:下标所指的字符
+ */
+export function genterateRandomChar(data) {
+  if (!data) return;
+  return data.charAt(randomIntNumber(0, data.length - 1));
+}
+
+/**
+ * 处理文件名，去掉后缀名
+ * @param {*} name 传入的文件名(含后缀名)
+ * return: 去掉后缀名的文件名
+ */
+export function fileName(name) {
+  return name.substring(0, name.lastIndexOf("."));
+}
+
+/**
+ * 颜色随机
+ * return: 返回一个随机颜色值
+ */
+export function randomColor() {
+  var color = "#";
+  for (var i = 0; i < 6; i++) {
+    color += ((Math.random() * 16) | 0).toString(16);
+  }
+  return color;
+}
+
+/**
+ * 对比两个对象是否相等
+ * @param {*} obj1 对象1
+ * @param {*} obj2 对象2
+ */
+export function equalObject(obj1, obj2) {
+  // 类型对比
+  if (!(obj1 instanceof Object) || !(obj2 instanceof Object)) return false;
+  // obj.toString() 效果与上相同 [object object]，但[↑返回true/false]，[↓返回string]
+  // if (!obj1.toString() || !obj2.toString()) return false;
+  // 长度对比
+  if (Object.keys(obj1).length !== Object.keys(obj2).length) return false;
+  // 每个key对比
+  return Object.keys(obj1).every((v) => obj1[v] === obj2[v]);
+}
+```
+
+- 动态生成
+
+```js
+const Systems = [
+  {
+    folder: "article",
+    title: "ESSAY",
+    name: "随笔",
+  },
+  {
+    folder: "game",
+    title: "GAME",
+    name: "游戏",
+  },
+  {
+    folder: "article",
+    title: "FICTION",
+    name: "小说",
+  },
+  {
+    folder: "script",
+    title: "SCRIPT",
+    name: "剧本",
+  },
+  {
+    folder: "design",
+    title: "DESIGN",
+    name: "设计",
+  },
+  {
+    folder: "example",
+    title: "EXAMPLE",
+    name: "示例",
+  },
+];
+
+let nav_systems = document.querySelector(".nav_system");
+
+Systems.forEach((item) => {
+  let system_item = `
+    <section data-folder="${item.folder}">
+       <span class="box-title">${item.title}</span>
+       <div class="hsl">
+           <h1>${item.name}</h1>
+       </div>
+   </section>
+   `;
+  nav_systems.innerHTML += system_item;
+});
+
+/** 获取页面所有子系统 */
+Array.from(nav_systems.children).forEach((nav_item) => {
+  nav_item.onclick = function () {
+    // 每次点击时，优先清理缓存的书籍信息
+    localStorage.removeItem("system");
+    /** 跳转到指定页面 */
+    location.href = `./system/${nav_item.dataset.folder}/index.html`;
+    // 重新缓存选中的书籍信息
+    localStorage.setItem(
+      "system",
+      nav_item.firstElementChild.textContent.toLowerCase()
+    );
+  };
+});
 ```
 
 # Temp Note
+
 ```js
-function fn(){}
-console.dir(fn) // prototype __proto__
-const fn2=(a,b)=>console.log(a+b);
-console.dir(fn2) // __proto__
+function fn() {}
+console.dir(fn); // prototype __proto__
+const fn2 = (a, b) => console.log(a + b);
+console.dir(fn2); // __proto__
 // 由上可知:箭头函数没有prototype。不是函数构造函数，不能用作原型
 ```
 
@@ -109,33 +459,35 @@ child.typeInfo(); // from Modified Child
 smallPlane instanceof CivilPlane; // true
 CivilPlane instanceof Airplane; // false
 // 以上两个不同结果，则因前者new 创建，后者Object.create()创建
-
 ```
 
-
-
 ## 库 函数版
+
 ```js
 /** lib/uid.js */
-export function GenerateUID(){}
+export function GenerateUID() {}
 export const Add = () => {};
 
 /** lib/convert-types.js */
-export const StyleToString = (styleObj) => {return str};
+export const StyleToString = (styleObj) => {
+  return str;
+};
 
 /** lib/index.js */
 import * as Uid from "./uid";
 import * as ConvertTypes from "./convert-types";
-export default { ConvertTypes, Uid};
+export default { ConvertTypes, Uid };
 
 /** use/test.js */
-import Commonjs from 'commonjs';
-console.log("CLASS:",Commonjs);
+import Commonjs from "commonjs";
+console.log("CLASS:", Commonjs);
 // 如下:调用通用库中类型转换模块下的样式转字符串函数
-this.props.domElement.style.cssText = Commonjs.ConvertTypes.StyleToString(this.props.style);
+this.props.domElement.style.cssText = Commonjs.ConvertTypes.StyleToString(
+  this.props.style
+);
 ```
 
-## 库 类-对象prototype
+## 库 类-对象 prototype
 
 ```js
 /** lib/colour.js */
@@ -152,14 +504,15 @@ export default Colour;
 
 /** lib/index.js */
 import * as Colour from "./colour";
-export default {Colour};
+export default { Colour };
 
 /** use/test.js */
-import Commonjs from 'commonjs';
-console.log('引入私有库:',Commonjs.Colour.default.prototype.getColour());
+import Commonjs from "commonjs";
+console.log("引入私有库:", Commonjs.Colour.default.prototype.getColour());
 ```
 
 ## 库 类版 使用时类实例化
+
 ```js
 /** lib/colour.js */
 class Colour {
@@ -175,12 +528,209 @@ export default Colour;
 
 /** lib/index.js */
 import Colour from "./colour";
-export default {Colour};
+export default { Colour };
 
 /** use/test.js */
-import Commonjs from 'commonjs';
+import Commonjs from "commonjs";
 let Colour = new Commonjs.Colour();
-console.log('颜色类实例化:',Colour.getColour())
+console.log("颜色类实例化:", Colour.getColour());
+```
+
+- 页面自动跳转
+
+```js
+<script language="javascript">
+    function goHome() {
+        var url = "./client/index.html";
+        location.href = url;
+    }
+</script>
+
+<body onload="setTimeout('goHome()', 500);"> </body>
+```
+
+- github API
+
+```js
+const USER_URL = "https://api.github.com/users/Lokavit";
+
+fetchGithub(USER_URL).then((data) => {
+  let uNameParent = document.getElementById("uname");
+  let h1 = document.createElement("h1");
+  h1.setAttribute("class", "uname");
+  h1.innerHTML = data.name;
+  uNameParent.appendChild(h1);
+
+  let h3 = document.createElement("h3");
+  h3.setAttribute("class", "bio");
+  h3.innerHTML = data.bio;
+  uNameParent.appendChild(h3);
+});
+
+async function fetchGithub(url) {
+  try {
+    // 链式：
+    // return fetch(url).then(res => res.json()).then(data => alert(data.name));
+    const res = await fetch(url);
+    console.log("RES:", res);
+    const data = await res.json();
+    console.log("data:", data);
+    return data;
+    // return alert(data.name);
+  } catch (e) {
+    console.error(e);
+  }
+}
+```
+
+- 验证
+
+```js
+//这些验证有关的信息一般可能来自 别的模块 或者 AJAX请求
+const validationList = [
+  {
+    name: "username",
+    pattern: /正则表达式/,
+    content: "6-20位字母、数字或“_”,字母开头",
+  },
+  {
+    name: "password",
+    pattern: /正则表达式/,
+    content: "6-18位，包括数字字母或符号，中间不能有空格",
+  },
+  {
+    name: "check_password",
+    pattern: /正则表达式/,
+    content: "请输入相同的密码",
+  },
+  {
+    name: "fullname",
+    pattern: /正则表达式/,
+    content: "真姓名，两位到四位的中文汉字",
+  },
+  {
+    name: "id_number",
+    pattern: /正则表达式/,
+    content: "5位或者18位的数字，18位时最后一位可能是x",
+  },
+  {
+    name: "mail",
+    pattern: /正则表达式/,
+    content: "请输入正确的邮箱地址",
+  },
+  {
+    name: "phone_number",
+    pattern: /正则表达式/,
+    content: "请输入正确的手机号码",
+  },
+];
+
+const container = document.querySelector("form#form_container"); //获取包装元素 用于事件委托
+const passwordElement = document.querySelector("[name=password]"); //用户密码
+const checkPasswordElement = document.querySelector("[name=check_password]"); //确认密码
+const checkPasswordHintEl = document.querySelector("span.checkpwd_hint"); //确认密码的提示信息 span
+const inputs = document.querySelectorAll("input.user_input");
+const spans = document.querySelectorAll("span.hint");
+
+passwordElement.addEventListener("change", () => {
+  //如果用户密码修改 清空 确认密码 清空提示span
+  checkPasswordElement.value = "";
+  checkPasswordHintEl.innerText = "";
+});
+
+//事件代理
+container.addEventListener("focusout", (event) => {
+  event.stopPropagation(); //阻止冒泡
+  const { value, name } = event.target;
+
+  validationList.forEach((item, index) => {
+    //处理边界
+    if (item.name !== name) {
+      return;
+    }
+
+    //处理边界
+    if (item.name === "check_password") {
+      const passwordValue = passwordElement.value;
+      value === passwordValue
+        ? (spans[index].innerText = "OK")
+        : (spans[index].innerText = item.content);
+      return;
+    }
+
+    item.pattern.exec(value)
+      ? (spans[index].innerText = "OK")
+      : (spans[index].innerText = item.content);
+  });
+});
+
+container.addEventListener("submit", (event) => {
+  event.preventDefault(); //阻止默认跳页
+  let sum = 0;
+  spans.forEach((item, index) => {
+    spans[index].innerText === "OK" && sum++;
+  });
+  sum === spans.length ? alert("验证成功") : alert("验证失败");
+});
+```
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      /* .box{
+            width: 0;
+            height: 0;
+            border: 100px #000 solid;
+            border-color: #f00 #0f0 #00f #0ff;
+            border-right: none;
+            border-top: 100px solid transparent;
+            border-bottom: 100px solid transparent;
+        } */
+      body {
+        position: relative;
+        margin: 20%;
+      }
+
+      .box {
+        width: 120px;
+        height: 208px;
+        background-color: #0f0;
+      }
+      .box:before {
+        content: "";
+        width: 0;
+        height: 0;
+        border-right: 60px #0f0 solid;
+        border-left: none;
+        border-top: 104px solid transparent;
+        border-bottom: 104px solid transparent;
+        position: absolute;
+        top: 0;
+        left: -60px;
+      }
+      .box:after {
+        content: "";
+        width: 0;
+        height: 0;
+        border-left: 60px #0f0 solid;
+        border-right: none;
+        border-top: 104px solid transparent;
+        border-bottom: 104px solid transparent;
+        position: absolute;
+        top: 0;
+        left: 120px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="box"></div>
+  </body>
+</html>
 ```
 
 ## Module
@@ -219,7 +769,11 @@ console.log('颜色类实例化:',Colour.getColour())
 <script type="module" crossorigin src="//cdn.zhangxinxu.com/.../1.mjs"></script>
 
 <!-- ⑤ 获取资源带凭证 import模块跨域，且明确设置crossOrigin为使用凭证use-credentials，则带凭证 -->
-<script type="module" crossorigin="use-credentials" src="//cdn.zhangxinxu.com/.../1.mjs?"></script>
+<script
+  type="module"
+  crossorigin="use-credentials"
+  src="//cdn.zhangxinxu.com/.../1.mjs?"
+></script>
 ```
 
 ```js IIFE 立即调用函数表达式
@@ -239,13 +793,14 @@ console.log(x) // 13;
 
 ```
 
-
 ```html
 <body>
   <script>
     // 封装请求函数 返回请求结果
     function getData() {
-      return fetch("http://xxx.xxx.xx.xx:1111/roles").then(result => result.json());
+      return fetch("http://xxx.xxx.xx.xx:1111/roles").then((result) =>
+        result.json()
+      );
     }
 
     // 异步函数 return只能是promise 所以数据在内部处理
@@ -268,7 +823,7 @@ console.log(x) // 13;
 ```js
 var a = {
   value: 0,
-  valueOf: function() {
+  valueOf: function () {
     this.value++;
     return this.value;
   },
@@ -297,7 +852,7 @@ let myTime = endTime - startTime; // 计算出来耗时
 <label id="label2" for="test">Label 2</label>
 <script>
   // HTMLInputElement.labels 为只读属性，它返回一个NodeList 实例，绑定当前的<input> 节点的<label> 元素。
-  window.addEventListener("DOMContentLoaded", function() {
+  window.addEventListener("DOMContentLoaded", function () {
     const input = document.getElementById("test");
     for (var i = 0; i < input.labels.length; i++) {
       console.log(input.labels[i].textContent); // "Label 1" and "Label 2"
@@ -314,17 +869,24 @@ demo.setAttribute("novalidate", true);
 
 document.addEventListener(
   "blur",
-  event => {
+  (event) => {
     let error = hasError(event.target);
     console.log("错误:", error);
   },
-  true,
+  true
 );
 
-let hasError = field => {
+let hasError = (field) => {
   console.log("处理错误:", field);
   // Don't validate submits, buttons, file and reset inputs, and disabled fields
-  if (field.disabled || field.type === "file" || field.type === "reset" || field.type === "submit" || field.type === "button") return;
+  if (
+    field.disabled ||
+    field.type === "file" ||
+    field.type === "reset" ||
+    field.type === "submit" ||
+    field.type === "button"
+  )
+    return;
 
   // Get validity
   let validity = field.validity;
@@ -332,9 +894,7 @@ let hasError = field => {
 };
 ```
 
-
 ---
-
 
 ## Document
 
@@ -459,11 +1019,14 @@ button.onclick = test(); // wrong
 
 ```html
 <div class="book" id="zfem">
-  <img src="https://raw.githubusercontent.com/…………/master/IMG/zfem.jpg" alt="ZFEM" />
+  <img
+    src="https://raw.githubusercontent.com/…………/master/IMG/zfem.jpg"
+    alt="ZFEM"
+  />
 </div>
 <script>
   let zfemBtn = document.getElementById("zfem");
-  zfemBtn.onclick = event => {
+  zfemBtn.onclick = (event) => {
     console.log("EVENT:", event.target.alt);
     getZFEMContent(event.target.alt);
   };
@@ -474,7 +1037,6 @@ button.onclick = test(); // wrong
   }
 </script>
 ```
-
 
 ## Class 类
 
@@ -502,9 +1064,9 @@ demo.test(); // output: demo.js Demo test()!
  */
 /* demo.js */
 class Demo {
-    test() {
-        console.log('demo.js Demo test()!');
-    }
+  test() {
+    console.log("demo.js Demo test()!");
+  }
 }
 export default new Demo(); // 导出时候就实例化
 /* use.js 具体使用 */
@@ -516,12 +1078,12 @@ Demo.test(); // 无需实例化，直接使用
  */
 /* demo.js */
 export default class Demo {
-    test() {
-        console.log('demo.js Demo test()!');
-    }
+  test() {
+    console.log("demo.js Demo test()!");
+  }
 }
 /* use.js 具体使用 */
-import Demo from './demo.js';
+import Demo from "./demo.js";
 let demo = new Demo();
 demo.test();
 ```
@@ -811,7 +1373,7 @@ f(1, 2, 3, 4); // 6 (the fourth parameter is not destructured)
 
 // 剩余参数包含了从第二个到最后的所有实参，然后用第一个实参依次乘以它们
 function multiply(multiplier, ...theArgs) {
-  return theArgs.map(function(element) {
+  return theArgs.map(function (element) {
     return multiplier * element;
   });
 }
@@ -912,18 +1474,18 @@ async function loadContent(url) {
 // 第一种方式
 export function getMaterial(params) {
   return http({
-    url: '/materials',
-    method: 'get',
-    params
-  })
+    url: "/materials",
+    method: "get",
+    params,
+  });
 }
 // 第二种方式
 export function getMaterial(query) {
   return http({
-    url: '/materials',
-    method: 'get',
-    params:query
-  })
+    url: "/materials",
+    method: "get",
+    params: query,
+  });
 }
 ```
 
@@ -940,7 +1502,7 @@ function loadScript(src, callback) {
 
 // 用法： loadScript('path/script.js', (err, script) => {...})
 
-let loadScriptPromise = function(src) {
+let loadScriptPromise = function (src) {
   return new Promise((resolve, reject) => {
     loadScript(src, (err, script) => {
       if (err) reject(err);
@@ -958,8 +1520,8 @@ let loadScriptPromise = function(src) {
 // 可以是链式
 function loadJson(url) {
   return fetch(url)
-    .then(response => response.json())
-    .then(data => alert(data.name));
+    .then((response) => response.json())
+    .then((data) => alert(data.name));
 }
 // 该代码块为vscode建议写法,效果与上相同
 async function loadJson(url) {
@@ -979,7 +1541,7 @@ async function fetchJson(url) {
     console.log(`ERROR: ${error.stack}`);
   }
 }
-fetchJson("http://example.com/some_file.json").then(obj => console.log(obj));
+fetchJson("http://example.com/some_file.json").then((obj) => console.log(obj));
 ```
 
 ```js
@@ -1039,7 +1601,7 @@ async function loadGithubUser(name) {
  * 注：作为一个规律，一个异步动作应该永远返回一个 promise。
  */
 async function showAvatar(githubUser) {
-  return new Promise(function(resolve, reject) {
+  return new Promise(function (resolve, reject) {
     let img = document.createElement("img");
     img.src = githubUser.avatar_url; // 传入用户的头像地址
     img.className = "promise-avatar-example";
@@ -1058,10 +1620,10 @@ async function showAvatar(githubUser) {
 
 /** 使用以上封装好的函数 达到链式操作效果 */
 loadJson(roleJSONURL)
-  .then(user => loadGithubUser(user.name))
+  .then((user) => loadGithubUser(user.name))
   .then(showAvatar)
   // showAvatar函数中，setTimeout中的 [resolve]
-  .then(githubUser => alert(`Finished showing ${githubUser.name}`));
+  .then((githubUser) => alert(`Finished showing ${githubUser.name}`));
 ```
 
 ```js
@@ -1073,15 +1635,17 @@ const roleJSONURL = "https://raw.githubusercontent.com/……role.json"; // 文�
 
 /* 加载指定url的内容 */
 function loadJson(url) {
-  return fetch(url).then(response => response.json());
+  return fetch(url).then((response) => response.json());
 }
 /* 根据传入name，加载指定用户信息 */
 function loadGithubUser(name) {
-  return fetch(`https://api.github.com/users/${name}`).then(response => response.json());
+  return fetch(`https://api.github.com/users/${name}`).then((response) =>
+    response.json()
+  );
 }
 /* 根据传入用户名，获取并显示头像于页面 */
 function showAvatar(githubUser) {
-  return new Promise(function(resolve, reject) {
+  return new Promise(function (resolve, reject) {
     let img = document.createElement("img");
     img.src = githubUser.avatar_url;
     img.className = "promise-avatar-example";
@@ -1095,9 +1659,9 @@ function showAvatar(githubUser) {
 }
 // 使用它们
 loadJson(roleJSONURL)
-  .then(user => loadGithubUser(user.name))
+  .then((user) => loadGithubUser(user.name))
   .then(showAvatar)
-  .then(githubUser => alert(`Finished showing ${githubUser.name}`));
+  .then((githubUser) => alert(`Finished showing ${githubUser.name}`));
 ```
 
 #### 请求错误
@@ -1148,13 +1712,13 @@ function demoGithubUser() {
       // (2) 停止指示（indication） fetch成功or错误，触发终止加载
       document.body.style.opacity = "";
       // 浏览器技巧 (*) 是从 finally 返回零延时（zero-timeout）的 promise
-      return new Promise(resolve => setTimeout(resolve)); // (*)
+      return new Promise((resolve) => setTimeout(resolve)); // (*)
     })
-    .then(user => {
+    .then((user) => {
       alert(`Full name: ${user.name}.`);
       return user;
     })
-    .catch(err => {
+    .catch((err) => {
       if (err instanceof HttpError && err.response.status == 404) {
         alert("No such user, please reenter.");
         return demoGithubUser();
@@ -1169,13 +1733,13 @@ demoGithubUser();
 
 ```js
 // 浏览器里，可以使用 unhandledrejection 事件来捕获这类错误
-window.addEventListener("unhandledrejection", function(event) {
+window.addEventListener("unhandledrejection", function (event) {
   // the event object has two special properties:
   alert(event.promise); // [object Promise] - 产生错误的 promise
   alert(event.reason); // Error: Whoops! - 未处理的错误对象
 });
 
-new Promise(function() {
+new Promise(function () {
   throw new Error("Whoops!");
 }); // 没有 catch 处理错误
 //如果发生错误且没有 .catch 捕获，unhandledrejection 处理程序就会被触发并获取具有相关错误信息的 event 对象，此时我们就能做一些处理了。通常这种错误是不可恢复的，所以我们最好的办法是告知用户有关问题的信息，并可能将事件报告给服务器。
@@ -1185,12 +1749,18 @@ new Promise(function() {
 
 ```js
 const BASE_URL_DICT = `${BASE_URL}/Dict/zh/`;
-let fileNames = ["surname.txt", "cn.txt", "baijiaxing.txt", "qianziwen.txt", "idiom.txt"];
+let fileNames = [
+  "surname.txt",
+  "cn.txt",
+  "baijiaxing.txt",
+  "qianziwen.txt",
+  "idiom.txt",
+];
 
-let requests = fileNames.map(fileName => fetch(BASE_URL_DICT + fileName));
+let requests = fileNames.map((fileName) => fetch(BASE_URL_DICT + fileName));
 
 Promise.all(requests)
-  .then(responses => {
+  .then((responses) => {
     // 所有响应都就绪时，显示HTTP状态码
     for (let response of responses) {
       alert(`${response.url}: ${response.status}`); // 每个url都显示200
@@ -1198,15 +1768,17 @@ Promise.all(requests)
     return responses;
   })
   // 映射 responses 数组到 response.text()中读取它们的内容
-  .then(responses => Promise.all(responses.map(res => res.text())));
+  .then((responses) => Promise.all(responses.map((res) => res.text())));
 ```
 
 ```js
 let names = ["iliakan", "remy", "jeresig"];
-let requests = names.map(name => fetch(`https://api.github.com/users/${name}`));
+let requests = names.map((name) =>
+  fetch(`https://api.github.com/users/${name}`)
+);
 
 Promise.all(requests)
-  .then(responses => {
+  .then((responses) => {
     // 所有响应都就绪时，我们可以显示 HTTP 状态码
     for (let response of responses) {
       alert(`${response.url}: ${response.status}`); // 每个 url 都显示 200
@@ -1215,9 +1787,9 @@ Promise.all(requests)
     return responses;
   })
   // 映射 response 数组到 response.json() 中以读取它们的内容
-  .then(responses => Promise.all(responses.map(r => r.json())))
+  .then((responses) => Promise.all(responses.map((r) => r.json())))
   // 所有 JSON 结果都被解析：“users” 是它们的数组
-  .then(users => users.forEach(user => alert(user.name)));
+  .then((users) => users.forEach((user) => alert(user.name)));
 ```
 
 #### fetch 封装
@@ -1240,9 +1812,9 @@ class HTTP {
   get(url) {
     return new Promise((resolve, reject) => {
       fetch(url)
-        .then(res => res.json())
-        .then(data => resolve(data))
-        .catch(err => reject(err));
+        .then((res) => res.json())
+        .then((data) => resolve(data))
+        .catch((err) => reject(err));
     });
   }
 
@@ -1260,9 +1832,9 @@ class HTTP {
         },
         body: JSON.stringify(data),
       })
-        .then(res => res.json())
-        .then(data => resolve(data))
-        .catch(err => reject(err));
+        .then((res) => res.json())
+        .then((data) => resolve(data))
+        .catch((err) => reject(err));
     });
   }
 
@@ -1280,9 +1852,9 @@ class HTTP {
         },
         body: JSON.stringify(data),
       })
-        .then(res => res.json())
-        .then(data => resolve(data))
-        .catch(err => reject(err));
+        .then((res) => res.json())
+        .then((data) => resolve(data))
+        .catch((err) => reject(err));
     });
   }
 
@@ -1300,9 +1872,9 @@ class HTTP {
         },
         body: JSON.stringify(data),
       })
-        .then(res => res.json())
+        .then((res) => res.json())
         .then((data = resolve(data)))
-        .catch(err => reject(err));
+        .catch((err) => reject(err));
     });
   }
 }
@@ -1316,8 +1888,8 @@ import HTTP from "./common/http.js"; //引入
 const BASE_URL = "https://……………………";
 // get请求数据
 HTTP.get(BASE_URL)
-  .then(data => console.log("HTTP.js DATA:", data))
-  .catch(err => console.log(err));
+  .then((data) => console.log("HTTP.js DATA:", data))
+  .catch((err) => console.log(err));
 
 // post传输数据
 const data = {
@@ -1327,19 +1899,73 @@ const data = {
 };
 //post user
 HTTP.post("http://jsonplaceholder.typicode.com/users", data)
-  .then(data => console.log(data))
-  .catch(err => console.log(err));
+  .then((data) => console.log(data))
+  .catch((err) => console.log(err));
 
 // update user ,修改后会发现修改后ID为2的数据会变成上页面定义的data
 HTTP.put("http://jsonplaceholder.typicode.com/users/2", data)
-  .then(data => console.log(data))
-  .catch(err => console.log(err));
+  .then((data) => console.log(data))
+  .catch((err) => console.log(err));
 
 //delete user 删除下标为2里的数据
 
 HTTP.delete("http://jsonplaceholder.typicode.com/users/2", data)
-  .then(data => console.log(data))
-  .catch(err => console.log(err));
+  .then((data) => console.log(data))
+  .catch((err) => console.log(err));
+```
+
+- fetch 异步
+
+```js
+class EasyHTTP {
+  // GET
+  async get(url) {
+    const response = await fetch(url);
+    const resData = await response.json();
+    return resData;
+  }
+
+  // POST
+  async post(url, data) {
+    const response = await fetch(url, {
+      method: "POST",
+      headers: {
+        "Content-type": "application/json",
+      },
+      body: JSON.stringify(data),
+    });
+
+    const resData = await response.json();
+    return resData;
+  }
+
+  // PUT
+  async put(url, data) {
+    const response = await fetch(url, {
+      method: "PUT",
+      headers: {
+        "Content-type": "application/json",
+      },
+      body: JSON.stringify(data),
+    });
+
+    const resData = await response.json();
+    return resData;
+  }
+
+  // DELETE
+  async delete(url) {
+    const response = await fetch(url, {
+      method: "DELETE",
+      headers: {
+        "Content-type": "application/json",
+      },
+    });
+
+    const resData = await "Resource Deleted...";
+    return resData;
+  }
+}
 ```
 
 ### 基础示例
@@ -1350,7 +1976,7 @@ HTTP.delete("http://jsonplaceholder.typicode.com/users/2", data)
  * @param {*} src  script的url
  */
 function loadScript(src) {
-  return new Promise(function(resolve, reject) {
+  return new Promise(function (resolve, reject) {
     let script = document.createElement("script");
     script.src = src;
 
@@ -1361,11 +1987,92 @@ function loadScript(src) {
   });
 }
 
-let promise = loadScript("https://cdnjs.cloudflare.com/ajax/libs/lodash.js/3.2.0/lodash.js");
+let promise = loadScript(
+  "https://cdnjs.cloudflare.com/ajax/libs/lodash.js/3.2.0/lodash.js"
+);
 
-promise.then(script => alert(`${script.src} is loaded!`), error => alert(`Error: ${error.message}`));
+promise.then(
+  (script) => alert(`${script.src} is loaded!`),
+  (error) => alert(`Error: ${error.message}`)
+);
 
-promise.then(script => alert("One more handler to do something else!"));
+promise.then((script) => alert("One more handler to do something else!"));
+```
+
+- HTTP
+
+```js
+class HTTP {
+  /** 构造函数 */
+  constructor() {}
+
+  /**
+   * get 请求
+   * @param {*} url 请求的url
+   * @param {*} responseType  响应类型
+   * return Promise
+   * use: HTTP.get(BASE_URL_RAW + 'novel.json').then(data => rendererBook(Object.values(JSON.parse(data))));
+   */
+  get(url, responseType = "", method = "GET", async = true) {
+    return new Promise(function (resolve, reject) {
+      const XHR = new XMLHttpRequest();
+      XHR.open(method, url, async);
+      XHR.responseType = responseType;
+      // IE使用 XHR.onreadystatechange =()=>{}
+      // xhr.onreadystatechange = () => {
+      //     if(!/^[23]\d{2}$/.test(xhr.status)) return
+      //     if(xhr.readyState === 4) {
+      //         let result = xhr.responseText
+      //         resolve(result)
+      //     }
+      // }
+      // 非IE
+      XHR.onload = function () {
+        if (XHR.status === 200) {
+          // Success
+          resolve(XHR.response);
+        } else {
+          // Something went wrong (404 etc.)
+          reject(new Error(XHR.statusText));
+        }
+      };
+      XHR.onerror = function () {
+        reject(new Error("XMLHttpRequest Error: " + XHR.statusText));
+      };
+      XHR.send();
+    });
+  }
+  post(url, data, responseType = "", method = "POST", async = true) {
+    console.log("POST: URL:", url, "DATA:", data);
+    return new Promise(function (resolve, reject) {
+      const XHR = new XMLHttpRequest();
+      XHR.open(method, url, async);
+      XHR.responseType = responseType;
+      XHR.onload = function () {
+        console.log("POST:", XHR);
+        if (XHR.status === 200) {
+          resolve(XHR.response);
+        } else {
+          // Something went wrong (404 etc.)
+          reject(new Error(XHR.statusText));
+        }
+      };
+      // XHR.onreadystatechange = function () {
+      //     if (XHR.readyState === 4) {
+      //         //根据服务器的响应内容格式处理响应结果
+      //         let result = JSON.parse(XHR.responseText);
+      //         console.log(XHR.responseText);
+      //     }
+      // }
+      XHR.onerror = function () {
+        reject(new Error("XMLHttpRequest Error: " + XHR.statusText));
+      };
+      XHR.send(JSON.stringify(data));
+    });
+  }
+}
+
+export default new HTTP(); // 导出 HTTP类实例化
 ```
 
 ## AJAX
@@ -1391,7 +2098,10 @@ function getAJAXTest() {
   httpRequest.onreadystatechange = alertContents;
   // httpRequest.open('GET', 'https://raw.githubusercontent.com/Lokavit/Learn/master/JS/JS_INFO/surname.txt');
   // httpRequest.open('GET', 'https://raw.githubusercontent.com/Lokavit/Learn/master/JS/JS_INFO/role.json');
-  httpRequest.open("GET", "https://raw.githubusercontent.com/Lokavit/Learn/master/JS/JS_INFO/cn.txt");
+  httpRequest.open(
+    "GET",
+    "https://raw.githubusercontent.com/Lokavit/Learn/master/JS/JS_INFO/cn.txt"
+  );
   // httpRequest.open('GET', 'https://api.github.com/repos/Lokavit/Learn/contents/JS/JS_INFO');
   httpRequest.send();
 }
@@ -1477,12 +2187,12 @@ function loadJSON(){
 ```js
 export default function groupBy(array, f) {
   const groups = {};
-  array.forEach(function(o) {
+  array.forEach(function (o) {
     const group = JSON.stringify(f(o));
     groups[group] = groups[group] || [];
     groups[group].push(o);
   });
-  return Object.keys(groups).map(function(group) {
+  return Object.keys(groups).map(function (group) {
     return groups[group];
   });
 }
@@ -1498,9 +2208,9 @@ let b = new Set([4, 3, 2]);
 // 并集
 let union = new Set([...a, ...b]); // Set {1, 2, 3, 4}
 // 交集
-let intersect = new Set([...a].filter(x => b.has(x))); // set {2, 3}
+let intersect = new Set([...a].filter((x) => b.has(x))); // set {2, 3}
 // 差集
-let difference = new Set([...a].filter(x => !b.has(x))); // Set {1}
+let difference = new Set([...a].filter((x) => !b.has(x))); // Set {1}
 ```
 
 - for…of 迭代
@@ -1548,7 +2258,7 @@ let equalObject = (o1, o2) => {
   if (Object.keys(o1).length !== Object.keys(o2).length) {
     return false;
   }
-  return Object.keys(o1).every(v => o1[v] === o2[v]);
+  return Object.keys(o1).every((v) => o1[v] === o2[v]);
 };
 
 let equalArray = equalObject;
@@ -1560,7 +2270,7 @@ let equal = (o1, o2) => {
   if (Object.keys(o1).length !== Object.keys(o2).length) {
     return false;
   }
-  return Object.keys(o1).every(v => {
+  return Object.keys(o1).every((v) => {
     if (o1[v] instanceof Object) {
       return equal(o1[v], o2[v]);
     } else {
@@ -1591,7 +2301,7 @@ let equal = (o1, o2) => {
 ```js
 // 类数组中每项*2
 const someNumbers = { "0": 10, "1": 15, length: 2 };
-console.log(Array.from(someNumbers, value => value * 2)); // [20,30]
+console.log(Array.from(someNumbers, (value) => value * 2)); // [20,30]
 ```
 
 ```js
@@ -1619,13 +2329,13 @@ testDOM() {
 
 ```js
 // 数组最大值
-[1, 4, 6].reduce(function(a, b) {
+[1, 4, 6].reduce(function (a, b) {
   return Math.max(a, b);
 }); //6
 
 // 遍历
 numbers = [1, 2, 3, 4, 5];
-numbers.forEach(number => {
+numbers.forEach((number) => {
   console.log(number); //1 2 3 4 5
 });
 
@@ -1642,14 +2352,17 @@ console.log(sum); //15
 // 案例1将原数组的每个数字都*2
 
 var numbers = [1, 2, 3, 4, 5];
-var doublnumbers = numbers.map(number => {
+var doublnumbers = numbers.map((number) => {
   return number * 2;
 });
 console.log(doublnumbers); //[2,4,6,8,10]
 
 // 将A对象数组中某个属性存到B数组中
-let building = [{ name: "the Great Wall", location: "BeiJing" }, { name: "Eiffel Tower", location: "Paris " }];
-let citys = building.map(item => {
+let building = [
+  { name: "the Great Wall", location: "BeiJing" },
+  { name: "Eiffel Tower", location: "Paris " },
+];
+let citys = building.map((item) => {
   return item.location;
 });
 console.log(citys); //["BeiJing", "Paris "]
@@ -1657,9 +2370,14 @@ console.log(citys); //["BeiJing", "Paris "]
 // 案例2假定有两个数组(A,B),根据A中id值,过滤掉B数组不等于A中id的数据
 
 var post = { id: 4, title: "Javascript" };
-var comments = [{ postId: 4, content: "Angular4" }, { postId: 2, content: "Vue.js" }, { postId: 3, content: "Node.js" }, { postId: 4, content: "React.js" }];
+var comments = [
+  { postId: 4, content: "Angular4" },
+  { postId: 2, content: "Vue.js" },
+  { postId: 3, content: "Node.js" },
+  { postId: 4, content: "React.js" },
+];
 function commentsForPost(post, comments) {
-  return comments.filter(function(comment) {
+  return comments.filter(function (comment) {
     return comment.postId === post.id;
   });
 }
@@ -1669,9 +2387,14 @@ console.log(commentsForPost(post, comments)); //[ {postId:4,content:"Angular4"},
 // 案例2假定有两个数组(A,B),根据A中id值,找到B数组等于A中id的数据
 
 var post = { id: 4, title: "Javascript" };
-var comments = [{ postId: 4, content: "Angular4" }, { postId: 2, content: "Vue.js" }, { postId: 3, content: "Node.js" }, { postId: 4, content: "React.js" }];
+var comments = [
+  { postId: 4, content: "Angular4" },
+  { postId: 2, content: "Vue.js" },
+  { postId: 3, content: "Node.js" },
+  { postId: 4, content: "React.js" },
+];
 function commentsForPost(post, comments) {
-  return comments.find(function(comment) {
+  return comments.find(function (comment) {
     return comment.postId === post.id;
   });
 }
@@ -1694,16 +2417,7 @@ console.log(Reflect.ownKeys(array1));
 // expected output: Array ["length"]
 ```
 
-
-
-
-
-
-
-
-
 # JS_INFO
-
 
 ## Objects 对象
 
@@ -2000,7 +2714,14 @@ alert(`My name is:${name}`);
 ```js
 let age = prompt("age?", 18);
 
-let message = age < 3 ? "Hi, baby!" : age < 18 ? "Hello!" : age < 100 ? "Greetings!" : "What an unusual age!";
+let message =
+  age < 3
+    ? "Hi, baby!"
+    : age < 18
+    ? "Hello!"
+    : age < 100
+    ? "Greetings!"
+    : "What an unusual age!";
 
 alert(message);
 ```
@@ -2111,7 +2832,7 @@ console.log(x === 1 && x === 2 && x === 3); // true
 /* 实现：(a == 1 && a == 2 && a == 3) */
 let a = {
   i: 1,
-  toString: function() {
+  toString: function () {
     return a.i++;
   },
 };
@@ -2139,16 +2860,19 @@ if (a == 1 && a == 2 && a == 3) {
   </head>
   <body>
     <div style="width:200px;height:200px;background:lightblue" id="content">
-      <div style="width:100px;height:100px;background: lightyellow;" id="btn1"></div>
+      <div
+        style="width:100px;height:100px;background: lightyellow;"
+        id="btn1"
+      ></div>
     </div>
   </body>
   <script type="text/javascript">
     var content = document.getElementById("content");
     var btn1 = document.getElementById("btn1");
-    btn1.onclick = function() {
+    btn1.onclick = function () {
       alert("btn1"); // 先执行
     };
-    content.onclick = function() {
+    content.onclick = function () {
       alert("content"); // 后执行
     };
   </script>
@@ -2268,8 +2992,12 @@ let url = "https://api.github.com/repos/用户名/仓库名";
 // 获取某个repo的内容列表
 let url = "https://api.github.com/repos/用户名/仓库名/contents";
 // 获取repo中子目录的内容列表 获取repo中某文件信息（不包括内容）
-let url = "https://api.github.com/repos/用户名/仓库名/contents/子文件夹/子子文件夹";
+let url =
+  "https://api.github.com/repos/用户名/仓库名/contents/子文件夹/子子文件夹";
 // 获取某文件的原始内容（Raw） 也就是每个.md文件的内容
-let url = "https://raw.githubusercontent.com/用户名/仓库名/master/子文件夹/子子文件夹/文件名.md";
-let url = "https://raw.githubusercontent.com/用户名/仓库名/master/子文件夹/子子文件夹/" + title;
+let url =
+  "https://raw.githubusercontent.com/用户名/仓库名/master/子文件夹/子子文件夹/文件名.md";
+let url =
+  "https://raw.githubusercontent.com/用户名/仓库名/master/子文件夹/子子文件夹/" +
+  title;
 ```

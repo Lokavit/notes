@@ -65,7 +65,15 @@
 
 ```html
 <!-- 类型 ，最小字符数，最大字符数，必填，正则验证，属性， -->
-<input type="text" minlength="3" maxlength="8" required pattern="" name="user" title="" />
+<input
+  type="text"
+  minlength="3"
+  maxlength="8"
+  required
+  pattern=""
+  name="user"
+  title=""
+/>
 <!-- 数字验证 -->
 <input type="number" pattern="[-+]?[0-9]" />
 <input type="number" min="3" max="42" pattern="[3-9]|[1-3][0-9]|4[0-2]" />
@@ -97,13 +105,29 @@ rangeUnderflow-是true当字段具有min属性并且输入的数字value小于�
   <fieldset>
     <legend>区块信息的标题</legend>
     <!-- label和input同级关系，需要前者的for,后者的name -->
-    <label for="name">角色名</label> <input type="text" name="name" value="" autofocus autocomplete="on" required="required" placeholder="请输入角色名" />
+    <label for="name">角色名</label>
+    <input
+      type="text"
+      name="name"
+      value=""
+      autofocus
+      autocomplete="on"
+      required="required"
+      placeholder="请输入角色名"
+    />
 
     <!-- label包裹input，前者无需for，后者name隐含关联。-->
     <label
       >角色名
       <!-- 类型, 属性名，输入值，自动聚焦(一个页面只有一个可设置)，自动填充，合法校验，占位符 -->
-      <input type="text" name="name" value="" autofocus autocomplete="on" required="required" placeholder="请输入角色名"
+      <input
+        type="text"
+        name="name"
+        value=""
+        autofocus
+        autocomplete="on"
+        required="required"
+        placeholder="请输入角色名"
     /></label>
   </fieldset>
   <!-- 提交按钮，触发ajax -->
@@ -114,12 +138,45 @@ rangeUnderflow-是true当字段具有min属性并且输入的数字value小于�
 
 <!-- <output> 标签表示计算或用户操作的结果 -->
 <form oninput="result.value=parseInt(a.value)+parseInt(b.value)">
-  <input type="range" name="b" value="50" /> + <input type="number" name="a" value="10" /> =
+  <input type="range" name="b" value="50" /> +
+  <input type="number" name="a" value="10" /> =
   <output name="result"></output>
 </form>
 
 <!-- 进度条，通常用js操作 -->
 <progress value="70" max="100">70 %</progress>
+```
+
+### form
+
+- form 元素中的提交，默认为提交数据的行为事件，导致页面刷新
+- form 元素设置 name="role",可以用如下方式拿到 form 中所有值。
+
+```js
+let formData = {
+  // form元素name="role",其后为指定input的name值
+  name: role.name.value,
+  info: role.info.value,
+  detail: role.detail.value,
+};
+````
+
+- 取折中方式:以下代码写在 form 元素外，以 JS 控制其 onclick 事件
+
+```html
+<input type="button" value="提交" id="submit" />
+```
+
+- 另外,form 中 input 设置为 submit，可用以下方式，设置 form 的 action 属性值
+
+```html
+<input type="submit" value="提交" id="createrole" />
+```
+
+```js
+let createrole = document.querySelector("#submit");
+// 该设置 可以覆盖form元素 action的值。
+createroleBtn.setAttribute("formaction", `URL:${BASE_API_URL}/postrole`);
 ```
 
 ## 元素
@@ -170,7 +227,7 @@ HTML <details>元素可创建一个挂件，仅在被切换成展开状态时，
     <input type="button" value="确定" οnclick="f()" /><br />
   </form>
 </body>
-```
+````
 
 ```html
 <!-- autocomplete 是否自动填写 -->
@@ -179,10 +236,26 @@ HTML <details>元素可创建一个挂件，仅在被切换成展开状态时，
     <legend>创建角色</legend>
     <!-- tabindex="0"  页面元素焦点，正值递增，负值不聚焦 -->
     <p>
-      <label for="uname">昵称: <input placeholder="请输入昵称" name="uname" required="required" autofocus="autofocus" autocomplete="on"/></label>
+      <label for="uname"
+        >昵称:
+        <input
+          placeholder="请输入昵称"
+          name="uname"
+          required="required"
+          autofocus="autofocus"
+          autocomplete="on"
+      /></label>
     </p>
     <p>
-      <label for="utitle">头衔: <input placeholder="请输入头衔" name="utitle" required="required" autofocus="autofocus" autocomplete="on"/></label>
+      <label for="utitle"
+        >头衔:
+        <input
+          placeholder="请输入头衔"
+          name="utitle"
+          required="required"
+          autofocus="autofocus"
+          autocomplete="on"
+      /></label>
     </p>
     <p>
       门派:
@@ -193,7 +266,9 @@ HTML <details>元素可创建一个挂件，仅在被切换成展开状态时，
       <input type="radio" id="d" name="drone" value="d" />
       <label for="d">D</label>
     </p>
-    <p><input type="reset" value="Reset" /> <input type="submit" value="Send!" /></p>
+    <p>
+      <input type="reset" value="Reset" /> <input type="submit" value="Send!" />
+    </p>
   </fieldset>
 </form>
 
@@ -205,11 +280,13 @@ HTML <details>元素可创建一个挂件，仅在被切换成展开状态时，
 <body>
   <form id="voteform" method="post" action="http://example.com/form">
     <p>
-      <label for="fave">Fruit: <input autofocus id="fave" name="fave"/></label>
+      <label for="fave">Fruit: <input autofocus id="fave" name="fave" /></label>
     </p>
   </form>
   <p>
-    <label for="name">Name: <input form="voteform" id="name" name="name" /> </label>
+    <label for="name"
+      >Name: <input form="voteform" id="name" name="name" />
+    </label>
   </p>
   <button form="voteform" type="submit">Submit Vote</button>
   <button form="voteform" type="reset">Reset</button>
@@ -693,4 +770,3 @@ input:focus.invalid {
   padding: 0.3em;
 }
 ```
-

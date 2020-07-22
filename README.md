@@ -47,6 +47,8 @@
         <td>Game</td>
         <td><a href="https://github.com/Lokavit/notes/blob/master/pixijs/Pixijs.md">Pixi.js</a></td>
         <td><a href="https://github.com/Lokavit/notes/blob/master/phaser.md">Phaser</a></td>
+        <td><a href="https://lokavit.github.io/notes/game/memory/index.html">Memory</a></td>
+        <td><a href="https://lokavit.github.io/notes/game/chhess.html">Chess</a></td>
     </tr>
     <tr>
         <td >Animation</td>
@@ -61,15 +63,15 @@
     </tr>
     <tr>
         <td>Quick Dev</td>
-        <td><a href="https://github.com/Lokavit/notes/blob/master/js/Nodejs.md">Nodejs</a></td>
-        <td><a href="https://github.com/Lokavit/notes/blob/master/js/bundle.md">Bundle</a></td>
+        <td><a href="https://github.com/Lokavit/notes/blob/master/md/Nodejs.md">Nodejs</a></td>
+        <td><a href="https://github.com/Lokavit/notes/blob/master/md/bundle.md">Bundle</a></td>
         <td><a href="https://github.com/Lokavit/notes/blob/master/js/Vue.md">Vue</a></td>
         <td><a href="https://github.com/Lokavit/notes/blob/master/js/React.md">React</a></td>
     </tr>
     <tr>
         <td >Feature</td>
-        <td><a href="https://github.com/Lokavit/notes/blob/master/js/Functional.md">Functional</a></td>
-        <td><a href="https://github.com/Lokavit/notes/blob/master/js/Optimization.md">Optimization</a></td>
+        <td><a href="https://github.com/Lokavit/notes/blob/master/md/Functional.md">Functional</a></td>
+        <td><a href="https://github.com/Lokavit/notes/blob/master/md/Optimization.md">Optimization</a></td>
         <td colspan="2"><a href="https://lokavit.github.io/notes/web-components/index.html">Web Components</a></td>
     </tr>    
     <tr><td colspan="9">Common Util</td></tr>

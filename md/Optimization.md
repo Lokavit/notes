@@ -3,7 +3,8 @@
 - 样式放在 header 中，脚本放在</body>之前
 - 查找元素:id 查找 > 样式类查找 > 属性查找
 - DOM 添加修改删除,避免不必要的渲染
-
+- 样式优先使用 .class
+- 操作 dom 时，优先使用#id 及 dataset
 ```js
 divUpdate.innerHTML = "";
 for (var i = 0; i < 100; i++) {

@@ -12,6 +12,89 @@ Node 支持 WebAssembly
 
 # nodejs 服务端
 
+```js
+const fs = require("fs"); // 文件系统
+const http = require("http"); // HTTP
+const path = require("path"); // 路径
+
+const HOST = "http://localhost"; // http://127.0.0.1
+const PORT = 1111; // 端口号
+
+const FAVICON = path.join(__dirname, "asset", "favicon.ico");
+
+// 多用途互联网邮件扩展类型 用于写入响应头
+const MIMETYPE = {
+  css: "text/css",
+  html: "text/html",
+  ico: "image/x-icon",
+  jpg: "image/jpeg",
+  png: "image/png",
+  js: "text/javascript",
+  json: "application/json",
+  ttf: "application/x-font-ttf",
+  txt: "text/plain",
+  // 以下暂未用到
+  // 'gif': 'image/gif',
+  // 'jpeg': 'image/jpeg',
+  // 'webp': 'image/webp',
+  // 'pdf': 'application/pdf',
+  // 'svg': 'image/svg+xml',
+  // 'swf': 'application/x-shockwave-flash',
+  // 'woff': 'application/font-woff',
+  // 'woff2': 'application/font-woff2',
+  // 'eot': 'application/vnd.ms-fontobject',
+  // 'wav': 'audio/x-wav',
+  // 'mp3': 'audio/mpeg3',
+  // 'mp4': 'video/mp4',
+  // 'xml': 'text/xml'
+};
+
+/**
+ *  创建一个服务
+ * request： 请求变量 ，客户端请求服务器
+ * response： 响应变量，服务器响应客户端
+ */
+const server = http.createServer((request, response) => {
+  // 文件路径 输出 index.html  以及 ./xxx/xxx/xxx
+  let fileURL = request.url === "/" ? "index.html" : "." + request.url;
+  // 判断文件是否存在
+  if (fs.existsSync(fileURL)) {
+    // path.extname  返回 path 的扩展名 ，没有则返回空字符串  // 返回 .js .html
+    let ext = path.extname(fileURL).slice(1); // 得到 文件后缀名，去掉点,用来判断用哪个响应头
+    // 读取文件 返回 path(文件名或文件描述符) 的内容
+    let file = fs.readFileSync(fileURL);
+    let contentType = MIMETYPE[ext] || "text/plain"; // 获取内容类型,用于写入响应头
+    // 向请求发送响应头
+    response.writeHead(200, {
+      "Content-Type": contentType,
+      // 'Access-Control-Allow-Origin': "*"
+    });
+    // if (request.url == "/favicon.ico") {
+    //     console.log('站点图标：', request.url);
+    // }
+    response.write(file); // 写入响应变量中
+    response.end(); // 结束读写操作
+  }
+  // 如果是找不到的页面，跳转到404
+  else {
+    let errorHTML = fs.readFileSync("./client/src/404.html");
+    response.writeHead(404, {
+      "Content-Type": "text/html",
+    });
+    response.write(errorHTML);
+    response.end(); // 结束读写操作
+  }
+});
+
+server.listen(PORT, (err) => {
+  if (err) {
+    console.log("ERRPR:", err);
+    throw err;
+  }
+  console.log(`服务器已启动: ${HOST}:${PORT}`);
+});
+```
+
 ## 优化角色获取创建等请求操作，带路由方式
 
 ```js
@@ -59,7 +142,7 @@ function getRoleInfo(request, response) {
   // fs.readFile(`./${request.url}`, (error, buffer) => {
   fs.readFile(fileJSON, (error, buffer) => {
     const roles = JSON.parse(buffer.toString());
-    const temp = roles.find(item => item.name == request.query.rolename);
+    const temp = roles.find((item) => item.name == request.query.rolename);
     console.log("TEMP:", temp);
 
     // 写入响应头
@@ -72,7 +155,7 @@ function getRoleInfo(request, response) {
       response.write(
         JSON.stringify({
           msg: "输入有误",
-        }),
+        })
       );
       response.end();
     } else {
@@ -90,7 +173,7 @@ function createRole(request, response, data) {
   fs.readFile(fileJSON, (error, buffer) => {
     const roles = JSON.parse(buffer.toString());
     // 从读取的JSON中，遍历判断是否有重复名字的对象
-    const nameIndex = roles.findIndex(item => {
+    const nameIndex = roles.findIndex((item) => {
       return data.name === item.name;
     });
     if (nameIndex > 0) {
@@ -103,7 +186,7 @@ function createRole(request, response, data) {
       response.write(
         JSON.stringify({
           msg: "角色名重复",
-        }),
+        })
       );
       response.end();
     } else {
@@ -119,12 +202,14 @@ function createRole(request, response, data) {
         response.writeHead(200, {
           // 内容类型: 指定字符编码，防止乱码
           "Content-Type": "text/plain;charset=utf-8",
+          // 允许跨域
+          "Access-Control-Allow-Origin": "http://localhost:1111",
         });
         // 把读取到的JSON文件内容写入响应。必须转换
         response.write(
           JSON.stringify({
             msg: "写入成功",
-          }),
+          })
         );
         console.log(`文件写入成功`);
         response.end();
@@ -184,7 +269,7 @@ function route(request, response) {
     if (request.method == "POST") {
       // request 的监听方法 data事件 ,
       let bufferArray = []; // 用于存储data事件获取的Buffer数据
-      request.on("data", buffer => {
+      request.on("data", (buffer) => {
         bufferArray.push(buffer); // 将buffer数据存储在数据中
       });
       // 等到数据接收完之后，end 事件触发
@@ -298,43 +383,248 @@ server.start(router.route);
 
     <script>
       // 获取单个角色
-      document.querySelector("#getroleinfo").addEventListener("click", async function() {
-        let name = "satya";
-        const response = await fetch(`/getrole/${name}`);
-        const result = await response.json();
-        console.log("单个角色信息：", result);
-        // 获取单个角色信息， 将其显示在 p标签区域
-        let roleShow = document.querySelector("#roles_info");
-        roleShow.innerHTML = JSON.stringify(result);
-      });
-      // 获取所有角色信息
-      document.querySelector("#getrole").addEventListener("click", async function() {
-        // const response = await fetch(`/getrole?name=${document.querySelector('#name').value}&info=${document.querySelector('#info').value}`)
-        // 获取当前所有角色
-        const response = await fetch(`/getrole`);
-        const result = await response.json();
-
-        // 测试获取角色信息， 将其显示在 p标签区域
-        let roleShow = document.querySelector("#roles");
-        roleShow.innerHTML = JSON.stringify(result);
-        console.log(result);
-      });
-      // 登录
-      document.querySelector("#create").addEventListener("click", async function() {
-        const response = await fetch(`/create`, {
-          method: "POST",
-          body: JSON.stringify({
-            name: document.querySelector("#name").value,
-            info: document.querySelector("#info").value,
-          }),
+      document
+        .querySelector("#getroleinfo")
+        .addEventListener("click", async function () {
+          let name = "satya";
+          const response = await fetch(`/getrole/${name}`);
+          const result = await response.json();
+          console.log("单个角色信息：", result);
+          // 获取单个角色信息， 将其显示在 p标签区域
+          let roleShow = document.querySelector("#roles_info");
+          roleShow.innerHTML = JSON.stringify(result);
         });
-        const result = await response.json();
-        console.log(result);
-        alert(result.msg);
-      });
+      // 获取所有角色信息
+      document
+        .querySelector("#getrole")
+        .addEventListener("click", async function () {
+          // const response = await fetch(`/getrole?name=${document.querySelector('#name').value}&info=${document.querySelector('#info').value}`)
+          // 获取当前所有角色
+          const response = await fetch(`/getrole`);
+          const result = await response.json();
+
+          // 测试获取角色信息， 将其显示在 p标签区域
+          let roleShow = document.querySelector("#roles");
+          roleShow.innerHTML = JSON.stringify(result);
+          console.log(result);
+        });
+      // 登录
+      document
+        .querySelector("#create")
+        .addEventListener("click", async function () {
+          const response = await fetch(`/create`, {
+            method: "POST",
+            body: JSON.stringify({
+              name: document.querySelector("#name").value,
+              info: document.querySelector("#info").value,
+            }),
+          });
+          const result = await response.json();
+          console.log(result);
+          alert(result.msg);
+        });
     </script>
   </body>
 </html>
+```
+
+## nodejs 读取本地文件
+
+```js
+/** requestHandlers.js */
+// 处理HTTP请求
+const querystring = require("querystring"); // 处理URL中的查询字符串
+const fs = require("fs");
+
+function getText(response) {
+  var text = "输出text";
+  console.log(text);
+  response.writeHead(200, {
+    "Content-Type": "text/plain;charset=UTF-8",
+    "Access-Control-Allow-Origin": "*",
+  });
+  response.write(text);
+  response.end();
+}
+
+function getImage(response) {
+  console.log("getImage");
+  // fs.readFile("./images/avatar.jpg", "binary", function(error, file) {
+  //"../../Book/avatar.jpg"
+  fs.readFile("D:/Book/avatar.jpg", "binary", function (error, file) {
+    if (error) {
+      response.writeHead(500, {
+        "Content-Type": "text/plain",
+        "Access-Control-Allow-Origin": "*",
+      });
+      response.write(error + "\n");
+      response.end();
+    } else {
+      response.writeHead(200, {
+        "Content-Type": "image/jpg",
+        "Access-Control-Allow-Origin": "*",
+      });
+      response.write(file, "binary");
+      response.end();
+    }
+  });
+}
+
+function getBigImage(response) {
+  console.log("getBigImage");
+  fs.readFile("D:/Book/jfd.jpg", "binary", function (error, file) {
+    if (error) {
+      response.writeHead(500, {
+        "Content-Type": "text/plain",
+        "Access-Control-Allow-Origin": "*",
+      });
+      response.write(error + "\n");
+      response.end();
+    } else {
+      response.writeHead(200, {
+        "Content-Type": "image/jpg",
+        "Access-Control-Allow-Origin": "*",
+      });
+      response.write(file, "binary");
+      response.end();
+    }
+  });
+}
+
+// 后追加 获取JSON文件
+function getJSON(response) {
+  console.log("getJSON");
+  // fs.readFile("./images/avatar.jpg", "binary", function(error, file) {
+  //"../../Book/avatar.jpg" "D:/Book/avatar.jpg"
+  fs.readFile(
+    "D:/Git/Lokavit/Satya/Concept/role/roleback.json",
+    "binary",
+    function (error, file) {
+      if (error) {
+        response.writeHead(500, {
+          "Content-Type": "text/plain",
+          "Access-Control-Allow-Origin": "*",
+        });
+        response.write(error + "\n");
+        response.end();
+      } else {
+        response.writeHead(200, {
+          "Content-Type": "application/json",
+          "Access-Control-Allow-Origin": "*",
+        });
+        response.write(file, "binary");
+        response.end();
+      }
+    }
+  );
+}
+
+function get(query, response) {
+  console.log("query: " + query);
+  var queryObj = querystring.parse(query);
+  for (key in queryObj) {
+    console.log("key: " + key + ", value: " + queryObj[key]);
+  }
+  var type = queryObj["type"];
+  switch (type) {
+    case "text":
+      getText(response);
+      break;
+
+    case "image":
+      getImage(response);
+      break;
+
+    case "bigimage":
+      getBigImage(response);
+      break;
+    case "json":
+      getJSON(response);
+      break;
+
+    default:
+      var text = "type " + type + " is unknown.";
+      console.log(text);
+      response.writeHead(200, {
+        "Content-Type": "text/plain",
+      });
+      response.write(text);
+      response.end();
+      break;
+  }
+}
+
+function hello(query, response) {
+  console.log("Hello World");
+  response.writeHead(200, {
+    "Content-Type": "text/plain",
+  });
+  response.write("Hello World");
+  response.end();
+}
+
+exports.get = get;
+exports.hello = hello;
+
+/** router.js */
+// 将HTTP请求转发给处理函数(requestHandlers.js)
+function route(pathname, request, handle, response) {
+  console.log("route for " + pathname);
+  if (typeof handle[pathname] === "function") {
+    handle[pathname](request, response);
+  } else {
+    console.log(`未找到请求处理程序:${pathname}`);
+    response.writeHead(404, {
+      "Content-Type": "text/plain",
+    });
+    response.write("404 not found");
+    response.end();
+  }
+}
+
+exports.route = route;
+
+/** server.js */
+// 创建HTTP服务器
+const http = require("http");
+const url = require("url");
+
+const HOST = "127.0.0.1"; // http://127.0.0.1
+const PORT = 1113; // 端口号
+
+function start(route, handle) {
+  function onRequest(request, response) {
+    var pathname = url.parse(request.url).pathname;
+    var query = url.parse(request.url).query;
+    // console.log("Request for " + pathname + " received." + " query: " + query);
+    console.log(`请求:${pathname}已收到,query为${query}。`);
+
+    route(pathname, query, handle, response);
+  }
+
+  http.createServer(onRequest).listen(PORT, (err) => {
+    if (err) {
+      console.log("ERRPR:", err);
+      throw err;
+    }
+    console.log(`服务器已启动: ${HOST}:${PORT}`);
+  });
+  console.log("Server has started.");
+}
+
+exports.start = start;
+
+/** index.js */
+// 服务器主文件
+const server = require("./server");
+const router = require("./router");
+const requestHandlers = require("./requestHandlers");
+
+const handle = {};
+handle["/"] = requestHandlers.hello;
+handle["/get"] = requestHandlers.get;
+
+server.start(router.route, handle);
 ```
 
 ## Stream 流
@@ -350,7 +640,7 @@ const writeStream = fs.createWriteStream("./temp2.txt");
 // 将可读流读取的数据，通过管道pipe推送到写入流中，即temp.txt=>temp2.txt
 readStream.pipe(writeStream);
 // 读取出现错误，触发error事件
-readStream.on("error", error => {
+readStream.on("error", (error) => {
   console.error(error);
 });
 // 写入完成时，触发finish事件
@@ -374,7 +664,7 @@ const gzip = zlib.createGzip();
 // 即，先压缩可读流数据，再推送到可写流
 readStream.pipe(gzip).pipe(writeStream);
 // 读取出现错误，触发error事件
-readStream.on("error", error => {
+readStream.on("error", (error) => {
   console.error(error);
 });
 // 写入完成时，触发finish事件
@@ -437,7 +727,9 @@ console.log(querystring.parse("foo=bar&abc=xyz&abc=123"));
  * querystring.stringify用于将对象转换为URL查询字符串。
  * 解析结果为: foo=bar&baz=qux&baz=quux&corge=
  */
-console.log(querystring.stringify({ foo: "bar", baz: ["qux", "quux"], corge: "" }));
+console.log(
+  querystring.stringify({ foo: "bar", baz: ["qux", "quux"], corge: "" })
+);
 ```
 
 ### 处理接受到的 GETorPOST 数据
@@ -477,7 +769,7 @@ const server = http.createServer((request, response) => {
     console.log("POST请求");
     path = request.url;
     let bufferArray = []; // 用于存储data事件获取的Buffer数据
-    request.on("data", buffer => {
+    request.on("data", (buffer) => {
       bufferArray.push(buffer); // 将buffer数据存储在数据中
     });
     // 注：必须调用该方法结束请求，否则前端一直处于等待状态，亦可向前端返回数据
@@ -531,7 +823,7 @@ const server = http.createServer((request, response) => {
         const roles = JSON.parse(data.toString());
         console.log("读取JSON的数据结果：", roles);
 
-        const temp = roles.find(item => item.name == "satya");
+        const temp = roles.find((item) => item.name == "satya");
         console.log("TEMP:", temp);
 
         // 写入响应头
@@ -590,7 +882,7 @@ const server = http.createServer((request, response) => {
         console.log("读取JSON的数据结果：", roles);
 
         // 从读取的JSON中，遍历判断是否有重复名字的对象
-        const nameIndex = roles.findIndex(item => {
+        const nameIndex = roles.findIndex((item) => {
           return postData.name === item.name;
         });
         if (nameIndex > 0) {
@@ -603,7 +895,7 @@ const server = http.createServer((request, response) => {
           response.write(
             JSON.stringify({
               msg: "角色名重复",
-            }),
+            })
           );
           response.end();
         } else {
@@ -614,7 +906,7 @@ const server = http.createServer((request, response) => {
            * 参数二：写入内容(可为<string> | <Buffer> | <TypedArray> | <DataView>)
            * 参数三：回调函数，传入数据为error对象，其为null表示成功。
            */
-          fs.writeFile(fileJSON, JSON.stringify(roles), error => {
+          fs.writeFile(fileJSON, JSON.stringify(roles), (error) => {
             if (error) {
               response.writeHead(404);
               response.write("Not Found");
@@ -630,7 +922,7 @@ const server = http.createServer((request, response) => {
               response.write(
                 JSON.stringify({
                   msg: "写入成功",
-                }),
+                })
               );
               console.log(`文件写入成功`);
               response.end();
@@ -670,40 +962,46 @@ server.listen(PORT, () => {
 
     <script>
       // 获取单个角色
-      document.querySelector("#getroleinfo").addEventListener("click", async function() {
-        let name = "satya";
-        const response = await fetch(`/getrole/${name}`);
-        const result = await response.json();
-        console.log("单个角色信息：", result);
-        // 获取单个角色信息， 将其显示在 p标签区域
-        let roleShow = document.querySelector("#roles_info");
-        roleShow.innerHTML = JSON.stringify(result);
-      });
-      // 获取所有角色信息
-      document.querySelector("#getrole").addEventListener("click", async function() {
-        // const response = await fetch(`/getrole?name=${document.querySelector('#name').value}&info=${document.querySelector('#info').value}`)
-        // 获取当前所有角色
-        const response = await fetch(`/getrole`);
-        const result = await response.json();
-
-        // 测试获取角色信息， 将其显示在 p标签区域
-        let roleShow = document.querySelector("#roles");
-        roleShow.innerHTML = JSON.stringify(result);
-        console.log(result);
-      });
-      // 登录
-      document.querySelector("#create").addEventListener("click", async function() {
-        const response = await fetch(`/create`, {
-          method: "POST",
-          body: JSON.stringify({
-            name: document.querySelector("#name").value,
-            info: document.querySelector("#info").value,
-          }),
+      document
+        .querySelector("#getroleinfo")
+        .addEventListener("click", async function () {
+          let name = "satya";
+          const response = await fetch(`/getrole/${name}`);
+          const result = await response.json();
+          console.log("单个角色信息：", result);
+          // 获取单个角色信息， 将其显示在 p标签区域
+          let roleShow = document.querySelector("#roles_info");
+          roleShow.innerHTML = JSON.stringify(result);
         });
-        const result = await response.json();
-        console.log(result);
-        alert(result.msg);
-      });
+      // 获取所有角色信息
+      document
+        .querySelector("#getrole")
+        .addEventListener("click", async function () {
+          // const response = await fetch(`/getrole?name=${document.querySelector('#name').value}&info=${document.querySelector('#info').value}`)
+          // 获取当前所有角色
+          const response = await fetch(`/getrole`);
+          const result = await response.json();
+
+          // 测试获取角色信息， 将其显示在 p标签区域
+          let roleShow = document.querySelector("#roles");
+          roleShow.innerHTML = JSON.stringify(result);
+          console.log(result);
+        });
+      // 登录
+      document
+        .querySelector("#create")
+        .addEventListener("click", async function () {
+          const response = await fetch(`/create`, {
+            method: "POST",
+            body: JSON.stringify({
+              name: document.querySelector("#name").value,
+              info: document.querySelector("#info").value,
+            }),
+          });
+          const result = await response.json();
+          console.log(result);
+          alert(result.msg);
+        });
     </script>
   </body>
 </html>
@@ -763,7 +1061,7 @@ const server = http.createServer((request, response) => {
 
       roles.push(newRole);
       // 把JSON以字符串形式写入
-      fs.writeFile(fileJSON, JSON.stringify(roles), error => {
+      fs.writeFile(fileJSON, JSON.stringify(roles), (error) => {
         if (error) {
           response.writeHead(404);
           response.write("Not Found");
@@ -778,7 +1076,7 @@ const server = http.createServer((request, response) => {
           response.write(
             JSON.stringify({
               msg: "写入成功",
-            }),
+            })
           );
           console.log(`文件写入成功`);
           response.end();
@@ -854,7 +1152,7 @@ let text = "被写入内容"; // 待写入的内容
  * 参数二：写入内容(可为<string> | <Buffer> | <TypedArray> | <DataView>)
  * 参数三：回调函数，传入数据为error对象，其为null表示成功。
  */
-fs.writeFile("./temp.txt", text, error => {
+fs.writeFile("./temp.txt", text, (error) => {
   if (error) console.log(`文件写入失败:${error}`);
   else console.log(`文件写入成功`); // 内中结果为 [object Object]
 });
@@ -985,7 +1283,7 @@ const server = http.createServer((request, response) => {
     let msg = "";
     // request 的监听方法 data ,chunk为Buffer
     request
-      .on("data", chunk => {
+      .on("data", (chunk) => {
         msg += chunk; // 拼接获取到的后数据
       })
       // 等到数据接收完之后，end 事件触发
@@ -1027,7 +1325,7 @@ const server = http.createServer((request, response) => {
   }
 });
 // 指定服务器端口号，打开地址时，服务器会接收数据，并且响应数据
-server.listen(PORT, err => {
+server.listen(PORT, (err) => {
   if (err) {
     console.log("ERRPR:", err);
     throw err;
@@ -1112,7 +1410,7 @@ const server = http.createServer((request, response) => {
     let msg = "";
     // request 的监听方法 data ,chunk为Buffer
     request
-      .on("data", chunk => {
+      .on("data", (chunk) => {
         msg += chunk; // 拼接获取到的后数据
       })
       // 等到数据接收完之后，end 事件触发
@@ -1154,7 +1452,7 @@ const server = http.createServer((request, response) => {
   }
 });
 // 指定服务器端口号，打开地址时，服务器会接收数据，并且响应数据
-server.listen(PORT, err => {
+server.listen(PORT, (err) => {
   if (err) {
     console.log("ERRPR:", err);
     throw err;
@@ -1254,7 +1552,7 @@ const server = http.createServer((request, response) => {
   }
 });
 // 指定服务器端口号，打开地址时，服务器会接收数据，并且响应数据
-server.listen(PORT, err => {
+server.listen(PORT, (err) => {
   if (err) {
     console.log("ERRPR:", err);
     throw err;
@@ -1320,7 +1618,7 @@ const server = http.createServer((request, response) => {
   });
 });
 // 指定服务器端口号，打开地址时，服务器会接收数据，并且响应数据
-server.listen(PORT, err => {
+server.listen(PORT, (err) => {
   if (err) {
     console.log("ERRPR:", err);
     throw err;
@@ -1371,7 +1669,7 @@ const server = http.createServer((request, response) => {
   response.end();
 });
 // 指定服务器端口号，打开地址时，服务器会接收数据，并且响应数据
-server.listen(PORT, err => {
+server.listen(PORT, (err) => {
   if (err) {
     console.log("ERRPR:", err);
     throw err;
@@ -1403,7 +1701,7 @@ const server = http.createServer((request, response) => {
   response.end("写入响应的内容"); // 写在这里也行，效果同上
 });
 // 指定服务器端口号，打开地址时，服务器会接收数据，并且响应数据
-server.listen(PORT, err => {
+server.listen(PORT, (err) => {
   if (err) {
     console.log("ERRPR:", err);
     throw err;
@@ -1435,7 +1733,7 @@ function fileDisplay(filePath) {
   // 读取目录下面的文件，返回目录下的文件列表对象，如果传入的是个文件，返回这个文件
   fs.readdir(filePath, (err, files) => {
     if (err) return;
-    files.forEach(filename => {
+    files.forEach((filename) => {
       // 获取当前文件的绝对路径 ，本地的话，针对于磁盘
       let fileDir = path.join(filePath, filename);
       // 根据文件路径，获取文件信息，返回一个 fs.Stats对象
@@ -1488,11 +1786,14 @@ function fileDisplay(filePath) {
 function compileHTML(fileDir, filename, src, dist) {
   // 读取文件  readFile带有回调 ，readFileSync 不带回调
   fs.readFile(fileDir, "utf-8", (err, data) => {
-    let dataReplace = data.replace(/<link\srel="import"\shref="(.*)">/gi, (matchs, m1) => {
-      // 返回读取的文件内容
-      return fs.readFileSync(path.join(src, m1), "utf-8");
-    });
-    fs.writeFile(dist + "/views/" + filename, dataReplace, "utf-8", err => {
+    let dataReplace = data.replace(
+      /<link\srel="import"\shref="(.*)">/gi,
+      (matchs, m1) => {
+        // 返回读取的文件内容
+        return fs.readFileSync(path.join(src, m1), "utf-8");
+      }
+    );
+    fs.writeFile(dist + "/views/" + filename, dataReplace, "utf-8", (err) => {
       if (err) return console.log("文件写入错误 ERROR:", err);
     });
   });
@@ -1575,7 +1876,7 @@ const server = http.createServer((request, response) => {
   }
 });
 
-server.listen(POST, err => {
+server.listen(POST, (err) => {
   if (err) {
     console.log("ERRPR:", err);
     throw err;
