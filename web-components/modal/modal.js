@@ -2,15 +2,12 @@
  * @Author: Satya
  * @Date: 2020-07-22 15:39:59
  * @Last Modified by: Satya
- * @Last Modified time: 2020-07-22 18:07:11
+ * @Last Modified time: 2020-07-23 09:10:18
  * doc:modal组件
  */
 
-console.log(Modal_HTML);
-console.log(Modal_CSS);
-
 /** 定义本组件在html中使用时的元素标签名 */
-const Component_Name = `dd-modal`;
+const DD_MODAL = `dd-modal`;
 
 class Modal extends HTMLElement {
   constructor() {
@@ -97,4 +94,4 @@ class Modal extends HTMLElement {
   };
 }
 
-customElements.define(Component_Name, Modal);
+customElements.define(DD_MODAL, Modal);

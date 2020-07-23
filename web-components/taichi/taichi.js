@@ -2,11 +2,14 @@
  * @Author: Satya
  * @Date: 2020-07-22 17:53:33
  * @Last Modified by: Satya
- * @Last Modified time: 2020-07-22 18:07:32
+ * @Last Modified time: 2020-07-23 09:09:48
  * doc:太极组件主文件
  */
 
 "use strict";
+
+/** 定义组件名 */
+const DD_TAICHI = `tai-chi`;
 
 // 创建模板标签
 const template = document.createElement("template");
@@ -28,4 +31,4 @@ class TaiChiComponent extends HTMLElement {
   connectedCallback() {}
 }
 
-customElements.define("tai-chi", TaiChiComponent);
+customElements.define(DD_TAICHI, TaiChiComponent);
