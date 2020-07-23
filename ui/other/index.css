@@ -1,0 +1,278 @@
+/*
+ * @Author: Satya 
+ * @Date: 2020-07-23 09:46:00 
+ * @Last Modified by: Satya
+ * @Last Modified time: 2020-07-23 09:46:21
+ * doc:
+ */
+
+/* :placeholder-shown 实现占位符过渡效果实例 */
+
+.input-fill-x,
+.input-outline-x,
+.textarea-outline-x {
+  /* fit-content见文章：https://www.zhangxinxu.com/wordpress/?p=5392 */
+  width: -webkit-fit-content;
+  width: -moz-fit-content;
+  width: fit-content;
+  position: relative;
+}
+
+.input-fill-x {
+  border-bottom: 1px solid #d0d0d5;
+}
+
+.input-fill-x::after {
+  content: "";
+  position: absolute;
+  border-bottom: 2px solid #2486ff;
+  left: 0;
+  right: 0;
+  bottom: -1px;
+  transform: scaleX(0);
+  transition: transform 0.25s;
+}
+
+/* :focus-within见文章：https://www.zhangxinxu.com/wordpress/?p=7327 */
+.input-fill-x:focus-within::after {
+  transform: scaleX(1);
+}
+
+.input-control {
+  margin: 0;
+  font-size: 16px;
+  line-height: 1.5;
+  outline: none;
+}
+
+.input-fill {
+  padding: 20px 16px 6px;
+  border: 1px solid transparent;
+  background: #f5f5f5;
+}
+
+.input-outline,
+.textarea-outline {
+  padding: 13px 16px 13px;
+  border: 1px solid #d0d0d5;
+  border-radius: 4px;
+  transition: border-color 0.25s;
+}
+
+.input-outline:focus,
+.textarea-outline:focus {
+  border-color: #2486ff;
+}
+
+/* 默认placeholder颜色透明不可见 */
+.input-control:placeholder-shown::placeholder {
+  color: transparent;
+}
+
+.input-label {
+  position: absolute;
+  font-size: 16px;
+  line-height: 1.5;
+  left: 16px;
+  top: 14px;
+  color: #a2a9b6;
+  padding: 0 2px;
+  transform-origin: 0 0;
+  pointer-events: none;
+  transition: all 0.25s;
+}
+
+/* 线框样式label定位 */
+.input-control:not(:placeholder-shown) ~ .input-label,
+.input-control:focus ~ .input-label {
+  color: #2486ff;
+  transform: scale(0.75) translate(-2px, -32px);
+}
+
+/* 填充样式下label定位 */
+.input-fill:not(:placeholder-shown) ~ .input-label,
+.input-fill:focus ~ .input-label {
+  transform: scale(0.75) translateY(-14px);
+}
+
+/* 线框交互下有个白色背景 */
+.input-outline ~ .input-label,
+.textarea-outline ~ .input-label {
+  background-color: #fff;
+}
+
+/* 表头固定:thead 与 tbody 分为两个 table */
+
+/*外层容器设置高*/
+#elec_table {
+  position: relative;
+  table-layout: fixed;
+}
+
+.table-body {
+  overflow-y: auto;
+  overflow-x: hidden;
+  height: 60px;
+}
+
+/*设置table-layout:fixed固定宽度，表头和表体需要对齐*/
+table {
+  table-layout: fixed;
+}
+
+/*设置单元格的宽度，可能会出现内容长需要换行的情况 使用white-space:normal，每个单元格都是一样的宽度*/
+#elec_table td {
+  width: 20%;
+  white-space: normal;
+}
+
+.theadstyle thead tr th {
+  text-align: center;
+}
+
+/*  */
+.demo1 h2 {
+  font-size: 52px;
+  font-weight: bold;
+  color: #000;
+}
+
+.demo1 p {
+  font-size: 12px;
+  color: #333;
+}
+
+.demo1 h2 {
+  width: min-content;
+  /* 宽度收缩到最小，如果是默认状态，宽度应该是最窄单词的宽度 */
+  white-space: nowrap;
+  /* 不换行，以达到 宽度就是最长的那一行字符宽度 */
+}
+
+.demo1 p {
+  white-space: normal;
+  /* 最终宽度就是大字号标题的最长的那一行的宽度 */
+}
+
+.dldtdd dl {
+  border: 1px solid #ccc;
+  background-color: #fff;
+  padding: 10px;
+  line-height: 1.5;
+}
+
+.dldtdd dt {
+  font-size: 1em;
+  color: #666;
+}
+
+.dldtdd dd {
+  text-align: right;
+  margin: -1.5em 0 0 5em;
+  font-weight: 700;
+}
+
+.demo2 {
+  margin: 0;
+  /* height: 25vh; */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.loader {
+  width: 20em;
+  height: 20em;
+  font-size: 10px;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.loader .face {
+  position: absolute;
+  border-radius: 50%;
+  border-style: solid;
+  animation: animate 3s linear infinite;
+}
+
+.loader .face:nth-child(1) {
+  width: 100%;
+  height: 100%;
+  color: gold;
+  border-color: currentColor transparent transparent currentColor;
+  border-width: 0.2em 0.2em 0em 0em;
+  --deg: -45deg;
+  animation-direction: normal;
+}
+
+.loader .face:nth-child(2) {
+  width: 70%;
+  height: 70%;
+  color: lime;
+  border-color: currentColor currentColor transparent transparent;
+  border-width: 0.2em 0em 0em 0.2em;
+  --deg: -135deg;
+  animation-direction: reverse;
+}
+
+.loader .face .circle {
+  position: absolute;
+  width: 50%;
+  height: 0.1em;
+  top: 50%;
+  left: 50%;
+  background-color: transparent;
+  transform: rotate(var(--deg));
+  transform-origin: left;
+}
+
+.loader .face .circle::before {
+  position: absolute;
+  top: -0.5em;
+  right: -0.5em;
+  content: "";
+  width: 1em;
+  height: 1em;
+  background-color: currentColor;
+  border-radius: 50%;
+  box-shadow: 0 0 2em, 0 0 4em, 0 0 6em, 0 0 8em, 0 0 10em,
+    0 0 0 0.5em rgba(255, 255, 0, 0.1);
+}
+
+@keyframes animate {
+  to {
+    transform: rotate(1turn);
+  }
+}
+
+/* 网格效果 */
+.grid {
+  background: #58a;
+  background-image: linear-gradient(rgba(255, 255, 255, 0.3) 1px, transparent 0),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.3) 1px, transparent 0),
+    linear-gradient(white 1px, transparent 0),
+    linear-gradient(90deg, white 1px, transparent 0);
+  background-size: 10px 10px, 10px 10px, 50px 50px, 50px 50px;
+  width: 900px;
+  height: 450px;
+}
+
+.item_1 {
+  width: calc(10px * 5);
+  height: calc(10px * 5);
+  background-color: rgba(16, 25, 122, 0.6);
+}
+
+.item_2 {
+  width: calc(10px * 10);
+  height: calc(10px * 5);
+  background-color: rgba(255, 255, 255, 0.3);
+}
+
+.item_3 {
+  width: calc(10px * 5);
+  height: calc(10px * 10);
+  background-color: rgba(255, 255, 255, 0.3);
+}

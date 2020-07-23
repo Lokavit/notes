@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Example</title>
+    <link rel="stylesheet" href="./index.css" />
+  </head>
+
+  <body style="padding: 50px;">
+    <h1>Example</h1>
+
+    <section>
+      <h1>:placeholder-shown 实现占位符过渡效果实例</h1>
+      <h4>填充风格</h4>
+
+      <div class="input-fill-x">
+        <input class="input-control input-fill" placeholder="邮箱" />
+        <label class="input-label">邮箱</label>
+      </div>
+      <h4>轮廓风格</h4>
+      <div class="input-outline-x">
+        <input class="input-control input-outline" placeholder="邮箱" />
+        <label class="input-label">邮箱</label>
+      </div>
+      <h4>文本域</h4>
+      <div class="textarea-outline-x">
+        <textarea
+          class="input-control textarea-outline"
+          cols="25"
+          rows="3"
+          placeholder="评论"
+        ></textarea>
+        <label class="input-label">评论</label>
+      </div>
+    </section>
+
+    <section>
+      <h1>表头固定:thead 与 tbody 分为两个 table</h1>
+      <!-- 表头需要固定的地方  -->
+      <div id="elec_table">
+        <div class="table-head">
+          <table class="table theadstyle">
+            <thead>
+              <tr style="background: #ccc;">
+                <th>IP地址</th>
+                <th>端口</th>
+                <th>操作</th>
+              </tr>
+            </thead>
+          </table>
+        </div>
+      </div>
+      <!-- 表体需要显示滚动条的地方  -->
+      <div class="table-body">
+        <table class="table table-bordered" id="srvTable">
+            <!-- 此处表体若有多行，可见滚动效果 -->
+          <tr>
+            <td>111</td>
+            <td>222</td>
+            <td>333</td>
+          </tr>
+        </table>
+      </div>
+    </section>
+
+    <section>
+      <h1>标签内的每个单词首字母转大写</h1>
+      <p style="text-transform: capitalize;">Hello word aaa Bbbbbb</p>
+    </section>
+
+    <section class="demo1">
+      <h1>一个排版换行问题的解决方案</h1>
+      <h2>
+        IPHONE XR<br />
+        IS THE FUCKING<br />
+        BEST EVER MADE
+        <p>
+          iPhone XR has not been authorized as required by the rules of the
+          Federal Communications Commission. iPhone XR is not, and may not be,
+          offered for sale or lease, or sold or leased, until authorization is
+          obtained.
+        </p>
+      </h2>
+    </section>
+
+    <section class="dldtdd">
+      <h1>一个 dl dt dd 排版问题的解决方案</h1>
+      <dl>
+        <dt>名称</dt>
+        <dd>王子一</dd>
+        <dt>身份</dt>
+        <dd>少侠</dd>
+        <dt>居所</dt>
+        <dd>一叶舟</dd>
+        <dt>器物</dt>
+        <dd>濯心</dd>
+      </dl>
+    </section>
+
+    <section class="demo2">
+      <h1>CSS 发光线条</h1>
+      <div class="loader">
+        <div class="face">
+          <div class="circle"></div>
+        </div>
+        <div class="face">
+          <div class="circle"></div>
+        </div>
+      </div>
+    </section>
+  </body>
+</html>
