@@ -40,11 +40,11 @@
 ---
 
 <table>
-    <tr><th colspan="3">HTML CSS</th></tr>
+    <tr><th colspan="9">HTML CSS</th></tr>
     <tr>
         <td><a href="https://lokavit.github.io/notes/ui/other/index.html">Example</a></td>
         <td><a href="https://lokavit.github.io/notes/ui/keyword.html">Keyword</a></td>
-        <td><a href="https://lokavit.github.io/notes/ui/box-border-style.html">盒边框样式</a></td>
+        <td><a href="https://lokavit.github.io/notes/ui/box-border-style.html">box-border</a></td>
         <td><a href="https://lokavit.github.io/notes/ui/3ddemo.html">3D DEMO</a></td>
     </tr>
 </table>
