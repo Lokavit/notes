@@ -1018,6 +1018,35 @@ button.onclick = test(); // wrong
 ```
 
 ```html
+<button onclick="openFormModal()">Open Form</button>
+<button onclick="onTest(this)">Click It</button>
+<button onclick="onTestEvent(event)">Click It</button>
+<button onclick="onTestParam(123)">Click It</button>
+<button onclick="onTestParams('321')">Click It</button>
+
+<script>
+  // 非箭头函数写法
+  function onTest(args) {
+    console.log(args);
+  }
+
+  // 箭头函数写法
+  onTest = (args) => {
+    console.log(args);
+  };
+  onTestEvent = (event) => {
+    console.log(event);
+  };
+  onTestParam = (val) => {
+    console.log(val);
+  };
+  onTestParams = (val) => {
+    console.log(val);
+  };
+</script>
+```
+
+```html
 <div class="book" id="zfem">
   <img
     src="https://raw.githubusercontent.com/…………/master/IMG/zfem.jpg"
