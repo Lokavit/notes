@@ -2,7 +2,7 @@
  * @Author: Satya
  * @Date: 2020-07-22 17:10:59
  * @Last Modified by: Satya
- * @Last Modified time: 2020-07-22 17:55:02
+ * @Last Modified time: 2020-07-24 19:30:52
  * doc:modal样式
  */
 
@@ -15,7 +15,7 @@ const Modal_CSS = `
             width: 100vw;
             height: 100vh;
             background: rgba(0,0,0,0.25);
-            z-index: 10;
+            z-index: 90;
             opacity: 0;
             pointer-events: none;
         }
@@ -23,9 +23,13 @@ const Modal_CSS = `
             position: fixed;
             width: auto;
             min-width: 360px;
-            z-index: 100;
-            background: white;
-            border-radious: 3px;
+            z-index: 91;
+            background: #333;
+            border-radious: 0.5rem;
+            border-top-left-radius: 0.5rem;
+            border-top-right-radius: 0.5rem;
+            border-bottom-left-radius: 0.5rem;
+            border-bottom-right-radius: 0.5rem;
             box-shadow: 0 2px 8px rgba(0,0,0,0.26);
             display: flex;
             flex-direction: column;
@@ -43,16 +47,31 @@ const Modal_CSS = `
             bottom: 1%;
         }
         header {
-            padding: 0.5rem;
-            border-bottom: 1px solid #ccc;
+            padding: 1rem;
+            padding-left:2rem;
+            padding-bottom:0.5rem;
+        /* border-bottom: 1px solid #ccc; */
             position: relative;
+            line-height:1rem;
+            color:#FFF;
+        }
+        header:hover{
+            cursor: move;
+        }
+        #min{
+            position: absolute;
+            right: 9%;
+            cursor: pointer;
+            color:#ffd205;
+            font-weight: 900;
         }
         #close {
             position: absolute;
             right: 3%;
             cursor: pointer;
+            color:#ffd205;
         }
-        #close:hover{
+        #min:hover, #close:hover{
             color:aqua;
         }
         ::slotted(h1) {
@@ -65,7 +84,6 @@ const Modal_CSS = `
             opacity: 1;
             pointer-events: all;
         }
-
         #main {
             padding: 0.5rem;
         }
