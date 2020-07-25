@@ -2,7 +2,7 @@
  * @Author: Satya
  * @Date: 2020-07-22 17:10:59
  * @Last Modified by: Satya
- * @Last Modified time: 2020-07-24 19:30:52
+ * @Last Modified time: 2020-07-25 17:46:42
  * doc:modal样式
  */
 
@@ -20,9 +20,9 @@ const Modal_CSS = `
             pointer-events: none;
         }
         .modal {
-            position: fixed;
+            position: absolute;
             width: auto;
-            min-width: 360px;
+            min-width: 480px;
             z-index: 91;
             background: #333;
             border-radious: 0.5rem;
@@ -45,18 +45,16 @@ const Modal_CSS = `
         .modal_posistion_video{
             right: 12%; 
             bottom: 1%;
+            width: 480px;
+            height:320px;
         }
         header {
             padding: 1rem;
             padding-left:2rem;
             padding-bottom:0.5rem;
-        /* border-bottom: 1px solid #ccc; */
             position: relative;
             line-height:1rem;
             color:#FFF;
-        }
-        header:hover{
-            cursor: move;
         }
         #min{
             position: absolute;
@@ -109,5 +107,28 @@ const Modal_CSS = `
             font-weight: bold;
             border-radius: 3px;
             font-size: 1rem;
+        }
+
+        .drag {
+            width: 26rem;
+            height: 3rem;
+            position: absolute;
+            left: 0;
+            top: 0;
+        }
+        .drag:hover{
+            cursor:move;
+        }
+
+        .resize {
+            position: absolute;
+            right: 0;
+            bottom: 0;
+            background-color: aqua;
+            width: 10px;
+            height: 10px;
+        }
+        .resize:hover {
+            cursor: nwse-resize;
         }
     </style>`;

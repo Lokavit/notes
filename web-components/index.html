@@ -1,97 +1,175 @@
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Web Components</title>
 
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Web Components</title>
+    <!-- 拖拽缩放 -->
+    <script src="./drag.js"></script>
 
-  <!-- 组件   modal -->
-  <script src="./modal/modal-html.js"></script>
-  <script src="./modal/modal-css.js"></script>
-  <script src="./modal/modal.js"></script>
+    <!-- 组件   modal -->
+    <script src="./modal/modal-html.js"></script>
+    <script src="./modal/modal-css.js"></script>
+    <script src="./modal/modal.js"></script>
 
-  <!-- 组件   太极 -->
-  <script src="./taichi/taichi-html.js"></script>
-  <script src="./taichi/taichi-css.js"></script>
-  <script src="./taichi/taichi.js"></script>
-</head>
-
-<body style="width: 100vw;height: 100vh;margin: 0;padding: 0; overflow: hidden;">
-  <!-- 太极展示 -->
-  <tai-chi></tai-chi>
-
-  <!-- Modal -->
-  <h3>Please confirme your choice</h3>
-
-  <button onclick="openVideoModal()">Open Modal</button>
-  <button onclick="openFormModal()">Open Form</button>
-
-  <dd-modal not-mask id="video_modal">
-    <h1 slot="title">Video Title</h1>
-    <div slot="main">
-      <video controls width="360" src="https://interactive-examples.mdn.mozilla.net/media/examples/flower.mp4"></video>
-    </div>
-  </dd-modal>
-
-  <!-- 带有遮罩的 -->
-  <dd-modal id="form_modal">
-    <h1 slot="title">MASK</h1>
-    <div slot="main">
-      <form action="">这里可以放表单或其他内容</form>
-    </div>
-  </dd-modal>
-
-  <!-- 测试 点击事件 -->
-  <button onclick="onTest(this)">Click It</button>
-  <button onclick="onTestEvent(event)">Click It</button>
-  <button onclick="onTestParam(123)">Click It</button>
-  <button onclick="onTestParams('321')">Click It</button>
-
-  <div draggable="true">draggable</div>
-
-  <script>
-
-    const modalVideo = document.querySelector("#video_modal");
-    modalVideo.addEventListener("confirmed", () => {
-      console.log("视频播放");
-    });
-
-    modalVideo.addEventListener("cancelled", () => {
-      console.log("cancelled event");
-    });
-
-    const modalForm = document.querySelector("#form_modal");
-    modalForm.addEventListener("confirmed", () => {
-      console.log("提交表单");
-    });
-
-    modalForm.addEventListener("cancelled", () => {
-      console.log("关闭表单");
-    });
-
-
-    openVideoModal = () => {
-      if (!modalVideo.isOpen) {
-        modalVideo.open();
-        console.log("open", modalVideo.isOpen);
-      }
+    <!-- 组件   太极 -->
+    <script src="./taichi/taichi-html.js"></script>
+    <script src="./taichi/taichi-css.js"></script>
+    <script src="./taichi/taichi.js"></script>
+  </head>
+  <style>
+    .container {
+      width: 100%;
+      height: 100%;
     }
 
-    openFormModal = () => {
-      if (!modalForm.isOpen) {
-        modalForm.open();
-        console.log("open", modalForm.isOpen);
-      }
+    .box {
+      width: 200px;
+      height: 200px;
+      border: 1px dashed #ccc;
+      left: 50px;
+      top: 50px;
     }
 
-    onTest = (args) => { console.log(args) }
-    onTestEvent = (event) => { console.log(event) }
-    onTestParam = (val) => { console.log(val) }
-    onTestParams = (val) => { console.log(val) }
+    .content {
+      width: 100%;
+      height: 100%;
+      object-fit: fill;
+      /* display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 28px; */
+    }
+
+    .dragHandle {
+      width: 15px;
+      height: 15px;
+      border-radius: 50%;
+      background: #000;
+      position: absolute;
+      left: 0;
+      top: -15px;
+    }
+
+    .resizeHandle {
+      display: block;
+      position: absolute;
+      width: 10px;
+      height: 10px;
+      border-right: 2px solid #b2b2b2;
+      border-bottom: 2px solid #b2b2b2;
+      right: 0px;
+      bottom: 0px;
+      overflow: hidden;
+      cursor: nw-resize;
+    }
+  </style>
+  <body
+    style="
+      width: 100vw;
+      height: 100vh;
+      margin: 0;
+      padding: 0;
+      position: relative;
+    "
+  >
+    <!-- 太极展示 -->
+    <tai-chi></tai-chi>
+
+    <!-- Modal -->
+    <h3>Please confirme your choice</h3>
+
+    <button onclick="openVideoModal()">Open Modal</button>
+    <button onclick="openFormModal()">Open Form</button>
+
+    <dd-modal id="video_modal" not-mask drag resize>
+      <h1 slot="title">Video Title</h1>
+      <div slot="main">
+        <video
+          controls
+          class="content"
+          src="https://interactive-examples.mdn.mozilla.net/media/examples/flower.mp4"
+        ></video>
+      </div>
+    </dd-modal>
+
+    <!-- 带有遮罩的 -->
+    <dd-modal id="form_modal">
+      <h1 slot="title">MASK</h1>
+      <div slot="main">
+        <form action="">这里可以放表单或其他内容</form>
+      </div>
+    </dd-modal>
 
 
-  </script>
-</body>
+    <!-- 窗体 -->
+    <div class="box">
+      <!-- 视频播放层 宽高100% -->
+      <video
+        controls
+        style="width: 100%; height: 100%; object-fit: fill;"
+        src="https://interactive-examples.mdn.mozilla.net/media/examples/flower.mp4"
+      ></video>
+      <div class="dragHandle"></div>
+      <div class="resizeHandle"></div>
+    </div>
 
+    <script>
+      let elem = document.querySelector(".box");
+      let dragHandle = document.querySelector(".dragHandle");
+      let resizeHandle = document.querySelector(".resizeHandle");
+      new Draggable(
+        document.body,
+        elem,
+        dragHandle,
+        resizeHandle,
+        true,
+        (dragStyle) => {
+          console.log(
+            "Location of the current element after dragging(当前元素拖拽后的位置)",
+            dragStyle
+          );
+        },
+        (resizeStyle) => {
+          console.log(
+            "The size of the current element after dragging(当前元素拖拽后的大小)",
+            resizeStyle
+          );
+        }
+      );
+
+      const modalVideo = document.querySelector("#video_modal");
+      modalVideo.addEventListener("confirmed", () => {
+        console.log("视频播放");
+      });
+
+      modalVideo.addEventListener("cancelled", () => {
+        console.log("cancelled event");
+      });
+
+      const modalForm = document.querySelector("#form_modal");
+      modalForm.addEventListener("confirmed", () => {
+        console.log("提交表单");
+      });
+
+      modalForm.addEventListener("cancelled", () => {
+        console.log("关闭表单");
+      });
+
+      openVideoModal = () => {
+        if (!modalVideo.isOpen) {
+          modalVideo.open();
+          console.log("open", modalVideo.isOpen);
+        }
+      };
+
+      openFormModal = () => {
+        if (!modalForm.isOpen) {
+          modalForm.open();
+          console.log("open", modalForm.isOpen);
+        }
+      };
+    </script>
+  </body>
 </html>

@@ -16,6 +16,36 @@
 - [Array 数组方法](#Array数组方法)
 - [GitHub API](#GitHub)
 
+
+## 元素的拖拽及缩放
+- 带有拖拽功能的元素必须设置为:绝对定位(position:absolute)
+- 承载拖拽元素的元素必须设置为:相对定位(position:relative)
+- 缩放元素时，必须设置内中元素宽高100%,视频图片类还需设置填充类型(object-fit:fill)
+- 为拖拽元素添加(drag)拖拽点击区域蒙层及缩放点击区域蒙层
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+---------
 ```js
 /**
  * 创建dom元素 [隐式return写法]
@@ -1018,11 +1048,11 @@ button.onclick = test(); // wrong
 ```
 
 ```html
-<button onclick="openFormModal()">Open Form</button>
-<button onclick="onTest(this)">Click It</button>
-<button onclick="onTestEvent(event)">Click It</button>
-<button onclick="onTestParam(123)">Click It</button>
-<button onclick="onTestParams('321')">Click It</button>
+<button onclick="openFormModal()">无参</button>
+<button onclick="onTest(this)">传元素</button>
+<button onclick="onTestEvent(event)">传事件</button>
+<button onclick="onTestParam(123)">传值</button>
+<button onclick="onTestParams('321')">传值</button>
 
 <script>
   // 非箭头函数写法

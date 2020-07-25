@@ -2,7 +2,7 @@
  * @Author: Satya
  * @Date: 2020-07-22 15:39:59
  * @Last Modified by: Satya
- * @Last Modified time: 2020-07-24 22:28:03
+ * @Last Modified time: 2020-07-25 17:59:49
  * doc:modal组件
  */
 
@@ -34,125 +34,198 @@ class Modal extends HTMLElement {
     minButton.addEventListener("click", this._cancel.bind(this));
   }
 
+  /** 拖拽窗体 */
+  _drag() {}
+
   connectedCallback() {
     /** 如果当前自定义组件元素设置类以下属性，则进行相关处理
      * 去除遮罩，去除底部按钮组
      * 将本窗体设置到右下角位置
      */
     if (this.hasAttribute("not-mask")) {
+      // 遮罩层
       let mask = this.shadowRoot.querySelector("#backdrop");
       mask.style.display = "none";
+      // 底部操作区域
       let actions = this.shadowRoot.querySelector("#actions");
       actions.style.display = "none";
-
+      // 窗体
       let modal = this.shadowRoot.querySelector(".modal");
       modal.classList.remove("modal_position_common");
       modal.classList.add("modal_posistion_video");
-
-      /** 鼠标操作 兼容触屏
-       * header周围区域，鼠标十字，表示可拖拽。
-       * 视频窗体右下角，斜箭头，表示可缩放窗体
-       */
-
-      // 添加可拖拽属性
-      modal.setAttribute("draggable", "true");
-
-      /** 当开始拖动元素或文本选择时，触发事件 */
-      modal.addEventListener("dragstart", (event) => {
-        console.log("dragstart 点击了可以拖动的元素");
-        event.dataTransfer.setData("content", this.shadowRoot.host);
-        console.log(event.dataTransfer.getData("content"));
-
-        console.log(this.shadowRoot);
-        console.log(this.shadowRoot.host);
-        console.log(event);
-        console.log(this.shadowRoot.styleSheets[0].cssRules[3]);
-        console.log(this.shadowRoot.styleSheets[0].cssRules[3].cssText);
-        // 视频窗体距离底边的值
-        console.log(this.shadowRoot.styleSheets[0].cssRules[3].style.bottom);
-        // 视频窗体距离右边的值
-        console.log(this.shadowRoot.styleSheets[0].cssRules[3].style.right);
-
-        // 网页可见区域
-        console.log(
-          "网页可见区域:",
-          document.body.clientWidth,
-          document.body.clientHeight
-        );
-
-        // 窗体size
-        console.log("窗体size:", modal.offsetWidth, modal.offsetHeight);
-
-        // 获取浏览器的宽高：
-        // var width = window.innerWidth
-        // || document.documentElement.clientWidth
-        // || document.body.clientWidth;
-        // var height = window.innerHeight
-        // || document.documentElement.clientHeight
-        // || document.body.clientHeight;
-
-        // 获取html元素宽高的两种方式
-        // // 首先是取到元素
-        // var main = document.getElementById('main');
-        // // 第一种方式 可以取到任何情况下的宽高
-        // var mainWidth = main.offsetWidth,
-        // mainHeight = main.offsetHeight;
-        // // 第二种方式 不能取到css定义的宽高
-        // var mainWidth2 = main.style.width,
-        // mainHeight2 = main.style.height;
-      });
-
-      /** 当元素或文本选择被用户拖动时，拖动事件每几百毫秒触发一次。 */
-      modal.addEventListener(
-        "drag",
-        (event) => {
-          console.log("drag 拖动着元素");
-          event.dataTransfer.getData("content");
-
-          // console.log(modal.style.right);
-        },
-        false
-      );
-
-      /** 当拖动操作结束时（通过释放鼠标按钮或按退出键），将触发dragend事件。 */
-      modal.addEventListener("dragend", (event) => {
-        console.log("dragend");
-        event.preventDefault();
-        console.log(
-          (modal.style.right = `${modal.style.right + event.offsetX}px`)
-        );
-      });
-
-      // /** 当元素被拖动至有效拖放目标上方时运行脚本 */
-      // modal.addEventListener("dragover", (event) => {
-      //   console.log("dragover ");
-      //   event.preventDefault();
-      // });
-
-      modal.addEventListener("drop", (event) => {
-        console.log("drop");
-        event.preventDefault();
-        var data = event.dataTransfer.getData("content");
-        document.body.innerHTML += data;
-      });
     }
+
+    /** 如果元素设置了 拖拽及缩放属性 */
+    if (this.hasAttribute("drag") && this.hasAttribute("resize")) {
+      let modal = this.shadowRoot.querySelector(".modal");
+      let dragArea = this.shadowRoot.querySelector(".modal .drag");
+      let resizeArea = this.shadowRoot.querySelector(".modal .resize");
+      new Draggable(
+        document.body,
+        modal,
+        dragArea,
+        resizeArea,
+        true,
+        (dragStyle) => {
+          console.log(
+            "Location of the current element after dragging(当前元素拖拽后的位置)",
+            dragStyle
+          );
+          // 处理拖拽超出边界的情况
+        },
+        (resizeStyle) => {
+          console.log(
+            "The size of the current element after dragging(当前元素拖拽后的大小)",
+            resizeStyle
+          );
+        }
+      );
+    }
+
+    // /** 如果元素设置了可拖拽属性 */
+    // if (this.hasAttribute("drag")) {
+    //   console.log("drag this:", this);
+    //   // 获取header元素
+    //   let dragArea = this.shadowRoot.querySelector(".modal .drag");
+    //   // 为该元素绑定鼠标拖拽事件
+    //   dragArea.addEventListener("mousedown", this._drag.bind(this), false);
+    // }
+
+    // /** 如果元素设置了 右下角缩放属性 */
+    // if (this.hasAttribute("resize")) {
+    //   console.log("resize this:", this);
+    //   let resizeArea = this.shadowRoot.querySelector(".modal .resize");
+    //   resizeArea.addEventListener("mousedown", this._resize.bind(this), false);
+    // }
   }
 
-  //enables drag and drop
-  // function allowDrop(ev) {
-  //   ev.preventDefault();
-  // }
+  /**
+   * 缩放事件 实现
+   * @param {*} event
+   */
+  _resize(event) {
+    console.log("缩放事件", event);
+    // 存储鼠标按下时的坐标值
+    let mouse_down_x = event.clientX;
+    let mouse_down_y = event.clientY;
+    console.log("获取鼠标按下的位置:", mouse_down_x, mouse_down_y);
 
-  // //Drop event & checks <img id> w 'data-div'
-  // function drop(ev) {
-  //   ev.preventDefault();
-  //   let image = ev.dataTransfer.getData("content");
-  //   console.log(image)
-  //   if (ev.target.id == document.getElementById(image).getAttribute('data-div')) {
-  //       alert('Great move, that is correct!');
-  //       ev.target.appendChild(document.getElementById(image));
-  //       } else {alert('Sorry, that is incorrect.')}
-  // }
+    // 取出该自定义组件中的对应style (自定义组件中style的取出方法)
+    let STYLE = this.shadowRoot.styleSheets[0].cssRules[3].style;
+    console.log("当前元素的父元素", STYLE);
+
+    // 获取元素初始距离右下角的值 并处理该值(字符串中取出数字)
+    let el_width, el_height; // 存储窗体原本的宽高
+    if (STYLE.width.includes("%")) {
+      // 使用正则替换为 数值
+      el_width =
+        +document.body.clientWidth * (+STYLE.width.replace(/\%/g, "") / 100);
+      el_height =
+        +document.body.clientHeight * (+STYLE.height.replace(/\%/g, "") / 100);
+    } else {
+      el_width = +STYLE.width.replace(/\px/g, "");
+      el_height = +STYLE.height.replace(/\px/g, "");
+    }
+    console.log("存储元素的宽高:", el_width, el_height);
+
+    /** 鼠标移动时，每几百毫秒计算一次 */
+    document.onmousemove = (event) => {
+      console.log("鼠标移动中");
+      console.log("鼠标移动时，位置信息:", event.clientX, event.clientY);
+      /**
+       * 移动的坐标 - 按下的坐标 = 移动的距离
+       * 假设:鼠标由(1280x1060)移动至 800x600的地方，即(800-1280,600-1060)
+       */
+      let move_x = event.clientX - mouse_down_x;
+      let move_y = event.clientY - mouse_down_y;
+
+      console.log("计算鼠标移动的值:", move_x, move_y);
+
+      // 如果超出规定界限
+      if (el_width + move_x < 480 || el_height + move_y < 320) {
+        STYLE.width = `480px`;
+        STYLE.height = `320px`;
+      }
+
+      STYLE.width = `${el_width + move_x}px`;
+      STYLE.height = `${el_height + move_y}px`;
+
+      console.log(
+        "test移动后的距离右下角值:",
+        event.target.parentElement.style.width,
+        event.target.parentElement.style.height
+      );
+    };
+
+    /** 鼠标抬起事件 */
+    document.onmouseup = () => {
+      console.log("鼠标抬起事件");
+      //清除移动和抬起事件
+      document.onmousemove = document.onmouseup = null;
+    };
+  }
+
+  /**
+   * 拖拽事件 实现
+   * @param {*} event
+   * 实际拖拽时，需整个窗体元素
+   */
+  _drag(event) {
+    console.log("拖拽事件", event);
+    // 存储鼠标按下时的坐标值
+    let mouse_down_x = event.clientX;
+    let mouse_down_y = event.clientY;
+    console.log("获取鼠标按下的位置:", mouse_down_x, mouse_down_y);
+
+    // 取出该自定义组件中的对应style (自定义组件中style的取出方法)
+    let STYLE = this.shadowRoot.styleSheets[0].cssRules[3].style;
+    console.log("当前元素的父元素", STYLE);
+
+    // 获取元素初始距离右下角的值 并处理该值(字符串中取出数字)
+    let el_right, el_bottom; // 存储元素距右距下值
+    if (STYLE.right.includes("%")) {
+      console.log("样式值包含%");
+      // 使用正则替换为 数值
+      el_right =
+        +document.body.clientWidth * (+STYLE.right.replace(/\%/g, "") / 100);
+      el_bottom =
+        +document.body.clientHeight * (+STYLE.bottom.replace(/\%/g, "") / 100);
+    } else {
+      el_right = +STYLE.right.replace(/\px/g, "");
+      el_bottom = +STYLE.bottom.replace(/\px/g, "");
+    }
+    console.log("元素右下角距离文档流右下角的值:", el_right, el_bottom);
+
+    /** 鼠标移动时 每几百毫秒计算一次 */
+    document.onmousemove = (event) => {
+      console.log("鼠标移动中");
+      console.log("鼠标移动时，位置信息:", event.clientX, event.clientY);
+      /**
+       * 移动的坐标 - 按下的坐标 = 移动的距离
+       * 假设:鼠标由(1280x1060)移动至 800x600的地方，即(800-1280,600-1060)
+       */
+      let move_x = event.clientX - mouse_down_x;
+      let move_y = event.clientY - mouse_down_y;
+
+      console.log("计算鼠标移动的值:", move_x, move_y);
+
+      STYLE.right = `${el_right - move_x}px`;
+      STYLE.bottom = `${el_bottom - move_y}px`;
+
+      console.log(
+        "test移动后的距离右下角值:",
+        event.target.parentElement.style.right,
+        event.target.parentElement.style.bottom
+      );
+    };
+
+    /** 鼠标抬起事件 */
+    document.onmouseup = () => {
+      console.log("鼠标抬起事件");
+      //清除移动和抬起事件
+      document.onmousemove = document.onmouseup = null;
+    };
+  }
 
   /** 父组件  属性发生变化时，被调用 */
   attributeChangedCallback(name, oldValue, newValue) {
