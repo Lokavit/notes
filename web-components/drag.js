@@ -1,10 +1,10 @@
 class Draggable {
   /**
-   *
+   * @param {*} container 相对定位的元素(即可拖拽区域)
    * @param {*} elem  -拖拽的元素
    * @param {*} dragHandle -拖拽的手柄
    * @param {*} resizeHandle -缩放的手柄
-   * @param {*} resizeHandle  -是否按照像素定位(不是则为百分比)
+   * @param {*} isPixel  -是否按照像素定位(不是则为百分比)
    * @param {*} dragFn - 拖拽完成后的回调
    * @param {*} resizeFn - 缩放完成后的回调
    */

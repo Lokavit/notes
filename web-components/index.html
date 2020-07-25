@@ -1,175 +1,171 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Web Components</title>
 
-    <!-- 拖拽缩放 -->
-    <script src="./drag.js"></script>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Web Components</title>
 
-    <!-- 组件   modal -->
-    <script src="./modal/modal-html.js"></script>
-    <script src="./modal/modal-css.js"></script>
-    <script src="./modal/modal.js"></script>
+  <!-- 拖拽缩放 -->
+  <script src="./drag.js"></script>
 
-    <!-- 组件   太极 -->
-    <script src="./taichi/taichi-html.js"></script>
-    <script src="./taichi/taichi-css.js"></script>
-    <script src="./taichi/taichi.js"></script>
-  </head>
-  <style>
-    .container {
-      width: 100%;
-      height: 100%;
-    }
+  <!-- 组件   modal -->
+  <script src="./modal/modal-html.js"></script>
+  <script src="./modal/modal-css.js"></script>
+  <script src="./modal/modal.js"></script>
 
-    .box {
-      width: 200px;
-      height: 200px;
-      border: 1px dashed #ccc;
-      left: 50px;
-      top: 50px;
-    }
+  <!-- 组件   太极 -->
+  <script src="./taichi/taichi-html.js"></script>
+  <script src="./taichi/taichi-css.js"></script>
+  <script src="./taichi/taichi.js"></script>
+</head>
+<style>
+  .container {
+    width: 100%;
+    height: 100%;
+  }
 
-    .content {
-      width: 100%;
-      height: 100%;
-      object-fit: fill;
-      /* display: flex;
+  .box {
+    width: 480px;
+    height: 320px;
+    border: 1px dashed #ccc;
+    left: 50px;
+    top: 50px;
+    border: 0.5rem solid #333;
+    border-radius: 0.5rem;
+    border-top: 3rem solid #333;
+  }
+
+  .content {
+    width: 100%;
+    height: 100%;
+    object-fit: fill;
+    /* display: flex;
       justify-content: center;
       align-items: center;
       font-size: 28px; */
-    }
+  }
 
-    .dragHandle {
-      width: 15px;
-      height: 15px;
-      border-radius: 50%;
-      background: #000;
-      position: absolute;
-      left: 0;
-      top: -15px;
-    }
+  .dragHandle {
+    width: 84%;
+    height: 19%;
+    position: absolute;
+    left: -16px;
+    top: -40px;
+  }
 
-    .resizeHandle {
-      display: block;
-      position: absolute;
-      width: 10px;
-      height: 10px;
-      border-right: 2px solid #b2b2b2;
-      border-bottom: 2px solid #b2b2b2;
-      right: 0px;
-      bottom: 0px;
-      overflow: hidden;
-      cursor: nw-resize;
-    }
-  </style>
-  <body
-    style="
+  .resizeHandle {
+    display: block;
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    border-right: 6px solid #b2b2b2;
+    border-bottom: 6px solid #b2b2b2;
+    right: -6px;
+    bottom: -6px;
+    overflow: hidden;
+    cursor: nw-resize;
+  }
+</style>
+
+<body style="
       width: 100vw;
       height: 100vh;
       margin: 0;
       padding: 0;
       position: relative;
-    "
-  >
-    <!-- 太极展示 -->
-    <tai-chi></tai-chi>
+    ">
+  <!-- 太极展示 -->
+  <tai-chi></tai-chi>
 
-    <!-- Modal -->
-    <h3>Please confirme your choice</h3>
+  <!-- Modal -->
+  <h3>Please confirme your choice</h3>
 
-    <button onclick="openVideoModal()">Open Modal</button>
-    <button onclick="openFormModal()">Open Form</button>
+  <button onclick="openVideoModal()">Open Modal</button>
+  <button onclick="openFormModal()">Open Form</button>
 
-    <dd-modal id="video_modal" not-mask drag resize>
-      <h1 slot="title">Video Title</h1>
-      <div slot="main">
-        <video
-          controls
-          class="content"
-          src="https://interactive-examples.mdn.mozilla.net/media/examples/flower.mp4"
-        ></video>
-      </div>
-    </dd-modal>
-
-    <!-- 带有遮罩的 -->
-    <dd-modal id="form_modal">
-      <h1 slot="title">MASK</h1>
-      <div slot="main">
-        <form action="">这里可以放表单或其他内容</form>
-      </div>
-    </dd-modal>
-
-
-    <!-- 窗体 -->
-    <div class="box">
-      <!-- 视频播放层 宽高100% -->
-      <video
-        controls
-        style="width: 100%; height: 100%; object-fit: fill;"
-        src="https://interactive-examples.mdn.mozilla.net/media/examples/flower.mp4"
-      ></video>
-      <div class="dragHandle"></div>
-      <div class="resizeHandle"></div>
+  <dd-modal id="video_modal" not-mask drag resize>
+    <div slot="body">
+      <video controls style="width: 100%; height: 100%; object-fit: fill;"
+        src="https://interactive-examples.mdn.mozilla.net/media/examples/flower.mp4"></video>
     </div>
+  </dd-modal>
 
-    <script>
-      let elem = document.querySelector(".box");
-      let dragHandle = document.querySelector(".dragHandle");
-      let resizeHandle = document.querySelector(".resizeHandle");
-      new Draggable(
-        document.body,
-        elem,
-        dragHandle,
-        resizeHandle,
-        true,
-        (dragStyle) => {
-          console.log(
-            "Location of the current element after dragging(当前元素拖拽后的位置)",
-            dragStyle
-          );
-        },
-        (resizeStyle) => {
-          console.log(
-            "The size of the current element after dragging(当前元素拖拽后的大小)",
-            resizeStyle
-          );
-        }
-      );
+  <!-- 带有遮罩的 -->
+  <dd-modal id="form_modal">
+    <h1 slot="title">MASK</h1>
+    <div slot="main">
+      <form action="">这里可以放表单或其他内容</form>
+    </div>
+  </dd-modal>
 
-      const modalVideo = document.querySelector("#video_modal");
-      modalVideo.addEventListener("confirmed", () => {
-        console.log("视频播放");
-      });
 
-      modalVideo.addEventListener("cancelled", () => {
-        console.log("cancelled event");
-      });
+  <!-- 窗体 -->
+  <div class="box">
+    <div style="position: absolute;top: -40px;left: 20px;">这是个Title</div>
+    <!-- 视频播放层 宽高100% -->
+    <video controls style="width: 100%; height: 100%; object-fit: fill;"
+      src="https://interactive-examples.mdn.mozilla.net/media/examples/flower.mp4"></video>
+    <div class="dragHandle"></div>
+    <div class="resizeHandle"></div>
+  </div>
 
-      const modalForm = document.querySelector("#form_modal");
-      modalForm.addEventListener("confirmed", () => {
-        console.log("提交表单");
-      });
+  <script>
+    let elem = document.querySelector(".box");
+    let dragHandle = document.querySelector(".dragHandle");
+    let resizeHandle = document.querySelector(".resizeHandle");
+    new Draggable(
+      document.body,
+      elem,
+      dragHandle,
+      resizeHandle,
+      true,
+      (dragStyle) => {
+        console.log(
+          "Location of the current element after dragging(当前元素拖拽后的位置)",
+          dragStyle
+        );
+      },
+      (resizeStyle) => {
+        console.log(
+          "The size of the current element after dragging(当前元素拖拽后的大小)",
+          resizeStyle
+        );
+      }
+    );
 
-      modalForm.addEventListener("cancelled", () => {
-        console.log("关闭表单");
-      });
+    const modalVideo = document.querySelector("#video_modal");
+    modalVideo.addEventListener("confirmed", () => {
+      console.log("视频播放");
+    });
 
-      openVideoModal = () => {
-        if (!modalVideo.isOpen) {
-          modalVideo.open();
-          console.log("open", modalVideo.isOpen);
-        }
-      };
+    modalVideo.addEventListener("cancelled", () => {
+      console.log("cancelled event");
+    });
 
-      openFormModal = () => {
-        if (!modalForm.isOpen) {
-          modalForm.open();
-          console.log("open", modalForm.isOpen);
-        }
-      };
-    </script>
-  </body>
+    const modalForm = document.querySelector("#form_modal");
+    modalForm.addEventListener("confirmed", () => {
+      console.log("提交表单");
+    });
+
+    modalForm.addEventListener("cancelled", () => {
+      console.log("关闭表单");
+    });
+
+    openVideoModal = () => {
+      if (!modalVideo.isOpen) {
+        modalVideo.open();
+        console.log("open", modalVideo.isOpen);
+      }
+    };
+
+    openFormModal = () => {
+      if (!modalForm.isOpen) {
+        modalForm.open();
+        console.log("open", modalForm.isOpen);
+      }
+    };
+  </script>
+</body>
+
 </html>

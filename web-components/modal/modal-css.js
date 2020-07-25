@@ -2,7 +2,7 @@
  * @Author: Satya
  * @Date: 2020-07-22 17:10:59
  * @Last Modified by: Satya
- * @Last Modified time: 2020-07-25 17:46:42
+ * @Last Modified time: 2020-07-25 22:45:36
  * doc:modal样式
  */
 
@@ -21,15 +21,14 @@ const Modal_CSS = `
         }
         .modal {
             position: absolute;
-            width: auto;
-            min-width: 480px;
+            top: 10vh;
+            left: 25%;
             z-index: 91;
+            width: 480px;
             background: #333;
-            border-radious: 0.5rem;
-            border-top-left-radius: 0.5rem;
-            border-top-right-radius: 0.5rem;
-            border-bottom-left-radius: 0.5rem;
-            border-bottom-right-radius: 0.5rem;
+            border-radius: 0.5rem;
+            border: 0.5rem solid #333;
+            border-top: 3rem solid #333;
             box-shadow: 0 2px 8px rgba(0,0,0,0.26);
             display: flex;
             flex-direction: column;
@@ -38,33 +37,32 @@ const Modal_CSS = `
             pointer-events: none;
             transition: all 0.3s ease-out;
         }
-        .modal_position_common{
-            top: 10vh;
-            left: 25%;
-        }
-        .modal_posistion_video{
-            right: 12%; 
-            bottom: 1%;
-            width: 480px;
-            height:320px;
-        }
+        /* header固定在modal的border-top中 */
         header {
+            position:absolute;
+            top: -60px;
+            left: -6px;
             padding: 1rem;
             padding-left:2rem;
             padding-bottom:0.5rem;
-            position: relative;
             line-height:1rem;
             color:#FFF;
+            width: 90%;
+            height:1rem;
         }
+        /* 最小化按钮 */
         #min{
             position: absolute;
             right: 9%;
+            top: 30%;
             cursor: pointer;
             color:#ffd205;
             font-weight: 900;
         }
+        /* 关闭窗体按钮 */
         #close {
             position: absolute;
+            top: 30%;
             right: 3%;
             cursor: pointer;
             color:#ffd205;
@@ -81,9 +79,6 @@ const Modal_CSS = `
             {
             opacity: 1;
             pointer-events: all;
-        }
-        #main {
-            padding: 0.5rem;
         }
         #actions {
             border-top: 1px solid #ccc;
@@ -108,27 +103,24 @@ const Modal_CSS = `
             border-radius: 3px;
             font-size: 1rem;
         }
-
+        /* 拖拽标识区域 */
         .drag {
-            width: 26rem;
-            height: 3rem;
+            width: 88%;
+            height: 15%;
             position: absolute;
-            left: 0;
-            top: 0;
+            left: -1%;
+            top: -19%;
         }
-        .drag:hover{
-            cursor:move;
-        }
-
+        /* 缩放标识区域 */
         .resize {
             position: absolute;
-            right: 0;
-            bottom: 0;
-            background-color: aqua;
             width: 10px;
             height: 10px;
-        }
-        .resize:hover {
-            cursor: nwse-resize;
+            border-right: 6px solid #b2b2b2;
+            border-bottom: 6px solid #b2b2b2;
+            right: -6px;
+            bottom: -6px;
+            overflow: hidden;
+            cursor: nw-resize;
         }
     </style>`;

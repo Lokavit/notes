@@ -2,26 +2,35 @@
  * @Author: Satya
  * @Date: 2020-07-22 17:10:00
  * @Last Modified by: Satya
- * @Last Modified time: 2020-07-25 17:17:24
+ * @Last Modified time: 2020-07-25 22:52:14
  * doc:modal结构
  */
 
-const Modal_HTML = `
- <!-- 作为视频窗体时，去掉遮罩 -->
- <div id="backdrop"></div>
- <div class="modal modal_position_common">
-     <header>
-        <div id="min">-</div>
-         <div id="close">X</div>
-         <slot name="title"></slot>
-     </header>
-     <section id="main">
-         <slot name="main"></slot>
-     </section>
-     <section id="actions">
-         <button id="cancel-button" class="cancel">Cancel</button>
-         <button id="confirm-button" class="ok">Okay</button>
-     </section>
-     <div class="drag"></div>
-     <div class="resize"></div>
- </div>`;
+/** 写法一: 常量赋值HTML结构字符串 */
+// const Modal_HTML = `这里写组件的HTML结构`;
+
+/**
+ * 写法二: 常量函数式写法
+ * @param {*} title HTML结构组件中所需参数
+ * @returns 返回自定义组件HTML结构
+ */
+const Modal_HTML = (title) => {
+  return `
+    <div id="backdrop"></div>
+    <div class="modal">
+        <header>
+            <div>${title}</div>
+            <div id="min">-</div>
+            <div id="close">X</div>
+        </header>
+        <section id="body">
+            <slot name="body"></slot>
+        </section>
+        <section id="actions">
+            <button id="cancel-button" class="cancel">Cancel</button>
+            <button id="confirm-button" class="ok">Okay</button>
+        </section>
+        <div class="drag"></div>
+        <div class="resize"></div>  
+    </div>`;
+};
