@@ -1,0 +1,84 @@
+/*
+ * @Author: Satya 
+ * @Date: 2020-07-26 20:11:18 
+ * @Last Modified by: Satya
+ * @Last Modified time: 2020-07-26 20:18:42
+ * doc:拖放示例样式文件
+ */
+
+body {
+  width: 100vw;
+  height: 100vh;
+  margin: 0;
+  padding: 0;
+  position: relative;
+}
+
+/* 可拖放的窗体 */
+.dnd_modal {
+  width: 480px;
+  height: 320px;
+  border: 1px dashed #ccc;
+  left: 25%;
+  top: 10vh;
+  border: 0.5rem solid #333;
+  border-radius: 0.5rem;
+  /* 使用宽边做出一个顶部承载标题效果 */
+  border-top: 3rem solid #333;
+}
+/* 窗体的标题 */
+.title {
+  position: absolute;
+  top: -40px;
+  left: 20px;
+}
+/* 窗体中的内容 需设置其宽高100% 便于缩放 */
+.content {
+  width: 100%;
+  height: 100%;
+  object-fit: fill;
+}
+/* 拖拽标识区域 */
+.drag_area {
+  width: 84%;
+  height: 16%;
+  position: absolute;
+  left: -5px;
+  top: -58px;
+}
+/* 缩放标识区域 */
+.resize_area {
+  display: block;
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  border-right: 6px solid #b2b2b2;
+  border-bottom: 6px solid #b2b2b2;
+  right: -6px;
+  bottom: -6px;
+  overflow: hidden;
+  cursor: nw-resize;
+}
+
+/* 最小化，关闭 按钮 */
+.min,
+.close {
+  position: absolute;
+  top: -40px;
+  cursor: pointer;
+  color: #ffd205;
+}
+/* 最小化按钮 */
+.min {
+  right: 60px;
+  font-weight: 900;
+}
+/* 关闭按钮 */
+.close {
+  right: 20px;
+}
+/* 最小化，关闭 鼠标滑入效果 */
+.min:hover,
+.close:hover {
+  color: aqua;
+}

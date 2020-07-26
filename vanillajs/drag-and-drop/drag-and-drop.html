@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="./drag-and-drop.css">
+    <script src="./drag-and-drop.js"></script>
+</head>
+
+<body>
+
+    <section style="padding: 100px;">
+        <h1>元素的拖拽及缩放</h1>
+        <h3>必要条件:</h3>
+        <h4>1.带有拖拽功能的元素必须设置为:绝对定位(position:absolute)</h4>
+        <h4>2.承载拖拽元素的元素必须设置为:相对定位(position:relative)</h4>
+        <h4>3.缩放元素时，必须设置内中元素宽高 100%,视频图片类还需设置填充类型(object-fit:fill)</h4>
+        <h4>4.为拖拽元素添加(drag)拖拽点击区域蒙层及(resize)缩放点击区域蒙层</h4>
+    </section>
+
+    <!-- 可拖拽的窗体 -->
+    <div class="dnd_modal">
+        <div class="title">这是个Title</div>
+        <div class="min">-</div>
+        <div class="close">X</div>
+        <!-- 视频播放层 宽高100% -->
+        <video controls class="content"
+            src=" http://vqzone.gtimg.com/1030_b55d87833e5544e5864d8d048d4166b2.f20.mp4?ptype=http&vkey=2963C68059249115FD61025365C629AD15740CB4DA932E7F3D49E80FC897032C8CB37630BFBEFF4C7E52C006753C48493CCC1D952B90C504&sdtfrom=v1000&owner=0&save=1&d=1"></video>
+
+
+        <div class="drag_area"></div>
+        <div class="resize_area"></div>
+    </div>
+
+    <script>
+        let dnd_modal = document.querySelector(".dnd_modal");
+        let drag_area = document.querySelector(".drag_area");
+        let resize_area = document.querySelector(".resize_area");
+
+        DRAG_AND_DROP(document.body, dnd_modal, drag_area, resize_area, true, (drag_result) => {
+            console.log(drag_result)
+        }, (resize_result) => {
+            console.log(resize_result)
+        });
+    </script>
+
+</body>
+
+</html>

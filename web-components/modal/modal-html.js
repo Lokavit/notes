@@ -2,7 +2,7 @@
  * @Author: Satya
  * @Date: 2020-07-22 17:10:00
  * @Last Modified by: Satya
- * @Last Modified time: 2020-07-25 22:52:14
+ * @Last Modified time: 2020-07-26 20:30:20
  * doc:modal结构
  */
 
@@ -29,8 +29,6 @@ const Modal_HTML = (title) => {
         <section id="actions">
             <button id="cancel-button" class="cancel">Cancel</button>
             <button id="confirm-button" class="ok">Okay</button>
-        </section>
-        <div class="drag"></div>
-        <div class="resize"></div>  
+        </section> 
     </div>`;
 };

@@ -16,36 +16,33 @@
 - [Array 数组方法](#Array数组方法)
 - [GitHub API](#GitHub)
 
+### getComputedStyle()
 
-## 元素的拖拽及缩放
-- 带有拖拽功能的元素必须设置为:绝对定位(position:absolute)
-- 承载拖拽元素的元素必须设置为:相对定位(position:relative)
-- 缩放元素时，必须设置内中元素宽高100%,视频图片类还需设置填充类型(object-fit:fill)
-- 为拖拽元素添加(drag)拖拽点击区域蒙层及缩放点击区域蒙层
+```js
+/**
+ * 获取指定元素对应CSS属性的最终计算值。只读
+ *  @param {*} element 指定的元素
+ *  @param {*} pseudoElt 可选。表示指定元素的伪元素(:before、:after等)
+ */
+window.getComputedStyle(element, [pseudoElt]);
+window.getComputedStyle(first, null);
+window.getComputedStyle(first, ":before");
 
+/** 小封装一下，便于使用
+ * 检查元素中是否有style的指定属性
+ * @param {*} el 需检查的指定元素
+ * @param {*} attr 元素中style的指定属性
+ * @return 返回属性值
+ */
+const CHECK_STYLE = (el, attr) => {
+  let attr_value = getComputedStyle(el, null)[attr];
+  // 如果没有该属性样式值 或者属性样式值是'static',返回 ""，否则返回属性值
+  return !attr_value || attr_value === "static" ? "" : attr_value;
+};
+```
 
+---
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
----------
 ```js
 /**
  * 创建dom元素 [隐式return写法]
@@ -2235,10 +2232,10 @@ function loadJSON(){
 - 以上属性对于内联脚本无作用 (即没有 src 属性的脚本）
 
 ```html
-<script src="one.js" async></script>
 <!--异步执行-->
-<script src="one.js" defer></script>
+<script src="one.js" async></script>
 <!--延迟执行-->
+<script src="one.js" defer></script>
 ```
 
 # Array&Object

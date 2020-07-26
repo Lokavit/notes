@@ -1,10 +1,97 @@
 # 优化
 
-- 样式放在 header 中，脚本放在</body>之前
+- 样式放在 header 中，脚本放在</body>之前（最好的方式：使用动态创建 script 的方式加载，当动态创建 script，浏览器会分配一个线程去下载 src 指向的资源，多个 script 也是同步下载的）
 - 查找元素:id 查找 > 样式类查找 > 属性查找
-- DOM 添加修改删除,避免不必要的渲染
 - 样式优先使用 .class
 - 操作 dom 时，优先使用#id 及 dataset
+- obj.name 比 obj.xxx.name 访问更快，访问属性的速度，与其在对象中的深度有关。[.]操作的次数直接影响着访问对象属性的耗时。
+
+## DOM 操作
+
+- 增删改查
+- - 尽量使用 DocumentFragment
+- - 处理节点时可以使用 cloneNode()复制一份
+- - 若要对 DOM 进行直接修改，请先将其 display:none;
+- 指明操作 DOM 的 context[context.getElementsByTagName()]
+- 拆分方法，一个方法解决一件事。
+
+## Be Lazy（使脚本尽可能少地运行，或者不运行。）　　
+
+- 短路表达式应用
+- 基于事件去写相应的处理方法
+- 惰性函数
+
+## 流控制
+
+- 在 if 语句中，将经常会发生的条件，放在靠上的位置
+- if 的条件为连续的区间时，可以使用二分法的方式来拆分
+- 较多离散值的判断，可以使用 switch 来替代
+- 使用数组查询的方式
+- 要注意隐式的类型转换
+- 小心递归
+
+## Reflow 回流
+
+- 减少不必要的 DOM 深度。
+- 精简 css，去除没有用处的 css
+- 避免不必要的复杂的 css 选择符，尤其是使用子选择器，或消耗更多的 CPU 去做选择器匹配。
+- 如果需要复杂的表现发声改变(动画效果),在流线外实现，使用绝对定位。
+
+### 逻辑与 && 运算方式
+
+- 如果逻辑与运算符左边的值布尔转换后为 true，那么返回右边的值（不管右边的值是真还是假）。
+- 如果逻辑与运算符左边的值布尔转换后为 false，那么返回左边的值，
+- 当逻辑与的左边为 null/NaN/undefined ，结果就会得到 null/NaN/undefined。
+
+```js
+let a = 5 && 6;
+console.log(a); //返回的结果为 6
+
+let a = false && 6;
+console.log(a); //返回的结果为 false
+```
+
+### 逻辑或 || 运算方式
+
+- 如果逻辑或运算符左边的值布尔转换后为 false，那么返回右边的值（不管右边的值是真还是假）。
+- 如果逻辑或运算符左边的值布尔转换后为 true，那么返回左边的值。
+- 如果两个操作数都是是 null（NaN/undefined），返回 null（NaN/undefined）
+
+```js
+let a = false || 6;
+console.log(a); //返回的结果为 6
+
+let a = true || 6;
+console.log(a); //返回的结果为 true
+```
+
+### 短路表达式
+
+- 作为逻辑表达式进行求值是从左到右，它们是为可能的“短路”的出现而使用以下规则进行测试：
+- false && anything // 被短路求值为 false
+- true || anything // 被短路求值为 true
+- anything 部分不会被求值，所以这样做不会产生任何副作用。
+
+```js
+// 当val值<=0时，返回&&右边的值
+val <= 0 && (val = 0); /* &&短路表达式写法 */
+if (val <= 0) val = 0; /* 翻译以上代码 */
+
+// 如果foo存在，值不变，否则把bar的值赋给foo
+foo = foo || bar; /* 短路表达式写法 */
+if (!foo) foo = bar; /* 翻译以上代码 */
+if (!!foo)
+  //更为严谨，!!可将其他类型的值转换为boolean类型
+
+  // 求1+2+...+n的值,使用短路逻辑与运算+递归 写法
+  function sum(n) {
+    let result = n;
+    result && (result += sum(n - 1));
+    return result;
+  }
+console.log(sum(100));
+```
+
 ```js
 divUpdate.innerHTML = "";
 for (var i = 0; i < 100; i++) {
@@ -58,4 +145,3 @@ el.style.cssText = "border-left: 1px; border-right: 2px; padding: 5px;";
 // 经测试，单次操作元素达十万，优选使用[createDocumentFragment]
 // 若单次操作元素在一万以下，区别不大。
 ```
-
