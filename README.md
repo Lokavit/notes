@@ -54,7 +54,7 @@
 <table>
     <tr><th colspan="5">Vanilla JavaScript</th></tr>
     <tr>
-        <td><a href="https://lokavit.github.io/notes/vanillajs/drag-and-drop.html">Drag-And-Drop</a></td>
+        <td><a href="https://lokavit.github.io/notes/vanillajs/drag-and-drop/drag-and-drop.html">Drag-And-Drop</a></td>
         <td><a href="https://github.com/Lokavit/notes/blob/master/vanillajs/ .md"></a></td>
         <td><a href="https://github.com/Lokavit/notes/blob/master/vanillajs/ .md"></a></td>
         <td><a href="https://github.com/Lokavit/notes/blob/master/vanillajs/ .md"></a></td>
