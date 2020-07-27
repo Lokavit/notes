@@ -2,7 +2,7 @@
  * @Author: Satya
  * @Date: 2020-07-25 17:23:36
  * @Last Modified by: Satya
- * @Last Modified time: 2020-07-26 19:45:13
+ * @Last Modified time: 2020-07-27 17:44:29
  * doc:拖放工具
  *  元素的拖拽及缩放
  */
@@ -195,9 +195,9 @@ const RESIZE = (elDND, elResize, isPixel, callbackResize = () => {}) => {
         ? `${new_height}px`
         : `${(new_height / elDND.parentNode.clientHeight) * 100}%`;
 
-      /** 如果可缩放元素的新宽高已经到了最小宽度或者最小高度，便不再执行鼠标移动事件 */
-      if (new_width == RESIZE_MIN_WIDTH || new_height == RESIZE_MIN_HEIGHT)
-        document.onmousemove = null;
+      // /** 如果可缩放元素的新宽高已经到了最小宽度或者最小高度，便不再执行鼠标移动事件 （似乎不需要该语句块） */
+      // if (new_width <= RESIZE_MIN_WIDTH || new_height <= RESIZE_MIN_HEIGHT)
+      //   document.onmousemove = null;
 
       return false;
     };
