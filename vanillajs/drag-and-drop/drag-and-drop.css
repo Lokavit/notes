@@ -2,7 +2,7 @@
  * @Author: Satya 
  * @Date: 2020-07-26 20:11:18 
  * @Last Modified by: Satya
- * @Last Modified time: 2020-07-26 20:18:42
+ * @Last Modified time: 2020-07-29 17:54:19
  * doc:拖放示例样式文件
  */
 
@@ -19,8 +19,9 @@ body {
   width: 480px;
   height: 320px;
   border: 1px dashed #ccc;
-  left: 25%;
+  left: 50%;
   top: 10vh;
+  transform: translateX(-50%);
   border: 0.5rem solid #333;
   border-radius: 0.5rem;
   /* 使用宽边做出一个顶部承载标题效果 */
@@ -31,6 +32,8 @@ body {
   position: absolute;
   top: -40px;
   left: 20px;
+  /* 视口计算的方式设置字体，使用计算，已保证移动端字号不能超出最小 */
+  font-size: calc(14px + 1vw);
 }
 /* 窗体中的内容 需设置其宽高100% 便于缩放 */
 .content {
