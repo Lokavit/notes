@@ -1,0 +1,289 @@
+/*
+ * @Author: Satya 
+ * @Date: 2020-07-29 19:24:21 
+ * @Last Modified by: Satya
+ * @Last Modified time: 2020-07-29 21:25:17
+ * doc:布局
+ *      根据视口调整布局。兼容：PC、IPAD、PHONE
+ */
+
+* {
+  box-sizing: border-box;
+  /* 视口计算的方式设置字体，使用计算，已保证移动端字号不能超出最小 */
+  font-size: calc(14px + 1vw);
+}
+body {
+  font-family: "Rubik";
+  margin: 0;
+}
+body {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+body {
+  line-height: 1.4;
+}
+
+header {
+  color: aqua;
+  background: #333;
+}
+header,
+footer,
+main {
+  padding: 1rem;
+}
+
+main {
+  /* background: #eee; */
+  flex-grow: 1;
+}
+
+footer {
+  color: aqua;
+  background: #333;
+}
+
+/*  节点 */
+.points-wrapper {
+  counter-reset: points;
+}
+
+.c-point {
+  display: flex;
+  align-items: center;
+  background: #f3f3f3;
+  border-radius: 10vw;
+  padding: 10px;
+}
+
+.c-point:before {
+  counter-increment: points;
+  content: "0" counter(points);
+  flex: 0 0 calc(24px + 4vw);
+  width: calc(24px + 4vw);
+  height: calc(24px + 4vw);
+  color: #fff;
+  background: #222;
+  border-radius: 50%;
+  text-align: center;
+  line-height: calc(24px + 4vw);
+  font-size: calc(14px + 1vw);
+  margin-right: calc(10px + 0.5vw);
+}
+
+@media (min-width: 800px) {
+  .c-point:before {
+    flex: 0 0 80px;
+    width: 80px;
+    height: 80px;
+    line-height: 80px;
+  }
+}
+
+.c-point--1:before {
+  background: #cf1a23;
+}
+
+.c-point--2:before {
+  background: #b2171e;
+}
+
+.c-point--3:before {
+  background: #931419;
+}
+
+.c-point--4:before {
+  background: #750f14;
+}
+
+.c-point--5:before {
+  background: #580b0d;
+}
+
+.c-point--6:before {
+  background: #3a0808;
+}
+
+.c-point--7:before {
+  background: #1d0504;
+}
+
+.c-point__title {
+  font-size: calc(12px + 1vmin);
+  color: #4d4d4d;
+}
+
+.o-grid--3 {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(265px, 1fr));
+  grid-gap: 1rem;
+}
+
+/* 页首 */
+.page_header {
+  background: #856dc1;
+  text-align: center;
+  padding: 10vh 1rem;
+}
+
+.page_header > h2,
+.page_header > p {
+  color: #fff;
+}
+
+.page_header > h2 {
+  font-weight: bold;
+  font-size: 24px;
+  margin-bottom: 1.5vh;
+}
+
+/* 三端同显 */
+.wrapper {
+  display: grid;
+  grid-template-columns: repeat(20, 5vw);
+  grid-auto-rows: 6vw;
+}
+
+.device {
+  border: 1vw solid #a9b9dd;
+  border-top: solid 1vw #a9b9dd;
+  border-bottom: solid 3vw #a9b9dd;
+  grid-column: 2 / span 3;
+  grid-row: 3 / span 6;
+  border-radius: 1.5vw;
+  background: #fcfcfe;
+  padding: 1rem;
+}
+
+.mobile {
+  position: relative;
+  z-index: 1;
+  grid-column: 2 / span 3;
+  grid-row: 3 / span 5;
+}
+
+.tablet {
+  position: relative;
+  z-index: 1;
+  grid-column: 13 / span 7;
+  grid-row: 4 / span 4;
+  border-bottom: 1vw solid #a9b9dd;
+  border-right: solid 3vw #a9b9dd;
+}
+
+.laptop {
+  position: relative;
+  grid-column: 3 / span 13;
+  grid-row: 2 / span 8;
+}
+.laptop{
+    text-align: center;
+}
+.laptop:after {
+  content: "";
+  position: absolute;
+  bottom: -3vw;
+  left: -5.5vw;
+  right: -5.5vw;
+  height: 3vw;
+  background-color: #a9b9dd;
+  border-radius: 0 0 1vw 1vw;
+}
+
+/* 腰缐 */
+.banner_wrapper {
+  max-width: 700px;
+  margin: 0 auto;
+}
+.banner_wrapper > img {
+  width: 100vw;
+  height: 25vh;
+  object-fit: fill;
+  position: relative;
+  left: 50%;
+  right: 50%;
+  margin-left: -50vw;
+  margin-right: -50vw;
+}
+
+/* 格子布局 */
+.grid_wrapper {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  grid-gap: calc(14px + 2vh) calc(14px + 2vw);
+  max-width: 1200px;
+  margin: 2rem auto 0;
+}
+
+.media {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-gap: 1rem;
+  background: #a9b9dd;
+  box-shadow: 0 3px 10px 0 rgba(#000, 0.1);
+  padding: 1rem;
+}
+.media > h2 {
+  font-size: 20px;
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+}
+
+.media > img {
+  max-width: 100%;
+  border: 1px solid lightgrey;
+}
+
+.link {
+  display: inline-block;
+  margin-top: 1rem;
+  color: #1d7bb3;
+}
+
+/*  */
+.section {
+  height: 56.25vw;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 1rem;
+}
+.section:nth-child(even) {
+  background: #eee;
+}
+.section > h2 {
+  font-size: calc(16px + 2vw);
+  margin: 0 0 1rem;
+}
+.section > p {
+  margin: 0;
+}
+
+/* 手机适应 */
+.body {
+  display: flex;
+  flex-direction: column;
+  height: calc(var(--vh, 1vh) * 100);
+  background: #ccc;
+}
+
+.body > div {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.body > div:nth-child(even) {
+  background: #eee;
+}
+
+/* 防止超大屏幕，所以再使用媒体查询进行设置 */
+@media (min-width: 1920px) {
+  .section > h2 {
+    font-size: 40px;
+  }
+}

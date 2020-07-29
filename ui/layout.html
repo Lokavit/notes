@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Layout</title>
+    <link rel="stylesheet" href="./layout.css">
+</head>
+
+<body>
+    <header>
+        <h1>Logo</h1>
+    </header>
+    <main>
+        <div class="o-grid o-grid--3 points-wrapper">
+            <div class="c-point c-point--1">
+                <h3 class="c-point__title">圣尊者</h3>
+            </div>
+            <div class="c-point c-point--2">
+                <h3 class="c-point__title">一步莲华</h3>
+            </div>
+            <div class="c-point c-point--3">
+                <h3 class="c-point__title">佛首 帝如来</h3>
+            </div>
+            <div class="c-point c-point--4">
+                <h3 class="c-point__title">天之佛</h3>
+            </div>
+            <div class="c-point c-point--5">
+                <h3 class="c-point__title">楼至韦驮</h3>
+            </div>
+            <div class="c-point c-point--6">
+                <h3 class="c-point__title">蕴果谛魂</h3>
+            </div>
+        </div>
+        <!-- 腰缐 -->
+        <div class="banner_wrapper">
+            <img src="https://i.loli.net/2020/07/29/vCoweN1RHd8M4GF.jpg" alt="">
+            <p>一轮月，两边刀，仰天长啸竞月刀；<br />生也刀，死也刀，烈风之路谁受刀。</p>
+        </div>
+        <!-- 三端同显 -->
+        <div class="wrapper">
+            <div class="device laptop">
+                <h2> CSS Viewport Units</h2>
+                <p> 根据视口计算元素的大小。基于根元素</p>
+                <p> 1vw=1%宽度;1vh=1%高度</p>
+                <p> vmin 视口宽高最小值,如视口宽度>高度,则根据高度计算该值</p>
+                <p> vmax 视口宽高最大值,如果宽度>高度,则根据宽度值计算该值</p>
+
+            </div>
+            <div class="device mobile"></div>
+            <div class="device tablet"></div>
+        </div>
+
+        <!--  -->
+        <section class="page_header">
+            <h2>三身果报自凡根，六界因缘无了痕。</h2>
+            <p>善逝从来非本相，枯荣生灭尽空门。</p>
+        </section>
+
+        <!-- 格子布局  -->
+        <div class="grid_wrapper">
+            <article class="media">
+                <img src="https://i.loli.net/2020/07/29/j2r5pb4DeLfiJx1.jpg" alt="">
+                <div class="media__content">
+                    <h2>競月刀</h2>
+                    <p>一轮月，两边刀。</p>
+                    <p><a href="#" class="link">天宇</a></p>
+                </div>
+            </article>
+            <article class="media">
+                <img src="https://i.loli.net/2020/07/29/j2r5pb4DeLfiJx1.jpg" alt="">
+                <div class="media__content">
+                    <h2>競月刀</h2>
+                    <p>一轮月，两边刀。</p>
+                    <p><a href="#" class="link">天宇</a></p>
+                </div>
+            </article>
+            <article class="media">
+                <img src="https://i.loli.net/2020/07/29/j2r5pb4DeLfiJx1.jpg" alt="">
+                <div class="media__content">
+                    <h2>競月刀</h2>
+                    <p>一轮月，两边刀。</p>
+                    <p><a href="#" class="link">天宇</a></p>
+                </div>
+            </article>
+            <article class="media">
+                <img src="https://i.loli.net/2020/07/29/j2r5pb4DeLfiJx1.jpg" alt="">
+                <div class="media__content">
+                    <h2>競月刀</h2>
+                    <p>一轮月，两边刀。</p>
+                    <p><a href="#" class="link">天宇</a></p>
+                </div>
+            </article>
+            <article class="media">
+                <img src="https://i.loli.net/2020/07/29/j2r5pb4DeLfiJx1.jpg" alt="">
+                <div class="media__content">
+                    <h2>競月刀</h2>
+                    <p>一轮月，两边刀。</p>
+                    <p><a href="#" class="link">天宇</a></p>
+                </div>
+            </article>
+            <article class="media">
+                <img src="https://i.loli.net/2020/07/29/j2r5pb4DeLfiJx1.jpg" alt="">
+                <div class="media__content">
+                    <h2>競月刀</h2>
+                    <p>一轮月，两边刀。</p>
+                    <p><a href="#" class="link">天宇</a></p>
+                </div>
+            </article>
+        </div>
+
+        <!--  -->
+        <section class="section">
+            <h2 class="title">七情不昧四重恩，八筏常归十界魂。负业诸尘贤劫渡，无边水月大千存。</h2>
+            <p class="desc">天之佛 楼至韦驮</p>
+        </section>
+        <section class="section">
+            <h2 class="title">蕴果是非因，谛魂千万身，原乡飘渺处，天佛度贪嗔。</h2>
+            <p class="desc">蕴果谛魂</p>
+        </section>
+        <section class="section">
+            <h2 class="title">一步一罪化，一步一莲华</h2>
+            <p class="desc">圣尊者 一步莲华</p>
+        </section>
+
+        <!-- 移动适配 -->
+        <section class="body">
+            <div>圣尊者</div>
+            <div>一步莲华</div>
+            <div>佛首 帝如来</div>
+            <div>天之佛</div>
+            <div>楼至韦驮</div>
+        </section>
+    </main>
+    <footer>Footer</footer>
+
+    <script>
+        let vh = window.innerHeight * 0.01;
+        document.documentElement.style.setProperty('--vh', `${vh}px`);
+    </script>
+</body>
+
+</html>

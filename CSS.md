@@ -8,6 +8,25 @@
 - 中划线表示字符链接
 - 非百分百确定不嵌套，不考虑使用标签选择器
 
+
+<!--
+.element {
+    padding-top: 10vmin;
+    padding-bottom: 10vmin;
+}
+padding-top = (10% of height) = 10% * 164 = 16.4px
+padding-bottom = (10% of height) = 10% * 164 = 16.4px
+
+.element {
+    padding-top: 10vmax;
+    padding-bottom: 10vmax;
+}
+padding-top = (10% of width) = 10% * 350 = 35px
+padding-bottom = (10% of width) = 10% * 350 = 35px
+ -->
+
+
+
 - 字体特效
 
 ```css
