@@ -43,6 +43,7 @@
     <tr><th colspan="9">HTML CSS</th></tr>
     <tr>
         <td><a href="https://lokavit.github.io/notes/ui/layout/layout.html">Layout</a></td>
+        <td><a href="https://lokavit.github.io/notes/ui/layout/layout1.html">Layout1</a></td>
         <td><a href="https://lokavit.github.io/notes/ui/other/index.html">Example</a></td>
         <td><a href="https://lokavit.github.io/notes/ui/keyword.html">Keyword</a></td>
         <td><a href="https://lokavit.github.io/notes/ui/box-border-style.html">box-border</a></td>
