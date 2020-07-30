@@ -2,7 +2,7 @@
  * @Author: Satya 
  * @Date: 2020-07-29 19:24:21 
  * @Last Modified by: Satya
- * @Last Modified time: 2020-07-29 21:25:17
+ * @Last Modified time: 2020-07-30 17:27:26
  * doc:布局
  *      根据视口调整布局。兼容：PC、IPAD、PHONE
  */
@@ -12,6 +12,9 @@
   /* 视口计算的方式设置字体，使用计算，已保证移动端字号不能超出最小 */
   font-size: calc(14px + 1vw);
 }
+html {
+  height: -webkit-fill-available;
+}
 body {
   font-family: "Rubik";
   margin: 0;
@@ -20,6 +23,8 @@ body {
   display: flex;
   flex-direction: column;
   min-height: 100vh;
+  /* mobile viewport bug fix */
+  min-height: -webkit-fill-available;
 }
 body {
   line-height: 1.4;
@@ -178,8 +183,8 @@ footer {
   grid-column: 3 / span 13;
   grid-row: 2 / span 8;
 }
-.laptop{
-    text-align: center;
+.laptop {
+  text-align: center;
 }
 .laptop:after {
   content: "";

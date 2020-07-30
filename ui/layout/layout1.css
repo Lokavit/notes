@@ -2,14 +2,14 @@
  * @Author: Satya 
  * @Date: 2020-07-30 10:01:29 
  * @Last Modified by: Satya
- * @Last Modified time: 2020-07-30 10:06:50
+ * @Last Modified time: 2020-07-30 17:47:29
  * doc:多端适应
  */
 
-* {
+*,
+*::before,
+*::after {
   box-sizing: border-box;
-  /* 视口计算的方式设置字体，使用计算，已保证移动端字号不能超出最小 */
-  font-size: calc(12px + 1vw);
 }
 body {
   font-family: "Rubik";
@@ -22,6 +22,8 @@ body {
 }
 body {
   line-height: 1.1;
+  /* 视口计算的方式设置字体，使用计算，已保证移动端字号不能超出最小 */
+  font-size: calc(12px + 1vw);
 }
 
 header {
@@ -45,3 +47,21 @@ footer {
 }
 
 /* header内中所有元素布局 */
+
+p::after,
+p::before {
+  content: ":";
+}
+
+p {
+  font-size: 30vmin;
+  font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+  margin: auto;
+}
+
+/* 图标垂直居中 */
+.inline-icon {
+  display: inline-block;
+  width: 1lh;
+  height: 1lh;
+}

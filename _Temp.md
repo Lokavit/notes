@@ -25,13 +25,55 @@ README.md做链接时:以下方式选一
 3.单元格链接.md，该文件内，链接示例。此方式可以去掉每个分类的index.html,改为写在md里
 ```
 
+```js
+// Intl.DateTimeFormat() constructor
+/** 将 2020-07-30T04:00:00Z 转换为 2020年7月30日 */
+const formatDate = (dateString) => {
+  const options = { year: "numeric", month: "long", day: "numeric" };
+  return new Date(dateString).toLocaleDateString(undefined, options);
+};
+console.log(formatDate(new Date())); // 2020年7月30日
+```
+
+<!-- ## SEO & JSON-LD & structured-data
+- 也就是在搜索引擎搜索时，网站在前且有效果。可以做推送
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "Example",
+    "url": "http://www.example.com",
+    "logo": "http://www.example.com/images/logo.png"
+  }
+</script> -->
 
 检测网络、浏览器、WebGL、操作系统
 
-- devop
+- runtimecheck
 
+<!-- PC端
+浏览器平台（操作系统）:Win32
+浏览器的应用程序名称:Netscape
+浏览器的应用程序代码名称:Mozilla
+浏览器引擎的产品名称:Gecko
+有关浏览器的版本信息:5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/84.0.4147.89 Safari/537.36 Edg/84.0.522.48
+由浏览器发送到服务器的用户代理报头:Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/84.0.4147.89 Safari/537.36 Edg/84.0.522.48
+浏览器语言:zh-CN
+浏览器联网状态:true
+ -->
 
-<!-- 
+<!-- 手机端
+浏览器平台（操作系统）:Linux armv8l
+浏览器的应用程序名称:Netscape
+浏览器的应用程序代码名称:Mozilla
+浏览器引擎的产品名称:Gecko
+有关浏览器的版本信息:5.0 (Linux; Android 6.0; vivo Y67) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/73.0.3683.0 Mobile Safari/537.36 EdgA/44.11.2.4122
+由浏览器发送到服务器的用户代理报头:Mozilla/5.0 (Linux; Android 6.0; vivo Y67) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/73.0.3683.0 Mobile Safari/537.36 EdgA/44.11.2.4122
+浏览器语言:zh-TW
+浏览器联网状态:true
+ -->
+
+<!--
 Device                           OS               window.navigator.platform
 ---------------------------------------------------------------------------
 iPhone 4                         iOS 7.1          iPhone
@@ -110,3 +152,96 @@ Desktop PC (iMac)                OSX 10.8.5       MacIntel
 | 480 | nav_platform | Linux ppc64                          |
 +-----+--------------+--------------------------------------+
  -->
+
+### classList
+
+```html
+<div id="el"></div>
+<script>
+  const el = document.querySelector("#el");
+  // Add a class
+  el.classList.add("open");
+
+  // Add many classes
+  el.classList.add("this", "little", "piggy");
+  let classes = ["is-message", "is-warning"];
+  el.classList.add(...classes);
+
+  // Remove a class
+  el.classList.remove("open");
+
+  // Remove multiple classes
+  el.classList.remove("this", "little", "piggy");
+
+  // Loop over each class
+  el.classList; // DOMTokenList (pretty much an array)
+  el.classList.forEach((className) => {
+    // don't use "class" as that's a reserved word
+    console.log(className);
+  });
+  // $0.classList 从控制台更新其属性
+  for (let className of $0.classList) {
+    console.log(className);
+  }
+
+  el.classList.length; // integer of how many classes there are
+
+  // Replace a class (replaces first with second)
+  el.classList.replace("is-big", "is-small");
+
+  // Toggle a class (if it's there, remove it, if it's not there, add it)
+  el.classList.toggle("open");
+  // Remove the class
+  el.classList.toggle("open", false);
+  // Add the class
+  el.classList.toggle("open", true);
+  // Add the class with logic
+  el.classList.toggle("raining", weather === "raining");
+
+  // Check if element has class (returns true or false)
+  el.classList.contains("open");
+
+  // Look at individual classes <div class="hot dog">
+  el.classList.item(0); // hot
+  el.classList.item(1); // dog
+  el.classList.item(2); // null
+  el.classList[1]; // dog
+</script>
+```
+
+```js
+let btn = document.querySelector(".btn");
+console.log(btn.classList);
+// ["btn", "show", value: "btn show"]
+
+console.log(btn.classList[1]); // show
+
+// 向元素添加一个或多个类
+btn.classList.add("xxx", "yyy");
+// 元素中是否存在指定类
+console.log(btn.classList.contains("show")); // true
+// 获取指定索引的类
+console.log(btn.classList.item(2)); // yyy
+// 向元素移除一个或多个类
+btn.classList.remove("show", "make", "me");
+
+// 切换 toggle
+if (btn.classList.contains("yyy")) {
+  btn.classList.remove("xxx");
+} else {
+  btn.classList.add("show");
+}
+
+/** 点击按钮，如果没有test就加上，有就移除test */
+btn.addEventListener("click", () => {
+  btn.classList.toggle("test");
+});
+
+// 使用展开语法添加或移除多个类值
+const cls = ["foo", "bar"];
+btn.classList.add(...cls);
+btn.classList.remove(...cls);
+
+// 将类值 "foo" 替换成 "bar"
+btn.classList.replace("foo", "bar");
+```

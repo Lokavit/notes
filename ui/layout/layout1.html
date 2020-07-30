@@ -25,6 +25,7 @@
     </header>
     <main class="main">
       Main Content
+      <p id="anim">(</p>
       <button onclick="checkDevops()">CHECK DEVOPS</button>
     </main>
     <footer>Footer</footer>
@@ -51,6 +52,28 @@
       if (navigator.userAgent.indexOf("Chrome") >= -1) {
         console.log("是否为chrome");
       }
+
+      /* 动画 */
+      const frames = { opacity: [0, 0, 1] };
+      const options = {
+        duration: 1500,
+        iterations: Infinity,
+        direction: "alternate",
+      };
+
+      const a = anim.animate(frames, {
+        ...options,
+        pseudoElement: "::after",
+      });
+
+      const b = anim.animate(frames, {
+        ...options,
+        direction: "alternate-reverse",
+        pseudoElement: "::before",
+      });
+
+      console.log("pseudoElement?", a.effect.pseudoElement);
+
     </script>
   </body>
 </html>
