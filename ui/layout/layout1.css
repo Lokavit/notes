@@ -1,0 +1,47 @@
+/*
+ * @Author: Satya 
+ * @Date: 2020-07-30 10:01:29 
+ * @Last Modified by: Satya
+ * @Last Modified time: 2020-07-30 10:06:50
+ * doc:多端适应
+ */
+
+* {
+  box-sizing: border-box;
+  /* 视口计算的方式设置字体，使用计算，已保证移动端字号不能超出最小 */
+  font-size: calc(12px + 1vw);
+}
+body {
+  font-family: "Rubik";
+  margin: 0;
+}
+body {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+body {
+  line-height: 1.1;
+}
+
+header {
+  color: aqua;
+  background: #333;
+}
+header,
+footer,
+main {
+  padding: 1rem;
+}
+
+main {
+  /* background: #eee; */
+  flex-grow: 1;
+}
+
+footer {
+  color: aqua;
+  background: #333;
+}
+
+/* header内中所有元素布局 */

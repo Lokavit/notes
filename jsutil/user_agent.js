@@ -1,9 +1,11 @@
 /*
  * @Author: Satya
  * @Date: 2020-06-25 19:50:55
- * @Last Modified by:   Satya
- * @Last Modified time: 2020-06-25 19:50:55
- * doc:获取浏览器，并对其做一些处理
+ * @Last Modified by: Satya
+ * @Last Modified time: 2020-07-30 14:36:58
+ * doc:获取浏览器信息，并对其做一些处理
+ * 当前浏览器
+ * 当前操作系统
  */
 
 const UserAgent = new Object();
@@ -12,7 +14,7 @@ const UserAgent = new Object();
 UserAgent._rawUpper = navigator.userAgent.toUpperCase();
 
 /**
- * 是否包含当前浏览器名
+ * 是否包含当前指定字符串
  * @param {*} name
  */
 UserAgent.has = function (name) {
@@ -45,6 +47,7 @@ UserAgent.IPOD = UserAgent.has("iPod");
 UserAgent.IPHONE =
   UserAgent.has("iPhone") && !UserAgent.IPAD && !UserAgent.IPOD;
 UserAgent.MAC = UserAgent.has("Macintosh");
+UserAgent.WINDOWS = UserAgent.has("WINDOWS");
 
 /** Devices 设备 */
 UserAgent.TABLET =
@@ -58,4 +61,18 @@ UserAgent.MOBILE =
     UserAgent.ANDROID ||
     UserAgent.has("IEMobile"));
 
-export default UserAgent;
+UserAgent.getOS = function (value) {
+  let result = "";
+  switch (value) {
+    case value == UserAgent.WINDOWS:
+      result = "WINDOWS NT 10.0; WIN64; X64";
+      break;
+    case value == UserAgent.MAC:
+      result = "MAC X64";
+      break;
+    default:
+      result = "未知操作系统";
+      break;
+  }
+  return result;
+};

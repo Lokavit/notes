@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Layout 三端适应布局</title>
+    <link rel="stylesheet" href="./layout1.css" />
+    <script src="../../jsutil/user_agent.js"></script>
+  </head>
+  <body>
+    <header>
+      <!-- logo -->
+      <!-- <div>
+        <a href="http://steam.leadersir.com/" target="_blank">
+          <img src="https://kid.leadersir.net/biancheng-logo.png"
+        /></a>
+      </div> -->
+
+      <!-- 语言选择 -->
+      <!-- <div>语言选择器</div> -->
+
+      <!-- 文件 -->
+
+      <h1>Logo</h1>
+    </header>
+    <main class="main">
+      Main Content
+      <button onclick="checkDevops()">CHECK DEVOPS</button>
+    </main>
+    <footer>Footer</footer>
+
+    <script>
+      // 整理创作环境判断
+      checkDevops = () => {
+        let checkResult = document.createElement("div");
+        checkResult.innerHTML = `
+          浏览器平台（操作系统）:${navigator.platform}<br/>
+          浏览器的应用程序名称:${navigator.appName}<br/>
+          浏览器的应用程序代码名称:${navigator.appCodeName}<br/>
+          浏览器引擎的产品名称:${navigator.product}<br/>
+          有关浏览器的版本信息:${navigator.appVersion}<br/>
+          由浏览器发送到服务器的用户代理报头:${navigator.userAgent}<br/>
+          浏览器语言:${navigator.language}<br/>
+          浏览器联网状态:${navigator.onLine}<br/>
+          `;
+
+        let main_content = document.querySelector(".main");
+        main_content.appendChild(checkResult);
+      };
+
+      if (navigator.userAgent.indexOf("Chrome") >= -1) {
+        console.log("是否为chrome");
+      }
+    </script>
+  </body>
+</html>
