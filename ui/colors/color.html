@@ -28,95 +28,59 @@
             return styleSheet.href.indexOf(window.location.origin) === 0;
         }
 
-        // 将类数组转为数组 
+        /**
+            放弃任何不是CSSStyleRule 基本样式规则的规则
+            See: https://developer.mozilla.org/en-US/docs/Web/API/CSSRule#Type_constants
+        */
+        const isStyleRule = (rule) => rule.type === 1;
+
+        /**
+         * 在页面上获取所有自定义属性
+         * @return array<array[string, string]>
+         * ex; [["--color-accent", "#b9f500"], ["--color-text", "#252525"], ...]
+         */
         const getCSSCustomPropIndex = () => [...document.styleSheets]
             // 过滤掉第三方样式表
             .filter(isSameDomain)
-            // 获取其余样式表的所有规则(组合循环找到想要的值，并组合) 最后的[]表示从空数组开始
-            .reduce((finalArr, sheet) => finalArr.concat(...sheet.cssRules), []);
-            
-
-
-
+            /**
+                获取其余样式表的所有规则(组合循环找到想要的值，并组合) 最后的[]表示从空数组开始
+                注意:必须是线上，若是本地则会报错(cssRules css规则)
+                返回: color.css中所有样式{}以及本页面的css。所有选择器
+            */
+            .reduce((finalArr, sheet) => finalArr.concat(
+                // 过滤掉任何不是基本样式规则的规则
+                [...sheet.cssRules].filter(isStyleRule)
+                    /**
+                        获取所有属性的属性名和属性值
+                    */
+                    .reduce((propArr, rule) => {
+                        // styleMap替代方案，该方案尚在草稿期
+                        const props = [...rule.styleMap.entries()]
+                            // 改为以上一句代码
+                            // const props = [...rule.style].map((propName) => [
+                            //     propName.trim(),
+                            //     rule.style.getPropertyValue(propName).trim()
+                            // ])
+                            // 过滤掉非自定义属性，即没有--的属性
+                            .filter(([propName]) => propName.indexOf('--') === 0)
+                        return [...propArr, ...props];
+                    }, [])
+            ), []);
         console.log('类数组转数组:', getCSSCustomPropIndex());
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-//         /*
-//  检查样式表是内部的还是位于当前域中。如果不是，那么尝试访问sheet.cssRules将引发跨原点错误
-//  See https://developer.mozilla.org/en-US/docs/Web/API/CSSStyleSheet#Notes
-
-//  NOTE: 这可能引起的一个问题是在具有不同域的CDN上托管样式表。 这些将是跨源的，因此您无法访问它们。.
-// */
-//         const isSameDomain = (styleSheet) => {
-//             // 内部样式块将没有href值
-//             if (!styleSheet.href) {
-//                 return true;
-//             }
-
-//             return styleSheet.href.indexOf(window.location.origin) === 0;
-//         };
-
-//         /*
-//          确定给定规则是否为 CSSStyleRule
-//          See: https://developer.mozilla.org/en-US/docs/Web/API/CSSRule#Type_constants
-//         */
-//         const isStyleRule = (rule) => rule.type === 1;
-
-//         /**
-//          * 在页面上获取所有自定义属性
-//          * @return array<array[string, string]>
-//          * ex; [["--color-accent", "#b9f500"], ["--color-text", "#252525"], ...]
-//          */
-//         const getCSSCustomPropIndex = () =>
-//             // styleSheets 类似于数组，因此将其转换为数组.
-//             // 过滤掉不在此域上的所有样式表
-//             [...document.styleSheets].filter(isSameDomain).reduce(
-//                 (finalArr, sheet) =>
-//                     finalArr.concat(
-//                         // cssRules 类似于数组，因此将其转换为数组
-//                         [...sheet.cssRules].filter(isStyleRule).reduce((propValArr, rule) => {
-//                             const props = [...rule.style]
-//                                 .map((propName) => [
-//                                     propName.trim(),
-//                                     rule.style.getPropertyValue(propName).trim()
-//                                 ])
-//                                 // 丢弃所有不以“-”开头的.
-//                                 .filter(([propName]) => propName.indexOf("--") === 0);
-
-//                             return [...propValArr, ...props];
-//                         }, [])
-//                     ),
-//                 []
-//             );
-
-//         const cssCustomPropIndex = getCSSCustomPropIndex();
-
-//         // 将样本添加到DOM
-//         document.querySelector(".colors").innerHTML = cssCustomPropIndex.reduce(
-//             (str, [prop, val]) => `${str}<li class="color">
-//     <b class="color__swatch" style="--color: ${val}"></b>
-//     <div class="color__details">
-//       <input value="${prop}" readonly />
-//       <input value="${val}" readonly />
-//     </div>
-//    </li>`,
-//             ""
-//         );
-
+        // 定义变量
+        const cssCostomPropIndex = getCSSCustomPropIndex();
+        
+        // 遍历生成色板
+        document.querySelector('.colors').innerHTML = cssCostomPropIndex.reduce(
+            (str, [prop, val]) => `
+            ${str}<li class="color">
+                    <b class ="color__swatch" style="--color:${val}"></b>
+                    <div class="color__details">
+                        <input value="${prop}" readonly />
+                        <input value="${val}" readonly />
+                    </div>
+                </li>`, "");
     </script>
 </body>
 
