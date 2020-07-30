@@ -245,3 +245,4 @@ btn.classList.remove(...cls);
 // 将类值 "foo" 替换成 "bar"
 btn.classList.replace("foo", "bar");
 ```
+
