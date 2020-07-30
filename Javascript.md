@@ -41,6 +41,13 @@ const CHECK_STYLE = (el, attr) => {
 };
 ```
 
+```js
+// 假设 .css文件中 html{--color-accent: #00eb9b;}
+const colorAccent = getComputedStyle(document.documentElement).getPropertyValue(
+  "--color-accent"
+); // #00eb9b
+```
+
 ---
 
 ```js
