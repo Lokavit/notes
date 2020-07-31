@@ -16,6 +16,72 @@
 - [Array 数组方法](#Array数组方法)
 - [GitHub API](#GitHub)
 
+### HTMLSTRING TO DOM
+
+#### 按照性能
+
+- document.createDocumentFragment()一次添加多节点
+- Range.createContextualFragment()•优胜者（最快在火狐）
+- Element.insertAdjacentHTML()•优胜者
+- Element.innerHTML•优胜者
+- DOMParser.parseFromString()•慢 90%
+
+#### document.createDocumentFragment()
+
+```js
+const htmlToElement = (html) => ({
+  /* ... */
+});
+const fragment = document.createDocumentFragment();
+items.forEach((item) => {
+  const node = htmlToElement(`<div>${item.name}</div>`);
+  fragment.appendChild(node);
+});
+document.body.appendChild(fragment);
+```
+
+#### Range.createContextualFragment()
+
+```js
+const table = document.createElement(`table`);
+const tbody = document.createElement(`tbody`);
+table.appendChild(tbody);
+
+const range = document.createRange();
+range.selectNodeContents(tbody);
+const node = range.createContextualFragment(`<tr><td>Foo</td></tr>`); //=> tr
+
+//
+const template = document.createElement("template");
+template.innerHTML = `<tr><td>Foo</td></tr>`;
+const node = template.content.firstElementChild; //=> tr
+```
+
+#### Element.insertAdjacentHTML()
+
+```js
+// 原为 <div id="one">one</div>
+var d1 = document.getElementById("one");
+d1.insertAdjacentHTML("afterend", '<div id="two">two</div>');
+// 此时，新结构变成：
+// <div id="one">one</div><div id="two">two</div>
+
+// 将指定的文本解析为 Element 元素，并将结果节点插入到DOM树中的指定位置
+el.insertAdjacentHTML("beforebegin", string_of_html);
+el.insertAdjacentHTML("afterbegin", string_of_html);
+el.insertAdjacentHTML("beforeend", string_of_html);
+el.insertAdjacentHTML("afterend", string_of_html);
+```
+
+#### DOMParser.parseFromString()
+
+```js
+// HTML字符串转dom,t
+let dom = new DOMParser().parseFromString(string_of_html, "text/html");
+```
+
+---
+
 ### getComputedStyle()
 
 ```js

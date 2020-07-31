@@ -65,3 +65,28 @@ p {
   width: 1lh;
   height: 1lh;
 }
+
+/* LOGOS 格子 */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  grid-gap: 1rem;
+}
+
+.grid > div {
+  background-color: #333;
+  padding: 1rem;
+  position: relative;
+}
+.grid > div::before {
+  content: "";
+  padding-bottom: 100%;
+  display: block;
+}
+.grid > div > img {
+  position: absolute;
+  max-width: 100%;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}

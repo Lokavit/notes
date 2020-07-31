@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Themes Change</title>
+    <link rel="stylesheet" href="./themes.css" />
+  </head>
+  <body>
+    <main>
+      <table>
+        <caption>
+          Base scheme, all values in HSL
+        </caption>
+        <tbody>
+          <tr>
+            <td class="bg-1">180,100%,10%</td>
+            <td class="bg-2">180,100%,15%</td>
+            <td class="bg-3">180,100%,20%</td>
+          </tr>
+          <tr>
+            <td class="bg-4">180,100%,25%</td>
+            <td class="bg-5">180,100%,30%</td>
+            <td class="bg-6">180,100%,35%</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <table>
+        <caption>
+          Base hues
+        </caption>
+        <tbody>
+          <tr>
+            <td class="bg-11">180,100%,10%</td>
+            <td class="bg-12">240,100%,10%</td>
+            <td class="bg-13">300,100%,10%</td>
+          </tr>
+          <tr>
+            <td class="bg-14">0,100%,10%</td>
+            <td class="bg-15">60,100%,10%</td>
+            <td class="bg-16">120,100%,10%</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <table data-theme-container>
+        <caption>
+          Final color schemes
+        </caption>
+        <tbody>
+          <tr data-theme="color-1">
+            <td class="bg-31">180,100%,5%</td>
+            <td class="bg-32">180,100%,10%</td>
+            <td class="bg-33">180,100%,15%</td>
+            <td class="bg-34">180,100%,20%</td>
+            <td class="bg-35">180,100%,25%</td>
+            <td class="bg-36">180,100%,30%</td>
+          </tr>
+          <tr data-theme="color-2">
+            <td class="bg-31">180,100%,5%</td>
+            <td class="bg-32">180,100%,10%</td>
+            <td class="bg-33">180,100%,15%</td>
+            <td class="bg-34">180,100%,20%</td>
+            <td class="bg-35">180,100%,25%</td>
+            <td class="bg-36">180,100%,30%</td>
+          </tr>
+          <tr data-theme="color-3">
+            <td class="bg-31">180,100%,5%</td>
+            <td class="bg-32">180,100%,10%</td>
+            <td class="bg-33">180,100%,15%</td>
+            <td class="bg-34">180,100%,20%</td>
+            <td class="bg-35">180,100%,25%</td>
+            <td class="bg-36">180,100%,30%</td>
+          </tr>
+          <tr data-theme="color-4">
+            <td class="bg-31">180,100%,5%</td>
+            <td class="bg-32">180,100%,10%</td>
+            <td class="bg-33">180,100%,15%</td>
+            <td class="bg-34">180,100%,20%</td>
+            <td class="bg-35">180,100%,25%</td>
+            <td class="bg-36">180,100%,30%</td>
+          </tr>
+          <tr data-theme="color-5">
+            <td class="bg-31">180,100%,5%</td>
+            <td class="bg-32">180,100%,10%</td>
+            <td class="bg-33">180,100%,15%</td>
+            <td class="bg-34">180,100%,20%</td>
+            <td class="bg-35">180,100%,25%</td>
+            <td class="bg-36">180,100%,30%</td>
+          </tr>
+          <tr data-theme="color-6">
+            <td class="bg-31">180,100%,5%</td>
+            <td class="bg-32">180,100%,10%</td>
+            <td class="bg-33">180,100%,15%</td>
+            <td class="bg-34">180,100%,20%</td>
+            <td class="bg-35">180,100%,25%</td>
+            <td class="bg-36">180,100%,30%</td>
+          </tr>
+        </tbody>
+      </table>
+      <!-- 正序 -->
+      <ol>
+        <li>Apple</li>
+        <li>Banana</li>
+        <li>Pear</li>
+      </ol>
+      <!-- 倒序 -->
+      <ol reversed>
+        <li>Apple</li>
+        <li>Banana</li>
+        <li>Pear</li>
+      </ol>
+      <!-- 起始序号 -->
+      <ol start="2">
+        <li>Apple</li>
+        <li>Banana</li>
+        <li>Pear</li>
+      </ol>
+
+    </main>
+
+    <!-- script -->
+    <script>
+      let string_of_html = ` <div>Cool</div> `;
+      // Append it instead
+      document.body.innerHTML += string_of_html;
+
+      //   let dom = new DOMParser().parseFromString(string_of_html, "text/html");
+      //   let new_element = dom.body.firstElementChild;
+
+      let new_element = document
+        // 返回一个 Range 对象
+        .createRange()
+        .createContextualFragment(string_of_html);
+
+      document.body.innerHTML += string_of_html;
+      console.log(dom);
+    </script>
+  </body>
+</html>

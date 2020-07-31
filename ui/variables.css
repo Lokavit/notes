@@ -1,0 +1,14 @@
+/*
+ * @Author: Satya 
+ * @Date: 2020-07-31 14:18:59 
+ * @Last Modified by: Satya
+ * @Last Modified time: 2020-07-31 18:06:05
+ * doc: CSS变量
+ */
+
+ /* 匹配文档树的根元素。:root 表示<html>元素，优先级更高
+    如：此处定义变量，而后使用是根据计算变量来达到效果
+ */
+ :root{
+
+ }
