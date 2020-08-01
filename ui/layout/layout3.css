@@ -1,0 +1,67 @@
+/*
+ * @Author: Satya 
+ * @Date: 2020-08-01 15:51:50 
+ * @Last Modified by: Satya
+ * @Last Modified time: 2020-08-01 16:47:51
+ * doc: header及footer固定，main滚动
+ */
+
+* {
+  box-sizing: border-box;
+  /* 视口计算的方式设置字体，使用计算，已保证移动端字号不能超出最小 */
+  font-size: calc(14px + 1vw);
+}
+html {
+  height: -webkit-fill-available;
+}
+body {
+  margin: 0;
+  padding: 0;
+}
+body {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  /* mobile viewport bug fix */
+  min-height: -webkit-fill-available;
+}
+body {
+  line-height: 1.4;
+}
+
+header,
+footer {
+  color: aqua;
+  background: #333;
+}
+header,
+footer,
+main {
+  padding: 1rem;
+}
+
+main {
+  /* background: #eee; */
+  flex-grow: 1;
+}
+
+/* 固定 header footer */
+header,
+footer {
+  position: fixed;
+  left: 0;
+  right: 0;
+}
+
+header {
+  top: 0;
+}
+
+footer {
+  bottom: 0;
+}
+
+/* main 向下移动 */
+main {
+    margin-top: 6vh;
+}
