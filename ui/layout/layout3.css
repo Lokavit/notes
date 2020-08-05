@@ -63,5 +63,40 @@ footer {
 
 /* main 向下移动 */
 main {
-    margin-top: 6vh;
+  margin-top: 6vh;
+}
+
+/* 弹窗 */
+.is_show {
+  position: fixed;
+  width: 100vw;
+  height: 100vh;
+  z-index: -99;
+  opacity: 0;
+}
+
+.mask {
+  background-color: rgba(0, 0, 0, 0.3);
+  width: 100vw;
+  height: 100vh;
+  position: absolute;
+  bottom: 50px;
+}
+
+.content {
+  background-color: skyblue;
+  padding: 50px;
+  z-index: 3;
+}
+
+.content > img {
+  height: 240px;
+}
+
+.content > div {
+  background-color: aqua;
+  position: absolute;
+  right: 15px;
+  top: 15px;
+  /* z-index: 99; */
 }
