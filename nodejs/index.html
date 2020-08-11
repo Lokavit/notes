@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>页面触发GET角色，GET指定角色，POST新建角色</title>
+  </head>
+
+  <body>
+    名字：<input type="text" name="name" id="name" /><br />
+    信息：<input type="text" name="info" id="info" /><br />
+    <input type="button" value="新增" id="create" />
+    <input type="button" value="获取" id="getrole" />
+    <input type="button" value="获取单个角色" id="getroleinfo" />
+
+    <p id="roles"></p>
+    <p id="roles_info"></p>
+
+    <script>
+      const API_URL = `http://localhost:1111`;
+      // 获取单个角色
+      document
+        .querySelector("#getroleinfo")
+        .addEventListener("click", async function () {
+          let name = "satya";
+          const response = await fetch(`/getrole/${name}`);
+          const result = await response.json();
+          console.log("单个角色信息：", result);
+          // 获取单个角色信息， 将其显示在 p标签区域
+          let roleShow = document.querySelector("#roles_info");
+          roleShow.innerHTML = JSON.stringify(result);
+        });
+      // 获取所有角色信息
+      document
+        .querySelector("#getrole")
+        .addEventListener("click", async function () {
+          // const response = await fetch(`/getrole?name=${document.querySelector('#name').value}&info=${document.querySelector('#info').value}`)
+          // 获取当前所有角色
+          const response = await fetch(`${API_URL}/getrole`);
+          const result = await response.json();
+
+          // 测试获取角色信息， 将其显示在 p标签区域
+          let roleShow = document.querySelector("#roles");
+          roleShow.innerHTML = JSON.stringify(result);
+          console.log(result);
+        });
+      // 登录
+      document
+        .querySelector("#create")
+        .addEventListener("click", async function () {
+          const response = await fetch(`/create`, {
+            method: "POST",
+            body: JSON.stringify({
+              name: document.querySelector("#name").value,
+              info: document.querySelector("#info").value,
+            }),
+          });
+          const result = await response.json();
+          console.log(result);
+          alert(result.msg);
+        });
+    </script>
+  </body>
+</html>
