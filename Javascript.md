@@ -16,6 +16,27 @@
 - [Array 数组方法](#Array数组方法)
 - [GitHub API](#GitHub)
 
+### String Format
+
+```js
+/* 按照指定位数及指定分隔符进行分割 */
+const STRING_FORMAT = (s, sp, sep) => {
+  sp = sp || 3;
+  sep = sep || ",";
+  var i = s.length % sp,
+    r = i ? [s.slice(0, i)] : [];
+  for (; i < s.length; i += sp) {
+    r.push(s.substr(i, sp));
+  }
+  return r.join(sep);
+};
+
+/* 使用方式 */
+STRING_FORMAT("315576000"); // '315,576,000'
+STRING_FORMAT("315576000", 2, " "); // '3 15 57 60 00'
+STRING_FORMAT("315576", 1, "-"); // '3-1-5-5-7-6'
+```
+
 ### HTMLSTRING TO DOM
 
 #### 按照性能
