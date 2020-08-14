@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Table</title>
+    <link rel="stylesheet" href="./table.css" />
+  </head>
+  <body>
+    <table>
+      <thead>
+        <tr>
+          <th></th>
+          <th>Name</th>
+          <th>Email</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr data-userid="1">
+          <td>
+            <input type="checkbox" data-action="select" />
+          </td>
+          <td>John Doe</td>
+          <td>john.doe@gmail.com</td>
+          <td>
+            <button type="button" data-action="edit">Edit</button>
+            <button type="button" data-action="delete">Delete</button>
+          </td>
+        </tr>
+        <tr data-userid="2">
+          <td>
+            <input type="checkbox" data-action="select" />
+          </td>
+          <td>Jane Smith</td>
+          <td>jane@smith.com</td>
+          <td>
+            <button type="button" data-action="edit">Edit</button>
+            <button type="button" data-action="delete">Delete</button>
+          </td>
+        </tr>
+        <tr data-userid="3">
+          <td>
+            <input type="checkbox" data-action="select" />
+          </td>
+          <td>George Westminster</td>
+          <td>g.westminster@googlemail.com</td>
+          <td>
+            <button type="button" data-action="edit">Edit</button>
+            <button type="button" data-action="delete">Delete</button>
+          </td>
+        </tr>
+        <tr data-userid="4">
+          <td>
+            <input type="checkbox" data-action="select" />
+          </td>
+          <td>Will Johnson</td>
+          <td>will.johnson@yahoo.com</td>
+          <td>
+            <button type="button" data-action="edit">Edit</button>
+            <button type="button" data-action="delete">Delete</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <script src="./table.js"></script>
+  </body>
+</html>

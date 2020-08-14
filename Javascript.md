@@ -16,6 +16,16 @@
 - [Array 数组方法](#Array数组方法)
 - [GitHub API](#GitHub)
 
+## DOM 操作
+
+### 选择器
+
+- Element.querySelector()
+- Element.closest()
+- Element.matches()
+
+## 字符串处理
+
 ### String Format
 
 ```js
