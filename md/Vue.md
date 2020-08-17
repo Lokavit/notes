@@ -10,6 +10,122 @@
 [示例](#Example)
 [Electron](#Electron)
 
+# 3.0
+
+- 逻辑提取和重用
+
+```js
+/* ref 版本 */
+import { ref, onMounted, onUnmounted } from "vue";
+
+/** 导出该函数 */
+export function useMousePosition() {
+  const x = ref(0); // 默认值
+  const y = ref(0); // 默认值
+
+  // 或者使用
+  const pos = { x: 0, y: 0 };
+
+  /**
+   * 获取鼠标位置
+   * @param {*} event 事件中会传入一个值
+   */
+  function updatePosition(event) {
+    x.value = event.pageX;
+    y.value = event.pageY;
+    // 如果使用pos对象形式，则此处为以下形式:
+    pos.x = event.pageX;
+    pos.y = event.pageY;
+  }
+
+  onMounted(() => {
+    window.addEventListener("mousedown", updatePosition);
+  });
+
+  onUnmounted(() => {
+    window.addEventListener("mousedown", updatePosition);
+  });
+
+  return { x, y };
+}
+
+/* 在组件里使用 */
+<template>
+  <div class="hello">
+    <div>mousedown.posistion: {{ x }},{{ y }}</div>
+  </div>
+</template>
+<script>
+import { useMousePosition } from "./useMousePosition";
+
+export default {
+  name: "HelloWorld",
+
+  setup() {
+    // 鼠标坐标
+    const { x, y } = useMousePosition();
+    return {
+      x,
+      y,
+    };
+  },
+};
+</script>
+
+```
+
+```js
+/* reactive 版本 */
+import { reactive, onMounted, onUnmounted } from "vue";
+
+/** 导出该函数 */
+export function useMousePosition() {
+  const pos = reactive({
+    x: 0,
+    y: 0,
+  });
+
+  /**
+   * 获取鼠标位置
+   * @param {*} event 事件中会传入一个值
+   */
+  function updatePosition(event) {
+    pos.x = event.pageX;
+    pos.y = event.pageY;
+  }
+
+  onMounted(() => {
+    window.addEventListener("mousedown", updatePosition);
+  });
+
+  onUnmounted(() => {
+    window.addEventListener("mousedown", updatePosition);
+  });
+
+  return pos;
+}
+
+/* 在组件里使用 */
+<template>
+  <div class="hello">
+    <div>mousedown.posistion: {{ pos.x }},{{ pos.y }}</div>
+  </div>
+</template>
+<script>
+import { useMousePosition } from "./useMousePosition";
+
+export default {
+  name: "HelloWorld",
+
+  setup() {
+    return {
+      pos: useMousePosition(),
+    };
+  },
+};
+</script>
+```
+
 ### NavMenu 引入各个模块的[component],更优解决方式
 
 - 使用[require.context()]创建自己的模块上下文,如动态批量引入.vue 文件
@@ -28,7 +144,7 @@
 const requireComponent = require.context(
   "@/views", // 目录的相对路径
   true, // 是否查询其子目录
-  /List[\w]+\.(vue|js)$/, // 匹配[List]件文件名的正则
+  /List[\w]+\.(vue|js)$/ // 匹配[List]件文件名的正则
 );
 
 /**
@@ -36,13 +152,15 @@ const requireComponent = require.context(
  * 最终返回的就是每个component ,也就是components:{}的组件实例化
  */
 const COMPONENTS = {};
-requireComponent.keys().forEach(fileName => {
+requireComponent.keys().forEach((fileName) => {
   /**
    * fileName 输出为: [./Material/ListMaterial.vue] (也就是模块文件夹+内中文件.vue)
    * requireComponent(fileName).default 每个组件
    * requireComponent(fileName).default.name 每个组件里的[name]
    */
-  COMPONENTS[requireComponent(fileName).default.name] = requireComponent(fileName).default;
+  COMPONENTS[requireComponent(fileName).default.name] = requireComponent(
+    fileName
+  ).default;
 });
 
 export default {
@@ -65,16 +183,28 @@ export default {
   <footer class="footer_div">
     <ul>
       <template v-for="(item,key) in taskbar">
-        <li :key="key" :class="{'li_active':activeKey ===key}" @click="taskClick(item,key)">
+        <li
+          :key="key"
+          :class="{'li_active':activeKey ===key}"
+          @click="taskClick(item,key)"
+        >
           <div class="l-flex-row">
             <div style="padding:0 6px; padding-right:16px;">
               <span style="font-size:10px;">{{item.name}}</span>
             </div>
             <div style="margin-right:4px;line-height: 21px;">
-              <svg-icon icon-name="zoomReset" style="width:8px;height:auto;" @click="handleZoomReset(item,key)" />
+              <svg-icon
+                icon-name="zoomReset"
+                style="width:8px;height:auto;"
+                @click="handleZoomReset(item,key)"
+              />
             </div>
             <div style="margin-right:8px;line-height: 21px;">
-              <svg-icon icon-name="close" @click="handleClose($parent)" style="width:8px;height:8px;" />
+              <svg-icon
+                icon-name="close"
+                @click="handleClose($parent)"
+                style="width:8px;height:8px;"
+              />
             </div>
           </div>
         </li>
@@ -89,7 +219,7 @@ export default {
     props: {
       tasks: {
         type: Array,
-        default: function() {
+        default: function () {
           return [];
         },
       },
@@ -745,7 +875,12 @@ methods: {
 ```html
 <!-- BaseInputSelect.vue 基础组件之Input改选择的外观 -->
 <template>
-  <input v-on="$listeners" class="input-text__line base-line" placeholder="请选择" v-model="value" />
+  <input
+    v-on="$listeners"
+    class="input-text__line base-line"
+    placeholder="请选择"
+    v-model="value"
+  />
 </template>
 <script>
   export default {
@@ -770,7 +905,7 @@ methods: {
       };
     },
     watch: {
-      gysName: function(newVal, oldVal) {
+      gysName: function (newVal, oldVal) {
         console.log("GYSNAME:", newVal);
         return newVal;
       },
@@ -814,7 +949,12 @@ methods: {
 <template>
   <div class="about">
     <h1>This is an about page</h1>
-    <ChildComponent :msg="msg" :name="name" @one.native="clickOne" @two="clickTwo" />
+    <ChildComponent
+      :msg="msg"
+      :name="name"
+      @one.native="clickOne"
+      @two="clickTwo"
+    />
   </div>
 </template>
 
@@ -1417,7 +1557,8 @@ export const myMixin = {
     }
   }
 </script>
-/* 以上输出结果： 1.mixins.js created 消息 2.组件中的信息 3.组件中的 methods message: Msg from Vue Component */
+/* 以上输出结果： 1.mixins.js created 消息 2.组件中的信息 3.组件中的 methods
+message: Msg from Vue Component */
 ```
 
 ### 全局 Mixins
@@ -1456,24 +1597,24 @@ export default {
 };
 
 /* mixin.js */
-import filters from '../filters/filters';
+import filters from "../filters/filters";
 export default {
-    /** 全局混入 data 部分 */
-    data() {
-        return {};
-    },
-    /** 全局混入 方法部分 */
-    methods: {
-        //将globalMethods里面的方法用对象展开符混入到mixin上,以方便调用，直接this.$xxx方法名就可以了
-    },
-    /** 全局混入 过滤器部分 */
-    filters: {
-        ...filters
-    }
-}
+  /** 全局混入 data 部分 */
+  data() {
+    return {};
+  },
+  /** 全局混入 方法部分 */
+  methods: {
+    //将globalMethods里面的方法用对象展开符混入到mixin上,以方便调用，直接this.$xxx方法名就可以了
+  },
+  /** 全局混入 过滤器部分 */
+  filters: {
+    ...filters,
+  },
+};
 
 /* main.js */
-import mixin from './mixins/mixin'; // 引入全局混入
+import mixin from "./mixins/mixin"; // 引入全局混入
 Vue.mixin(mixin); // 全局混入
 ```
 
@@ -1521,7 +1662,10 @@ Vue.mixin(mixin); // 全局混入
               console.log("捕获事件", e);
               console.log("获取点击的label的内容:", e.target.innerText);
               vnode.context.dialogFormVisible = true; // 使用节点，获取其下内容，也就是上面data中的属性
-              console.log("操作外部data试试：", vnode.context.dialogFormVisible);
+              console.log(
+                "操作外部data试试：",
+                vnode.context.dialogFormVisible
+              );
 
               // 改动data
               vnode.context.form.defaultLabel = e.target.innerText;
@@ -1579,7 +1723,7 @@ Vue.mixin(mixin); // 全局混入
 // HocButton.js
 function debounce(func, delay, context, event) {
   clearTimeout(func.timer);
-  func.timer = setTimeout(function() {
+  func.timer = setTimeout(function () {
     func.call(context, event);
   }, delay);
 }
@@ -1603,7 +1747,7 @@ export default {
   render(h) {
     const slots = Object.keys(this.$slots)
       .reduce((arr, key) => arr.concat(this.$slots[key]), [])
-      .map(vnode => {
+      .map((vnode) => {
         vnode.context = this._self;
         return vnode;
       });
@@ -1619,7 +1763,7 @@ export default {
         scopedSlots: this.$scopedSlots,
         attrs: this.$attrs,
       },
-      slots,
+      slots
     );
   },
 };
@@ -1671,7 +1815,11 @@ export default {
       };
     },
     render(h) {
-      return h("div", { class: "child-node" }, [this.$scopedSlots.header({ text: this.headerText }), this.$scopedSlots.default(this.defaultText), this.$scopedSlots.footer({ text: this.footerText })]);
+      return h("div", { class: "child-node" }, [
+        this.$scopedSlots.header({ text: this.headerText }),
+        this.$scopedSlots.default(this.defaultText),
+        this.$scopedSlots.footer({ text: this.footerText }),
+      ]);
     },
   };
 </script>
@@ -1691,13 +1839,13 @@ export default {
         this.$slots.default,
         h("base-layout", {
           scopedSlots: {
-            header: props => {
+            header: (props) => {
               return h("p", { style: { color: "red" } }, [props.text]);
             },
-            default: props => {
+            default: (props) => {
               return h("p", { style: { color: "deeppink" } }, [props]);
             },
-            footer: props => {
+            footer: (props) => {
               return h("p", { style: { color: "orange" } }, [props.text]);
             },
           },
@@ -1721,13 +1869,13 @@ export default {
           <BaseLayout
             {...{
               scopedSlots: {
-                header: props => {
+                header: (props) => {
                   return <p style={{ color: "red" }}>{props.text}</p>;
                 },
-                default: props => {
+                default: (props) => {
                   return <p style={{ color: "deeppink" }}>{props}</p>;
                 },
-                footer: props => {
+                footer: (props) => {
                   return <p style={{ color: "orange" }}>{props.text}</p>;
                 },
               },
@@ -1746,7 +1894,12 @@ export default {
 <!-- child.vue -->
 <template>
   <div>
-    <el-input v-model="inputValue" placeholder="请输入内容" clearable size="mini"></el-input>
+    <el-input
+      v-model="inputValue"
+      placeholder="请输入内容"
+      clearable
+      size="mini"
+    ></el-input>
     <slot :items="filterList"></slot>
   </div>
 </template>
@@ -1757,7 +1910,7 @@ export default {
     props: {
       items: {
         type: Array,
-        default: function() {
+        default: function () {
           return [];
         },
       },
@@ -1768,7 +1921,7 @@ export default {
     computed: {
       filterList() {
         // 返回 item.name中包含输入的字符，
-        return this.items.filter(item => item.name.includes(this.inputValue));
+        return this.items.filter((item) => item.name.includes(this.inputValue));
       },
     },
     methods: {},
@@ -1788,7 +1941,13 @@ export default {
     components: { Child },
     data() {
       return {
-        items: [{ id: 1, name: "Satya", isOK: false }, { id: 2, name: "Shakya", isOK: true }, { id: 3, name: "Skyaha", isOK: false }, { id: 4, name: "kyaSha", isOK: true }, { id: 5, name: "kyaSha", isOK: false }],
+        items: [
+          { id: 1, name: "Satya", isOK: false },
+          { id: 2, name: "Shakya", isOK: true },
+          { id: 3, name: "Skyaha", isOK: false },
+          { id: 4, name: "kyaSha", isOK: true },
+          { id: 5, name: "kyaSha", isOK: false },
+        ],
       };
     },
   };
@@ -1800,7 +1959,9 @@ export default {
 <template>
   <div>
     <!-- 当parent.vue中，没有插入内容，则会渲染child.vue中slot的[备渲染内容] -->
-    <slot :user="user">备渲染内容：{{ user.firstName }} == {{user.lastName}}</slot>
+    <slot :user="user"
+      >备渲染内容：{{ user.firstName }} == {{user.lastName}}</slot
+    >
   </div>
 </template>
 
@@ -1865,7 +2026,7 @@ export default {
     props: {
       items: {
         type: Array,
-        default: function() {
+        default: function () {
           return [];
         },
       },
@@ -1895,7 +2056,10 @@ export default {
     components: { Child },
     data() {
       return {
-        items: [{ id: 1, name: "Satya", isOK: false }, { id: 2, name: "Shakya", isOK: true }],
+        items: [
+          { id: 1, name: "Satya", isOK: false },
+          { id: 2, name: "Shakya", isOK: true },
+        ],
       };
     },
   };
@@ -1928,9 +2092,7 @@ export default {
   </template>
 </Child>
 <Child>
-  <template v-slot="{testName}"
-    >{{testName}}</template
-  >
+  <template v-slot="{testName}">{{testName}}</template>
 </Child>
 <Child v-slot="{testName}">{{testName}}</Child>
 <Child v-slot="childSlotProps">{{childSlotProps.testName}}</Child>
@@ -2046,27 +2208,29 @@ export default {
 
 ```js
 /* src/router/routes.js */
-const routes = [{
-    path: '/', // 瀏覽器地址欄 url
+const routes = [
+  {
+    path: "/", // 瀏覽器地址欄 url
     // 根路徑需顯示的視圖爲全局的layout 佈局主視圖
-    component: () => import('../views/layout/Index.vue')
+    component: () => import("../views/layout/Index.vue"),
   },
   {
-    path: '/home',
-    name: 'Home', // 該命名，如無必要，可省略
-    component: () => import('../views/Home.vue') // 該url下需顯示的視圖組件
-  }, {
-    path: '/about',
-    name: 'About',
-    component: () => import('../views/About.vue')
-  }
+    path: "/home",
+    name: "Home", // 該命名，如無必要，可省略
+    component: () => import("../views/Home.vue"), // 該url下需顯示的視圖組件
+  },
+  {
+    path: "/about",
+    name: "About",
+    component: () => import("../views/About.vue"),
+  },
 ];
 export default routes; // 最後記得導出該路由組，用於在router/index.js中引入
 
 /* src/router/index.js */
-import Vue from 'vue';
-import Router from 'vue-router';
-import routes from './routes.js'; // 引入路由組文件
+import Vue from "vue";
+import Router from "vue-router";
+import routes from "./routes.js"; // 引入路由組文件
 Vue.use(Router); // 告诉 vue 使用 Router
 // 构造函数 ，接受routes参数
 const router = new VueRouter({
@@ -2077,12 +2241,12 @@ const router = new VueRouter({
 export default router; // 导出,用於在main.js主文件中引入
 
 /* main.js */
-import router from './router/index.js';
+import router from "./router/index.js";
 // 把router 实例注入到 vue 根实例中
 new Vue({
   router, // 加上路由
-  render: h => h(App),
-}).$mount('#app');
+  render: (h) => h(App),
+}).$mount("#app");
 ```
 
 vue 设置路由导航的两种方法有 <router-link to=''> 和 router.push().
@@ -2115,7 +2279,12 @@ this.$router.push({ name: 'xxx', params: { id: 1 } });
   <div class="dropdown-div" :title="name">
     <span>{{ name }}</span>
     <svg-icon icon-name="triangledown" @click.prevent="toggle" />
-    <div role="timelinebody" v-show="shown" class="div-body" @mouseleave="onmouseleave">
+    <div
+      role="timelinebody"
+      v-show="shown"
+      class="div-body"
+      @mouseleave="onmouseleave"
+    >
       <slot></slot>
     </div>
   </div>
@@ -2278,37 +2447,40 @@ export default {
 
 ```js
 /* todo.js */
-const todo = [{
-  taskDefKey:'IGNYQ6157',
-  routeURL: '/FoodAndDrug/case_prog_list/progReprotUpload'
-},{
-  taskDefKey:'Y0OQZ6869',
-  routeURL: '/FoodAndDrug/case_inquire_list/inquireUpLoadFile'
-}];
+const todo = [
+  {
+    taskDefKey: "IGNYQ6157",
+    routeURL: "/FoodAndDrug/case_prog_list/progReprotUpload",
+  },
+  {
+    taskDefKey: "Y0OQZ6869",
+    routeURL: "/FoodAndDrug/case_inquire_list/inquireUpLoadFile",
+  },
+];
 export default todo;
 
 /* demo.js */
-import TodoJS from './todo.js';
+import TodoJS from "./todo.js";
 export default {
   data() {
     return {
-      todo: TodoJS
+      todo: TodoJS,
     };
   },
   methods: {
     checkLawDetail(row) {
-      console.log('row>>>>>>', row);
-      console.log('TODOCOUNT:', this.todo.length);
-            // 遍历todo 自定义ID与路由对应
-      this.todo.forEach(item => {
+      console.log("row>>>>>>", row);
+      console.log("TODOCOUNT:", this.todo.length);
+      // 遍历todo 自定义ID与路由对应
+      this.todo.forEach((item) => {
         if (row.taskDefKey == item.taskDefKey) {
           this.$router.push({
             path: item.routeURL,
-            query: { tableRow: JSON.stringify(row) }
+            query: { tableRow: JSON.stringify(row) },
           });
         }
       });
-    }
+    },
   },
 };
 ```
@@ -2392,7 +2564,11 @@ actions: {
  * Mocking client-server processing
  * 模擬後臺數據
  */
-const _products = [{ id: 1, title: "iPad 4 Mini", price: 500, inventory: 2 }, { id: 2, title: "H&M T-Shirt White", price: 10, inventory: 10 }, { id: 3, title: "Charli XCX - Sucker CD", price: 20, inventory: 5 }];
+const _products = [
+  { id: 1, title: "iPad 4 Mini", price: 500, inventory: 2 },
+  { id: 2, title: "H&M T-Shirt White", price: 10, inventory: 10 },
+  { id: 3, title: "Charli XCX - Sucker CD", price: 20, inventory: 5 },
+];
 
 export default {
   getProducts(cb) {
@@ -2439,7 +2615,7 @@ export default {
   },
 
   [types.CLEAR_CART_PRODUCTS](state) {
-    state.all.forEach(p => {
+    state.all.forEach((p) => {
       p.quantity = 0;
     });
   },
@@ -2453,9 +2629,10 @@ export default {
  */
 export default {
   // 總商品列表
-  allProducts: state => state.all,
+  allProducts: (state) => state.all,
   // 購物車商品列表
-  cartProducts: (state, getters) => getters.allProducts.filter(p => p.quantity),
+  cartProducts: (state, getters) =>
+    getters.allProducts.filter((p) => p.quantity),
   // 購物車商品總價
   cartTotalPrice: (state, getters) => {
     return getters.cartProducts.reduce((total, product) => {
@@ -2479,11 +2656,11 @@ export default {
    * 獲取數據後，加入選取數量quantity的標誌，以區分是否被加入購物車
    */
   getAllProducts({ commit }) {
-    shop.getProducts(res => {
-      const newRes = res.map(p =>
+    shop.getProducts((res) => {
+      const newRes = res.map((p) =>
         Object.assign({}, p, {
           quantity: 0,
-        }),
+        })
       );
       commit(types.SET_PRODUCTS, newRes);
     });
@@ -2570,7 +2747,13 @@ export default new Vuex.Store({
       <div>{{ product.price }}</div>
       <div>{{ product.inventory - product.quantity }}</div>
       <div>
-        <el-input-number :min="0" :max="product.inventory" v-model="product.quantity" @change="handleChange"> </el-input-number>
+        <el-input-number
+          :min="0"
+          :max="product.inventory"
+          v-model="product.quantity"
+          @change="handleChange"
+        >
+        </el-input-number>
       </div>
     </li>
   </ul>
@@ -3576,7 +3759,7 @@ createPersistedState({ storage: window.sessionStorage })
 /* directive/tooltip.js */
 export default {
   bind(el, binding, vnode, oldVnode) {
-    let parentEle = document.createElement('div');
+    let parentEle = document.createElement("div");
     parentEle.id = "tooltip";
     parentEle.innerText = binding.value;
 
@@ -3585,35 +3768,35 @@ export default {
     darktheme.innerHTML;
 
     //mouse enter event
-    el.addEventListener('mouseenter', (event) => {
+    el.addEventListener("mouseenter", (event) => {
       event.cancelBubble = true;
       let rect = el.getClientRects();
-      parentEle.style.left = rect['0'].left - 0 + 'px';
-      parentEle.style.top = rect['0'].top +20 + 'px';
+      parentEle.style.left = rect["0"].left - 0 + "px";
+      parentEle.style.top = rect["0"].top + 20 + "px";
 
-      document.getElementById('app').appendChild(parentEle);
+      document.getElementById("app").appendChild(parentEle);
     });
 
     //mouse leave event
-    el.addEventListener('mouseleave', (event) => {
-      document.getElementById('tooltip').remove();
+    el.addEventListener("mouseleave", (event) => {
+      document.getElementById("tooltip").remove();
     });
   },
 
   unbind(el, binding, vnode, oldVnode) {
-    el.removeEventListener('mouseenter', () => {});
-    el.removeEventListener('mouseleave', () => {});
-  }
-}
+    el.removeEventListener("mouseenter", () => {});
+    el.removeEventListener("mouseleave", () => {});
+  },
+};
 
 /* directive/index.js */
-import tooltip from './tooltip';
+import tooltip from "./tooltip";
 
 const install = function (Vue) {
-  Vue.directive('tooltip', tooltip)
-}
+  Vue.directive("tooltip", tooltip);
+};
 if (window.Vue) {
-  window['tooltip'] = tooltip;
+  window["tooltip"] = tooltip;
   Vue.use(install);
 }
 tooltip.install = install;
@@ -3860,10 +4043,16 @@ export default {
 
 ```html
 <!-- 直接写在 标签上 -->
-<div :style="[{'width':width},GLOBAL.LIST_TABLE_MARGIN]" :header-cell-style="GLOBAL.LIST_TABLE_HEADER_CELL_STYLE"></div>
+<div
+  :style="[{'width':width},GLOBAL.LIST_TABLE_MARGIN]"
+  :header-cell-style="GLOBAL.LIST_TABLE_HEADER_CELL_STYLE"
+></div>
 
 <!-- 声明个属性，然后赋值 ，把属性写在标签上 -->
-<div :style="[{'width':width},styleObject]" :header-cell-style="headerCellStyle"></div>
+<div
+  :style="[{'width':width},styleObject]"
+  :header-cell-style="headerCellStyle"
+></div>
 <script>
   data(){return{
           styleObject: this.GLOBAL.LIST_TABLE_MARGIN,
@@ -3872,7 +4061,10 @@ export default {
 </script>
 
 <!-- 写到 computed里面  若有需要计算及改变的时候，可以用此种方式 -->
-<div :style="[{'width':width},styleObject]" :header-cell-style="headerCellStyle"></div>
+<div
+  :style="[{'width':width},styleObject]"
+  :header-cell-style="headerCellStyle"
+></div>
 <script>
   computed: {
     width() {
@@ -3992,22 +4184,57 @@ data(){return{tableData:{size:10}};}
 - 使用偏门的[small]作为单元格可编辑组件的包裹器,使用[span]作为单元格显示内容的组件
 
 ```html
-<el-table :data="tableData" border highlight-current-row size="mini" show-summary :summary-method="getSummaries" @scroll="handlerScroll" :header-cell-style="headerCellStyle" :cell-style="cellStyle" :style="[{'width':width},styleObject]" :max-height="maxHeight" :row-style="rowStyle" :row-class-name="rowClassName" @current-change="handleCurrentRow">
+<el-table
+  :data="tableData"
+  border
+  highlight-current-row
+  size="mini"
+  show-summary
+  :summary-method="getSummaries"
+  @scroll="handlerScroll"
+  :header-cell-style="headerCellStyle"
+  :cell-style="cellStyle"
+  :style="[{'width':width},styleObject]"
+  :max-height="maxHeight"
+  :row-style="rowStyle"
+  :row-class-name="rowClassName"
+  @current-change="handleCurrentRow"
+>
   <el-table-column type="index" label="#"></el-table-column>
   <el-table-column label="物料编码" prop="itemCode" min-width="11%">
     <template v-slot="scope">
       <small>
-        <kft-choose code="Material" class="kft-line-choose" size="mini" show-detail show-index show-search v-model="scope.row.itemCode" @on-choose-selected="chooseMaterial($event, scope.$index)" placeholder="请选择物料"></kft-choose>
+        <kft-choose
+          code="Material"
+          class="kft-line-choose"
+          size="mini"
+          show-detail
+          show-index
+          show-search
+          v-model="scope.row.itemCode"
+          @on-choose-selected="chooseMaterial($event, scope.$index)"
+          placeholder="请选择物料"
+        ></kft-choose>
       </small>
       <span>{{scope.row.itemCode}}</span>
     </template>
   </el-table-column>
-  <el-table-column label="物料描述" show-overflow-tooltip prop="itemDescription" min-width="14%"></el-table-column>
+  <el-table-column
+    label="物料描述"
+    show-overflow-tooltip
+    prop="itemDescription"
+    min-width="14%"
+  ></el-table-column>
 
   <el-table-column label="数量" prop="quantity" min-width="12%">
     <template v-slot="scope">
       <small>
-        <el-input-number size="mini" v-model="scope.row.quantity" :min="1" :max="scope.row.maxQuantity"></el-input-number>
+        <el-input-number
+          size="mini"
+          v-model="scope.row.quantity"
+          :min="1"
+          :max="scope.row.maxQuantity"
+        ></el-input-number>
       </small>
       <span>{{scope.row.quantity}}</span>
     </template>
@@ -4032,10 +4259,27 @@ data(){return{tableData:{size:10}};}
       <el-popover :ref="`popover-${scope.$index}`" placement="top" width="160">
         <p>确定删除吗？</p>
         <div style="text-align: right; margin: 0">
-          <el-button size="mini" type="text" @click="scope._self.$refs[`popover-${scope.$index}`].doClose()">取消</el-button>
-          <el-button type="primary" size="mini" @click="handleDeleteOk(scope._self.$refs[`popover-${scope.$index}`], scope.$index)">确定</el-button>
+          <el-button
+            size="mini"
+            type="text"
+            @click="scope._self.$refs[`popover-${scope.$index}`].doClose()"
+            >取消</el-button
+          >
+          <el-button
+            type="primary"
+            size="mini"
+            @click="handleDeleteOk(scope._self.$refs[`popover-${scope.$index}`], scope.$index)"
+            >确定</el-button
+          >
         </div>
-        <el-button type="danger" size="mini" slot="reference" icon="el-icon-minus" circle style="padding:0;margin-left:6px"></el-button>
+        <el-button
+          type="danger"
+          size="mini"
+          slot="reference"
+          icon="el-icon-minus"
+          circle
+          style="padding:0;margin-left:6px"
+        ></el-button>
       </el-popover>
     </template>
   </el-table-column>
@@ -4068,7 +4312,9 @@ data(){return{tableData:{size:10}};}
          * 如果小于，则高度为(当前数据总条数+1)*30[每条高度]
          * 否则，返回(全局函数返回的每页数据条数+1)*30[每条高度]
          */
-        return this.tableData.length <= this.GLOBAL.returnTableDataSize() / 2 ? (this.tableData.length + 4) * 30 : (this.GLOBAL.returnTableDataSize() - 1) * 30;
+        return this.tableData.length <= this.GLOBAL.returnTableDataSize() / 2
+          ? (this.tableData.length + 4) * 30
+          : (this.GLOBAL.returnTableDataSize() - 1) * 30;
       },
     },
     watch: {
@@ -4115,9 +4361,11 @@ data(){return{tableData:{size:10}};}
           // 如果，行合计列
           if (index == 9 && column.property == "lineTotal") {
             console.log("index:", index, "column:", column.property);
-            let temp = data.map(item => {
+            let temp = data.map((item) => {
               if (item.lineTotal) {
-                return (item.lineTotal = (item.quantity * item.price).toFixed(2));
+                return (item.lineTotal = (item.quantity * item.price).toFixed(
+                  2
+                ));
                 console.log("每条数据的行总计:", item.lineTotal);
               }
             });
@@ -4144,7 +4392,11 @@ data(){return{tableData:{size:10}};}
         this.$set(row, "itemDescription", selectedRow.itemDescription);
         this.$set(row, "quantity", row.quantity || 1);
         // 给该行添加 [lineTotal]行总计 属性
-        this.$set(row, "lineTotal", ((row.quantity || 1) * (row.price || 0)).toFixed(2) || 0);
+        this.$set(
+          row,
+          "lineTotal",
+          ((row.quantity || 1) * (row.price || 0)).toFixed(2) || 0
+        );
         console.log("输出新对象:", row);
       },
       handleDeleteOk(popover, index) {
@@ -4153,7 +4405,7 @@ data(){return{tableData:{size:10}};}
       },
       /** 添加空数据行 */
       pushEmptyData() {
-        if (this.tableData.filter(row => !row.itemCode).length === 0) {
+        if (this.tableData.filter((row) => !row.itemCode).length === 0) {
           this.tableData.push({});
         }
       },
@@ -4331,7 +4583,7 @@ export const http = axios.create({
  *  request 請求攔截
  */
 http.interceptors.request.use(
-  config => {
+  (config) => {
     // config.headers.get['Content-Type'] = 'application/json;charset=UTF-8';
     // config.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
     // 如果获取到token ，每个请求的请求头，携带token,
@@ -4350,18 +4602,18 @@ http.interceptors.request.use(
 
     return config; //返回配置
   },
-  error => {
+  (error) => {
     // 请求拦截的异常处理区域。
     // console.log('ERROR:',error);
     return Promise.reject(error);
-  },
+  }
 );
 
 /**
  * response 響應攔截
  */
 http.interceptors.response.use(
-  response =>
+  (response) =>
     // response,
     {
       if (response.status == 200) {
@@ -4391,7 +4643,7 @@ http.interceptors.response.use(
   /**
    * 异常处理区域
    */
-  error => {
+  (error) => {
     if (error.response) {
       switch (error.response.status) {
         /** 请求错误(400) */
@@ -4403,7 +4655,7 @@ http.interceptors.response.use(
       // console.log('ERROR:', error);
     }
     return Promise.reject(error.response);
-  },
+  }
 );
 
 /**
@@ -4630,9 +4882,9 @@ export function removeToken() {
 ```js
 /* src/store/getters.js */
 const getters = {
-  token: state => state.user.token,
-}
-export default getters
+  token: (state) => state.user.token,
+};
+export default getters;
 
 /* src/store/index.js */
 import Vue from "vue";
@@ -4656,7 +4908,7 @@ const modules = modulesFiles.keys().reduce((modules, modulePath) => {
 
 const store = new Vuex.Store({
   modules,
-  getters
+  getters,
 });
 
 export default store;
@@ -4684,7 +4936,7 @@ const http = axios.create({
  * request 請求攔截
  */
 http.interceptors.request.use(
-  config => {
+  (config) => {
     // 獲取到token值
     if (store.getters.token) {
       // 每個請求的請求頭，攜帶token [Authorization]自定義Key
@@ -4692,10 +4944,10 @@ http.interceptors.request.use(
     }
     return config;
   },
-  error => {
+  (error) => {
     console.log("http.js request error:", error);
     return Promise.reject(error);
-  },
+  }
 );
 
 /**
@@ -4704,7 +4956,7 @@ http.interceptors.request.use(
 http.interceptors.response.use(
   // response => response,
   // 預留後臺返回錯誤code對應處理邏輯
-  response => {
+  (response) => {
     const res = response.data;
     if (res.code !== 20000) {
       console.error(res.message);
@@ -4720,10 +4972,10 @@ http.interceptors.response.use(
     }
   },
 
-  error => {
+  (error) => {
     console.log("http.js response error:", error);
     return Promise.reject(error);
-  },
+  }
 );
 
 export default http;
@@ -4807,26 +5059,26 @@ const http = axios.create({
  * request 請求攔截
  */
 http.interceptors.request.use(
-  config => {
+  (config) => {
     // 請求前的邏輯處理，如獲取到token,將config.headers設置token
     return config;
   },
-  error => {
+  (error) => {
     console.log("axios request error:", error);
     Promise.reject(error);
-  },
+  }
 );
 
 /**
  * response 響應攔截
  */
 http.interceptors.response.use(
-  response => response,
+  (response) => response,
   // 根據返回的code不同，進行對應處理(通常是出現權限問題)
-  error => {
+  (error) => {
     console.log("axios response error:", error);
     return Promise.reject(error);
-  },
+  }
 );
 
 export default http; // 導出
@@ -4865,7 +5117,7 @@ export function getGithubData() {
     methods: {
       getData() {
         // 調用api/github.js中封裝的獲取數據函數
-        getGithubData().then(res => {
+        getGithubData().then((res) => {
           console.log("RES:", res.data);
         });
       },
@@ -5151,7 +5403,11 @@ input[type="checkbox"]:checked::after:focus {
 <template>
   <div role="tabs">
     <ul class="tabs-nav">
-      <li v-for="(item,index) in tabsTab" @click="tabClick(item)" :class="{'active':active==item.name}">
+      <li
+        v-for="(item,index) in tabsTab"
+        @click="tabClick(item)"
+        :class="{'active':active==item.name}"
+      >
         {{ item.label }}
       </li>
     </ul>
@@ -5169,7 +5425,7 @@ input[type="checkbox"]:checked::after:focus {
       },
       onChange: {
         type: Function,
-        default: function() {},
+        default: function () {},
       },
     },
     data() {
@@ -5192,7 +5448,11 @@ input[type="checkbox"]:checked::after:focus {
 ```html
 <!-- BaseTabPane.vue -->
 <template>
-  <div class="tab-pane" :class="{'active':name==$parent.active}" v-show="name==$parent.active">
+  <div
+    class="tab-pane"
+    :class="{'active':name==$parent.active}"
+    v-show="name==$parent.active"
+  >
     <slot></slot>
   </div>
 </template>
@@ -5220,7 +5480,12 @@ input[type="checkbox"]:checked::after:focus {
   <template v-for="(item,index) in tabs">
     <BaseTabPane :label="item.label" :name="item.name" :key="item.name">
       <template v-for="(component,key,index) in $options.components">
-        <component v-if="component.name === item.name" :is="component.name" :key="key" class="box-show__inset"></component>
+        <component
+          v-if="component.name === item.name"
+          :is="component.name"
+          :key="key"
+          class="box-show__inset"
+        ></component>
       </template>
     </BaseTabPane>
   </template>
@@ -5277,7 +5542,13 @@ input[type="checkbox"]:checked::after:focus {
 ```html
 <!-- BaseInput.vue -->
 <template>
-  <input ref="input" :type="type" :value="currentValue" @input="handleInput" @blur="handleBlur" />
+  <input
+    ref="input"
+    :type="type"
+    :value="currentValue"
+    @input="handleInput"
+    @blur="handleBlur"
+  />
 </template>
 
 <script>
@@ -5337,10 +5608,10 @@ import camelCase from "lodash/camelCase"; // 字符串转驼峰
 const requireComponent = require.context(
   ".", // 基础组件目录的相对路径
   true, // 是否查询其子目录
-  /Base[\w]+\.(vue|js)$/, // 匹配基础组件文件名的正则表达式
+  /Base[\w]+\.(vue|js)$/ // 匹配基础组件文件名的正则表达式
 );
 
-requireComponent.keys().forEach(fileName => {
+requireComponent.keys().forEach((fileName) => {
   // 获取组件配置
   const componentConfig = requireComponent(fileName);
   // 获取组件的PascalCase 命名
@@ -5351,8 +5622,8 @@ requireComponent.keys().forEach(fileName => {
         .split("/")
         .pop()
         .replace(/^\.\/_/, "")
-        .replace(/\.\w+$/, ""),
-    ),
+        .replace(/\.\w+$/, "")
+    )
   );
   // 全局注册组件
   Vue.component(componentName, componentConfig.default || componentConfig);
@@ -5438,7 +5709,8 @@ import SvgIcon from "@/components/SvgIcon.vue"; // svg组件
 Vue.component("svg-icon", SvgIcon);
 
 const req = require.context("@/assets/icons", false, /\.svg$/);
-const requireAll = requireContext => requireContext.keys().map(requireContext);
+const requireAll = (requireContext) =>
+  requireContext.keys().map(requireContext);
 requireAll(req);
 ```
 
@@ -5535,10 +5807,12 @@ Login.vue 登入按鈕函數 handleLogin()
     <h1>LOGIN PAGE!</h1>
     <el-form ref="loginForm" :model="loginForm">
       <el-form-item prop="username">
-        <el-input v-model="loginForm.username" type="text" name="username"> </el-input>
+        <el-input v-model="loginForm.username" type="text" name="username">
+        </el-input>
       </el-form-item>
       <el-form-item prop="password">
-        <el-input v-model="loginForm.password" type="text" name="password"> </el-input>
+        <el-input v-model="loginForm.password" type="text" name="password">
+        </el-input>
       </el-form-item>
       <el-button @click="handleLogin">LOGIN</el-button>
     </el-form>
@@ -5558,7 +5832,7 @@ Login.vue 登入按鈕函數 handleLogin()
     },
     methods: {
       handleLogin() {
-        this.$refs.loginForm.validate(valid => {
+        this.$refs.loginForm.validate((valid) => {
           if (valid) {
             this.$store
               .dispatch("LoginUser", this.loginForm)
@@ -5589,38 +5863,36 @@ Login.vue 登入按鈕函數 handleLogin()
 /**
  * 用戶狀態管理
  */
-import {
-  loginUserAPI
-} from '../api/login';
+import { loginUserAPI } from "../api/login";
 
 const user = {
   state: {},
 
   actions: {
     // 異步提交登入函數
-    LoginUser({
-      commit
-    }, userInfo) {
+    LoginUser({ commit }, userInfo) {
       const username = userInfo.username.trim();
       return new Promise((resolve, reject) => {
         // api/login.js
-        loginUserAPI(username, userInfo.password).then(res => {
-          console.log("user.js LoginUser loginUserAPI:", res);
-          resolve() // 不可缺少
-        }).catch(error => {
-          reject(error)
-        })
-      })
-    }
-  }
-}
+        loginUserAPI(username, userInfo.password)
+          .then((res) => {
+            console.log("user.js LoginUser loginUserAPI:", res);
+            resolve(); // 不可缺少
+          })
+          .catch((error) => {
+            reject(error);
+          });
+      });
+    },
+  },
+};
 
-export default user
+export default user;
 
 /* src/store.js */
 import Vue from "vue";
 import Vuex from "vuex";
-import user from './store/user'; // 引入user模塊的狀態管理
+import user from "./store/user"; // 引入user模塊的狀態管理
 
 Vue.use(Vuex);
 
@@ -5629,8 +5901,8 @@ export default new Vuex.Store({
   mutations: {},
   actions: {},
   modules: {
-    user
-  }
+    user,
+  },
 });
 ```
 
@@ -5671,19 +5943,19 @@ const service = axios.create({
 });
 // 請求攔截
 service.interceptors.request.use(
-  config => {
+  (config) => {
     return config;
   },
-  error => {
+  (error) => {
     console.log("ERROR:", error);
-  },
+  }
 );
 // 響應攔截
 service.interceptors.response.use(
-  response => response,
-  error => {
+  (response) => response,
+  (error) => {
     console.log("ERROR:", error);
-  },
+  }
 );
 export default service;
 ```
@@ -5702,7 +5974,7 @@ const userMap = {
 };
 export default {
   // 與api/login.js 的登入請求接口同名
-  loginUserAPI: config => {
+  loginUserAPI: (config) => {
     const { username } = JSON.parse(config.body);
     return userMap[username];
   },
@@ -5747,7 +6019,7 @@ Vue.config.productionTip = false;
 new Vue({
   router,
   store,
-  render: h => h(App),
+  render: (h) => h(App),
 }).$mount("#app");
 ```
 
@@ -5773,7 +6045,7 @@ const userMap = {
 
 export default {
   // 模擬獲取角色信息接口，該接口與api/login.js同名
-  getUserInfo: config => {
+  getUserInfo: (config) => {
     // 調用參數轉對象的工具函數，提取token
     const { token } = paramsToObj(config.url);
     if (userMap[token]) {
@@ -5877,14 +6149,14 @@ const user = {
       return new Promise((resolve, reject) => {
         // api/login.js
         loginUserAPI(username, userInfo.password)
-          .then(res => {
+          .then((res) => {
             console.log("user.js LoginUser loginUserAPI:", res.data);
             console.log("RES DATA TOKEN:", res.data);
             commit("SET_TOKEN", res.data.token); //提交到store改變token
             Auth.setToken(res.data.token); // 設置token緩存
             resolve(); // 不可缺少
           })
-          .catch(error => {
+          .catch((error) => {
             reject(error);
           });
       });
@@ -5894,13 +6166,13 @@ const user = {
     GetUserInfo({ commit, state }) {
       return new Promise((resolve, reject) => {
         getUserInfo(state.token)
-          .then(res => {
+          .then((res) => {
             if (!res.data) {
               reject("Please Login!");
             }
             resolve(); //
           })
-          .catch(error => {
+          .catch((error) => {
             reject(error);
           });
       });
@@ -5920,20 +6192,20 @@ const getters = { token:state => state.user.token }
  * 對狀態數據進行過濾獲取
  */
 const getters = {
-  token: state => state.user.token,
-}
-export default getters
+  token: (state) => state.user.token,
+};
+export default getters;
 
 /* src/store/store.js */
-import getters from './getters' // 狀態數據的統一過濾獲取
+import getters from "./getters"; // 狀態數據的統一過濾獲取
 export default new Vuex.Store({
   state: {},
   mutations: {},
   actions: {},
   modules: {
-    user
+    user,
   },
-  getters
+  getters,
 });
 ```
 
@@ -6015,7 +6287,7 @@ const user = {
             Auth.removeToken(); // 移除緩存中的token
             resolve();
           })
-          .catch(error => {
+          .catch((error) => {
             reject(error);
           });
       });
@@ -6178,7 +6450,7 @@ const domain = "http://mockjs.com/api"; // 定義默認域名，可隨意寫
 const code = 200; // 返回狀態碼
 
 // 隨機生成文章數據
-const postData = req => {
+const postData = (req) => {
   console.log("Req:", req); // 請求體，用於獲取參數
 
   let posts = []; // 用於存放文章數據的數組
@@ -6234,7 +6506,7 @@ Vue.prototype.$http = axios;
     },
     methods: {
       getMockData() {
-        this.$http.get("/posts").then(res => {
+        this.$http.get("/posts").then((res) => {
           console.log("RES:", res);
           this.posts = res.data.posts;
           console.log("POSTS:", this.posts);
@@ -6444,7 +6716,7 @@ Menu.setApplicationMenu(menu); // 参数为以上创建的菜单模板
           let max = 0;
 
           function each(data, floor) {
-            data.forEach(e => {
+            data.forEach((e) => {
               e.floor = floor;
               if (floor > max) {
                 max = floor;
@@ -6458,7 +6730,7 @@ Menu.setApplicationMenu(menu); // 参数为以上创建的菜单模板
           return max;
         },
       },
-      mounted: function() {},
+      mounted: function () {},
     });
   </script>
 </html>
