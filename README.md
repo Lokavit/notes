@@ -119,16 +119,16 @@
     <tr><th colspan="5">Kid Programming</th></tr>
     <tr>
         <td>Library</td>
-        <td><a href="https://github.com/Lokavit/notes/blob/master/kid/lib/SvgRenderer.md">Svg Renderer</a></td>
-        <td><a href="https://github.com/Lokavit/notes/blob/master/kid/lib/Render.md">Render</a></td>
-        <td><a href="https://github.com/Lokavit/notes/blob/master/kid/lib/Storage.md">Storage</a></td>
-        <td><a href="https://github.com/Lokavit/notes/blob/master/kid/lib/VM.md">VM</a></td>
+        <td><a href="https://github.com/Lokavit/notes/blob/master/kid/SvgRenderer.md">Svg Renderer</a></td>
+        <td><a href="https://github.com/Lokavit/notes/blob/master/kid/Render.md">Render</a></td>
+        <td><a href="https://github.com/Lokavit/notes/blob/master/kid/Storage.md">Storage</a></td>
+        <td><a href="https://github.com/Lokavit/notes/blob/master/kid/VM.md">VM</a></td>
+        <td><a href="https://github.com/Lokavit/notes/blob/master/kid/ProBlock.md">Blocks</a></td>
     </tr>
     <tr>
         <td>Project</td>
-        <td><a href="https://github.com/Lokavit/notes/blob/master/kid/pro/ProBlocks.md">Pro Blocks</a></td>
-        <td><a href="https://github.com/Lokavit/notes/blob/master/kid/jr/JrBlocks.md">Jr Blocks</a></td>
-        <td><a href="">Code</a></td>
-        <td><a href="">Game</a></td>
+        <td><a href="https://github.com/Lokavit/notes/blob/master/kid/KidGUI.md">KidGUI</a></td>
+        <td><a href="https://github.com/Lokavit/notes/blob/master/kid/Code.md">Code</a></td>
+        <td><a href="https://github.com/Lokavit/notes/blob/master/kid/Game.md">Game</a></td>
     </tr>
 </table>

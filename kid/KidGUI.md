@@ -1,16 +1,5 @@
 # GUI 渲染 通用版
 
-```bash
-# 2020.07.11
-https://github.com/LLK/scratch-gui.git
-
-npm install # 装载依赖
-npm link # 开启链接
-npm start
-# 有所更改后，执行重新编译
-npm run build
-```
-
 ## 依赖变更
 
 ```bash
@@ -31,7 +20,7 @@ copy-webpack-plugin core-js
 terser-webpack-plugin # 打包压缩
 
 # link的依赖
-pro-blocks kid-vm kid-storage kid-render kid-svg-renderer
+kid-vm kid-storage kid-render kid-svg-renderer
 ```
 
 ## 解决 HTTPS 问题
