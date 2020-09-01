@@ -1,5 +1,70 @@
 # CSS & CSS3
 
+- 相对定位下多个绝对定位
+
+```css
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+html,
+body {
+  width: 100%;
+  height: 100%;
+}
+body {
+  display: flex;
+  justify-content: space-between;
+}
+
+body > section {
+  background-color: aqua;
+  border: 1px solid #000;
+  min-width: 33%;
+  overflow: hidden;
+}
+.area {
+  position: relative;
+  padding-top: 10%;
+  width: 100%;
+  height: 100%;
+}
+/* 桌面大图以右边为准 */
+.area > .role > img {
+  height: 50%;
+  opacity: 0.8;
+  position: absolute;
+  right: 0;
+}
+/* 同样以右边为准 */
+.area > .coat > img {
+  height: 30%;
+  position: absolute;
+  opacity: 0.5;
+  right: 0;
+}
+```
+
+```html
+<body>
+  <section>左</section>
+  <section class="area">
+    <!-- 角色 -->
+    <div class="role">
+      <!-- 桌面大图，因为主要内容在右边，所以此处设置，以右边为准 -->
+      <img src="./dd.png" />
+    </div>
+
+    <div class="coat">
+      <!-- 同样以右边为准，才能保证位置不会乱跑 -->
+      <img src="./drl.png" />
+    </div>
+  </section>
+  <section>右</section>
+</body>
+```
+
 ## CSS 规范
 
 - BEM 方式:把所有东西划分为一个独立的模块，可以相互嵌套
