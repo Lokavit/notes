@@ -1,10 +1,9 @@
 <!DOCTYPE html>
-<html lang="zh-cn">
+<html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>L10N DEMO</title>
-    <script src="./dom_i18n.js"></script>
     <style>
       /* 语言选择 select */
       .l10n_lang > select {
@@ -38,58 +37,58 @@
   <body style="background-color: aqua">
     <div class="l10n_lang">
       <select name="select_lang" required onchange="handlerL10n()">
-        <option value="en">English</option>
-        <option value="zh-CN" selected>简体中文</option>
-        <option value="zh-TW">繁體中文</option>
+        <option value="en" selected>English</option>
+        <option value="zh-cn">简体中文</option>
+        <option value="zh-tw">繁體中文</option>
       </select>
     </div>
-    <h1 data-translatable>Hello world en // Bonjour le monde zh-cn // zh-tw</h1>
-    <p data-translatable>
-      The quick brown fox jumps over the lazy dog.en // Le rapide renard marron
-      saute par-dessus le chien paresseux.zh-cn // zh-tw
-    </p>
 
-    <!-- 另一版 -->
+    <!-- 需要语言的标签，添加指定属性，且需要指定语言包中的对应key -->
     <h1 data-lang="language"></h1>
     <h1 data-lang="file"></h1>
     <h1 data-lang="editor"></h1>
 
     <script>
-      console.log(window.navigator.languages);
-
-      const lang = {
+      //首次加载，首先判断默认的语言
+      document.documentElement.lang = "en";
+      // 语言包
+      const LANG = {
         en: {
           language: "language",
           file: "file",
           editor: "editor",
         },
-        "zh-CN": {
+        "zh-cn": {
           language: "语言",
           file: "文件",
           editor: "编辑",
         },
-        "zh-TW": {
+        "zh-tw": {
           language: "语言 TW",
           file: "文件 TW",
           editor: "编辑 TW",
         },
       };
 
-      let i18n = domI18n({
-        selector: "[data-translatable]",
-        separator: " // ",
-        languages: ["en", "zh-CN", "zh-TW"],
-        defaultLanguage: "en",
-      });
+      /** 
+        根据语言，改变含有[data-lang]属性的元素值。
+        lang:传入当前<html lang="值">
+        */
+      const CHANGE_LANG = (lang) => {
+        let data_lang = document.querySelectorAll("[data-lang]");
 
+        Array.from(data_lang).map((item, index) => {
+          // 每个元素的内容 = 语言包[传入的语言][对应的key]
+          item.innerHTML = `${LANG[lang][item.dataset.lang]}`;
+        });
+      };
+
+      /** 切换语言事件 */
       const handlerL10n = () => {
         let select_lang = document.querySelector('[name="select_lang"]');
-        console.log("返回选中的语言:", select_lang.value);
         document.documentElement.lang = select_lang.value;
-        console.log("当前语言:", document.documentElement.lang);
-
-        // i18n切换语言
-        i18n.changeLanguage(select_lang.value);
+        // 每次切换语言之后，调用该函数
+        CHANGE_LANG(document.documentElement.lang);
       };
     </script>
   </body>
