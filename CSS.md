@@ -1,6 +1,78 @@
 # CSS & CSS3
 
-- 相对定位下多个绝对定位
+### CSS 单位
+- 绝对长度单位: px pt 
+- 相对长度单位: % em(父元素的字体大小) rem(根元素的字体大小) vh(视窗高度的1%) vw(视窗宽度的1%) vmin(视窗小尺寸的1%) vmax(视图大尺寸的1%)
+- 视口单位依赖于视口尺寸，%单位依赖于元素的祖先元素
+
+#### 视口单位
+
+- vw : 1vw 等于视口宽度的 1%
+- vh : 1vh 等于视口高度的 1%
+- vmin : 选取 vw 和 vh 中最小的那个
+- vmax : 选取 vw 和 vh 中最大的那个
+
+### 调整视口尺寸
+
+```css
+body {
+  min-height: 100vh;
+  /* mobile viewport bug fix */
+  min-height: -webkit-fill-available;
+}
+
+html {
+  height: -webkit-fill-available;
+}
+```
+
+### 已字体尺寸为基准
+
+```css
+/* clamp(最小值，首选值，最大值 )
+  clamp(MIN, VAL, MAX) 其实就是表示 max(MIN, min(VAL, MAX))
+ */
+font-size: clamp(1.1rem, 1vw + 1.1rem, 2.5rem);
+
+/* 方案一 */
+:root {
+  font-size: 62.5%; /* (62.5/100) _ 16px = 10px */
+  --font-size--small: 1.4rem; /* 14px */
+  --font-size--default: 1.6rem; /* 16px */
+  --font-size--large: 2.4rem; /* 24px */
+}
+.font-size--small {
+  font-size: var(--font-size--small);
+}
+
+.font-size--default {
+  font-size: var(--font-size--default);
+}
+
+.font-size--large {
+  font-size: var(--font-size--large);
+}
+
+/* 方案二 */
+:root {
+  --font-size--small: calc((14 / 16) _ 1rem); /* 14px */
+  --font-size--default: calc((16 / 16) _ 1rem); /* 16px */
+  --font-size--large: calc((24 / 16) _ 1rem); /* 24px */
+}
+.font-size--small {
+  font-size: var(--font-size--small);
+}
+
+.font-size--default {
+  font-size: var(--font-size--default);
+}
+
+.font-size--large {
+  font-size: var(--font-size--large);
+}
+```
+
+### 相对定位下多个绝对定位
 
 ```css
 * {
@@ -198,7 +270,7 @@ space-between是将最左边和最右边的元素分别占据最左边和最右�
   content: " ";
 }
 
-/* 
+/*
  * 项目中所有图形绘制 ，减少svg文件
  * 八方向三角形
 */
@@ -883,7 +955,7 @@ RGB设置按钮元素有关于颜色部分的属性值也是可以的，这里�
   --red: 128;
   --green: 40;
   --blue: 220;
-  /*the threshold at which colors are considered "light". 
+  /*the threshold at which colors are considered "light".
 Range: decimals from 0 to 1,
 recommended 0.5 - 0.6*/
   --threshold: 0.6;
@@ -894,8 +966,8 @@ recommended 0.8+*/
 }
 
 .btn {
-  /* 
-Calcs perceived brightness using the 
+  /*
+Calcs perceived brightness using the
 sRGB Luma method
 lightness = (red * 0.2126 + green * 0.7152 + blue * 0.0722) / 255
 */
@@ -906,14 +978,14 @@ lightness = (red * 0.2126 + green * 0.7152 + blue * 0.0722) / 255
   --lightness: calc((var(--r) + var(--g) + var(--b)) / 255);
 
   /*
-1) Any lightness value above the threshold will be considered "light", therefore apply a black text color. Any bellow will be considered dark, and use white color. 
+1) Any lightness value above the threshold will be considered "light", therefore apply a black text color. Any bellow will be considered dark, and use white color.
 This results from appying either a sub-zero (negative) or a higher-than-100 lightness value, which are capped to 0 and 100 respectively, to a HSL declaration
 */
   color: hsl(0, 0%, calc((var(--lightness) - var(--threshold)) * -10000000%));
 
   /*
 2) sets the border as a 50% darker shade of the base color, ONLY if background color luma is higher than the border threshold.
-To achieve this I use the same sub-zero or higher-than-max technique, only this time using the Alpha value from an RGBA declaration. 
+To achieve this I use the same sub-zero or higher-than-max technique, only this time using the Alpha value from an RGBA declaration.
 This results in a border that's either fully transparent or fully opaque
 */
   --border-alpha: calc((var(--lightness) - var(--border-threshold)) * 100);
@@ -930,7 +1002,7 @@ This results in a border that's either fully transparent or fully opaque
 }
 
 .btn--w3c {
-  /* Alternative calc using the 
+  /* Alternative calc using the
   W3C luma method
   lightness = (red * 0.299 + green * 0.587 + blue * 0.114) / 255
   */
@@ -1004,4 +1076,8 @@ nav .primary_nav > li > a {font-size:16px;}
 
 /*将.primary_nav 下边的所有li下的所有a获取到，并改变字体大小为16px;*/
 nav .primary_nav li a {font-size:16px;}
+```
+
+```
+
 ```
