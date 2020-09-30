@@ -19,27 +19,37 @@
 - 用户的输入事件，大量不同类型异步事件可以任意排列组合。web 编辑器/游戏等
 - RxJS
 
-<!--
-
- -->
-
-### 位运算
+### Generator
 
 ```js
-// 16进制颜色值转RGB： 运行hexToRGB("#ffffff")返回"rgb(255,255,255)"
-function hexToRGB(hex) {
-  var hex = hex.replace("#", "0x"),
-    r = hex >> 16,
-    g = (hex >> 8) & 0xff,
-    b = hex & 0xff;
-  return "rgb(" + r + "," + g + "," + b + ")";
+/** 封装了一个异步操作，该操作先读取一个远程接口，然后从 JSON 格式的数据解析信息 */
+function* gen() {
+  const URL = `https://api.github.com/users/Lokavit`;
+  // 启动生成器之后就开始请求数据
+  let result = yield fetch(URL);
+  console.log("* gen() result:", result);
+  let res = yield result.json();
+  // console.log("yield result.json() :", result.json());
+  // let res = yield result;
+  // 从第二次调用 next(data)中输出指定结果，
+  console.log("请求结果:", result.name);
 }
-// RGB转16进制颜色值： 运行RGBToHex("rgb(255,255,255)")返回"#ffffff"
-function RGBToHex(rgb) {
-  var rgbArr = rgb.split(/[^\d]+/),
-    color = (rgbArr[1] << 16) | (rgbArr[2] << 8) | rgbArr[3];
-  return "#" + color.toString(16);
-}
+// 执行以上生成器函数 获取遍历器对象
+let g = gen();
+// 执行异步任务的第一阶段。相当于启动 gen()生成器
+let result = g.next();
+console.log("result:", result); // 1.最先输出该语句
+// 继续向下执行 .value中是一个promise，所以在.then中调用下一个next()方法
+result.value
+  .then(function (data) {
+    return data.json();
+  })
+  .then(function (data) {
+    // 2. 其次输出该语句
+    console.log("data:", data);
+    // 表示执行 gen()生成器 的
+    g.next(data);
+  });
 ```
 
 ---
