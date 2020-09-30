@@ -1,50 +1,52 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Example</title>
-  </head>
 
-  <body>
-    直接写内嵌
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Example</title>
+</head>
 
-    <a href="./web-components/index.html">Web Components</a>
+<body>
+  直接写内嵌
 
-    <script>
-      const Person = {
-        isHuman: false,
-        say() {
-          // say:function(){/* do some */}
-          // 作用域问题，函数内调用其它属性需要this.
-          console.log(`Hello ${this.isHuman}`);
-          // 此处若无return，则调用时最后会多输出一个undefined
-          return "say()函数的返回值";
-        },
-      };
-      console.log(Object.create(Person));
+  <a href="./web-components/index.html">Web Components</a>
 
-      const Test = Object.create(Person);
-      console.log(Test.isHuman);
-      console.log(Test.say());
+  <script>
+    const Person = {
+      isHuman: false,
+      say() {
+        // say:function(){/* do some */}
+        // 作用域问题，函数内调用其它属性需要this.
+        console.log(`Hello ${this.isHuman}`);
+        // 此处若无return，则调用时最后会多输出一个undefined
+        return "say()函数的返回值";
+      },
+    };
+    console.log(Object.create(Person));
 
-      /** 创建一个原型为null的空对象。该对象中无任何属性 */
-      const ObjNull = Object.create(null);
-      console.log('原型为null的空对象：',ObjNull);
-      // 报错 Uncaught TypeError: Object prototype may only be an Object or null: undefined
-      const ObjNull2 = Object.create(); 
-      console.log('()创建形式:',ObjNull2);
-      
-      /** 创建一个对象，__proto__: Object */
-      const ObjProto = new Object();
-      console.log('new Object()形式创建对象:',ObjProto);
-      const ObjProto2 = {}; // 控制台看起来与new Object()同样
-      console.log('{}形式创建对象:',ObjProto2);
+    const Test = Object.create(Person);
+    console.log(Test.isHuman);
+    console.log(Test.say());
 
-      function fn() {}
-      console.dir(fn);
+    /** 创建一个原型为null的空对象。该对象中无任何属性 */
+    const ObjNull = Object.create(null);
+    console.log('原型为null的空对象：', ObjNull);
+    // 报错 Uncaught TypeError: Object prototype may only be an Object or null: undefined
+    // const ObjNull2 = Object.create(); 
+    // console.log('()创建形式:',ObjNull2);
+
+    /** 创建一个对象，__proto__: Object */
+    const ObjProto = new Object();
+    console.log('new Object()形式创建对象:', ObjProto);
+    const ObjProto2 = {}; // 控制台看起来与new Object()同样
+    console.log('{}形式创建对象:', ObjProto2);
+
+    function fn() { }
+    console.dir(fn);
 
 
-    </script>
-  </body>
+  </script>
+</body>
+
 </html>
