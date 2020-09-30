@@ -31,8 +31,10 @@
       /** 创建一个原型为null的空对象。该对象中无任何属性 */
       const ObjNull = Object.create(null);
       console.log('原型为null的空对象：',ObjNull);
-      const ObjNull2 = Object.create();
+      // 报错 Uncaught TypeError: Object prototype may only be an Object or null: undefined
+      const ObjNull2 = Object.create(); 
       console.log('()创建形式:',ObjNull2);
+      
       /** 创建一个对象，__proto__: Object */
       const ObjProto = new Object();
       console.log('new Object()形式创建对象:',ObjProto);
