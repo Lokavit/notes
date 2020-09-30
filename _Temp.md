@@ -1,5 +1,5 @@
+##
 
-## 
 - 在清除 DOM 节点内容时，更高效的做法永远是：textContent('');
 - 按位操作符高效准确判断
 
@@ -19,10 +19,28 @@
 - 用户的输入事件，大量不同类型异步事件可以任意排列组合。web 编辑器/游戏等
 - RxJS
 
-
-<!-- 
+<!--
 
  -->
+
+### 位运算
+
+```js
+// 16进制颜色值转RGB： 运行hexToRGB("#ffffff")返回"rgb(255,255,255)"
+function hexToRGB(hex) {
+  var hex = hex.replace("#", "0x"),
+    r = hex >> 16,
+    g = (hex >> 8) & 0xff,
+    b = hex & 0xff;
+  return "rgb(" + r + "," + g + "," + b + ")";
+}
+// RGB转16进制颜色值： 运行RGBToHex("rgb(255,255,255)")返回"#ffffff"
+function RGBToHex(rgb) {
+  var rgbArr = rgb.split(/[^\d]+/),
+    color = (rgbArr[1] << 16) | (rgbArr[2] << 8) | rgbArr[3];
+  return "#" + color.toString(16);
+}
+```
 
 ---
 
