@@ -16,6 +16,179 @@
 - [Array 数组方法](#Array数组方法)
 - [GitHub API](#GitHub)
 
+## 2020.10.19
+- 组合模式(把方法提取到独立的类和辅助对象中，然后组合起来，但不使用继承) 组合胜过继承
+### 类
+- 定义不能提升，受块作用域限制
+- 类继承：继承类，也可继承普通构造函数
+### 继承
+
+- 原型链继承 (缺点:原型包含引用值会在所有实例间共享)
+- 盗用构造函数(缺点:必须在构造函数中定义方法，函数不能重用)
+- 组合继承（综合以上两种的优点）(缺点:被继承对象的实例属性重复调用)
+- 原型式继承 (Object.create()适合无需单独创建构造函数,又需对象间共享信息)
+- 寄生式继承
+- 寄生式组合继承，实现基于类型继承的最有效的方式
+
+```js
+/** 寄生式组合继承 */
+/**
+ * 不通过调用父类构造函数为子类原型赋值，取得父类克原型副本
+ * childC :子类构造函数
+ * parentC:父类构造函数
+ */
+function inheritPrototype(childC, parentC) {
+  // 创建对象 创建父类原型副本
+  let prototype = Object(parentC.prototype);
+  // 增强对象 设置constructor属性，解决重写原型导致constructor丢失问题
+  prototype.constructor = childC;
+  // 赋值对象 新创建的对象赋值给子类型的原型
+  childC.prototype = prototype;
+}
+function Demo(val) {
+  this.val = val;
+  this.colors = ["red", "aqua", "blue"];
+}
+Demo.prototype.fun = function () {
+  console.log("this.val:", this.val);
+};
+function Demo2(val, val2) {
+  //继承属性 或者 Demo.apply(this,val)
+  Demo.call(this, val);
+  this.val2 = val2;
+}
+// 调用子类型原型赋值函数
+inheritPrototype(Demo2, Demo);
+
+Demo2.prototype.fun2 = function () {
+  console.log("this.val2:", this.val2);
+};
+
+let instance1 = new Demo2("satya", 1);
+instance1.colors.push("black");
+console.log("colors:", instance1.colors);
+instance1.fun();
+instance1.fun2();
+
+let instance2 = new Demo2("lokavit", 3);
+console.log("colors:", instance2.colors);
+instance2.fun();
+instance2.fun2();
+```
+
+```js
+/** 组合继承 */
+function Demo(val) {
+  this.val = val;
+  this.colors = ["red", "aqua", "blue"];
+}
+Demo.prototype.fun = function () {
+  console.log("this.val:", this.val);
+};
+function Demo2(val, val2) {
+  //继承属性 或者 Demo.apply(this,val)
+  Demo.call(this, val);
+  this.val2 = val2;
+}
+// 继承方法
+Demo2.prototype = new Demo();
+Demo2.prototype.fun2 = function () {
+  console.log("this.val2:", this.val2);
+};
+
+let instance1 = new Demo2("satya", 1);
+instance1.colors.push("black");
+console.log("colors:", instance1.colors);
+instance1.fun();
+instance1.fun2();
+
+let instance2 = new Demo2("lokavit", 3);
+console.log("colors:", instance2.colors);
+instance2.fun();
+instance2.fun2();
+```
+
+### 创建对象
+
+- 原型模式
+
+```js
+function Demo() {}
+let Demoo = function () {};
+
+// 避免 Object.setPrototypeOf()造成的性能下降，改为创建对象并指定原型
+let demo1 = { a: 1 };
+let demo2 = Object.create(demo1);
+demo2.b = "val";
+console.log(Object.getPrototypeOf(demo2) === demo1);
+
+// 原型语法
+function Demo3() {}
+Demo3.prototype.a = "val-a";
+Demo3.prototype.fun = function () {
+  console.log("a:", this.a);
+};
+
+// 其他原型语法
+function Demo4() {}
+Demo4.prototype = {
+  // constructor:Demo4, // [[enumerable]]:true
+  a: "val-a",
+  fun: function () {
+    console.log("a:", this.a);
+  },
+};
+// 追加恢复constructor
+Object.defineProperty(Demo4.prototype, "constructor", {
+  enumerable: false,
+  value: Demo4,
+});
+```
+
+- 创建对象 构造函数模式
+
+```js
+function Demo(a, b, c) {
+  this.a = a;
+  this.b = b;
+  this.c = c;
+  // 该函数可以定义在外部
+  this.fun = function () {
+    console.log(this.a);
+  };
+  this.fun2 = fun2;
+}
+function fun2() {
+  console.log(this.a);
+}
+
+let demo = new Demo("vala", "valb", "valc");
+demo.fun();
+
+let Demo2 = function Demo(a, b, c) {
+  this.a = a;
+  this.b = b;
+  this.c = c;
+  this.fun = function () {
+    console.log(this.a);
+  };
+};
+// 构造函数
+let demo2 = new Demo2("vala", "valb", "valc");
+demo2.fun();
+
+// 作为函数调用，添加到window对象
+Demo2("a-val", "b-val", "c-val");
+
+/**
+ * 在另一个对象的作用域调用
+ * 对象o为Demo2内部的this值，执行后所有属性和方法会添加到对象o上。
+ */
+let o = new Object();
+Demo2.call(o, "a-val", "b-val", "c-val");
+o.fun();
+```
+
 ## DOM 操作
 
 ### 选择器
@@ -2460,7 +2633,7 @@ let equal = (o1, o2) => {
 
 ```js
 // 类数组中每项*2
-const someNumbers = { "0": 10, "1": 15, length: 2 };
+const someNumbers = { 0: 10, 1: 15, length: 2 };
 console.log(Array.from(someNumbers, (value) => value * 2)); // [20,30]
 ```
 
