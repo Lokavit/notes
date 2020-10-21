@@ -51,6 +51,8 @@
         <td><a href="https://lokavit.github.io/notes/ui/keyword.html">Keyword</a></td>
         <td><a href="https://lokavit.github.io/notes/ui/box-border-style.html">box-border</a></td>
         <td><a href="https://lokavit.github.io/notes/ui/3ddemo.html">3D DEMO</a></td>
+        <td><a href="https://lokavit.github.io/notes/svg/svg-demo.html">SVG DEMO</a></td>
+        <td><a href="https://lokavit.github.io/notes/svg/load1.html">LOADING 1</a></td>
     </tr>
 </table>
 

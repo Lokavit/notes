@@ -1,13 +1,27 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
-</head>
-<body>
-  <svg xmlns="http://www.w3.org/2000/svg" version="1.1">
-    <path class="blocklyPath blocklyBlockBackground" stroke="#3373CC" fill="#4C97FF" fill-opacity="1" d="
+    <style>
+      html,
+      body,
+      svg {
+        height: 50%;
+        margin: 0;
+        padding: 0;
+      }
+    </style>
+  </head>
+  <body>
+    <svg xmlns="http://www.w3.org/2000/svg" version="1.1">
+      <path
+        class="blocklyPath blocklyBlockBackground"
+        stroke="#3373CC"
+        fill="#4C97FF"
+        fill-opacity="1"
+        d="
     m 0,10 
     A 10,10 0 0,1 10,0 
     H 18 
@@ -23,18 +37,24 @@
     h -16 
     c -8,0 -6,-8 -10,-8 
     H 10 a 10,10 0 0,1 -10,-10 
-    z"></path>
-  </svg>
-  <!-- 移动 积木块 -->
-  <svg xmlns="http://www.w3.org/2000/svg" version="1.1">
-    <!-- 
+    z"
+      ></path>
+    </svg>
+    <!-- 移动 积木块 -->
+    <svg xmlns="http://www.w3.org/2000/svg" version="1.1">
+      <!-- 
        起点控制点  终点控制点 曲线终点 C 20 140, 40 140, 50 110
       C x1 y1, x2 y2, x y (or c dx1 dy1, dx2 dy2, dx dy)
       h的值增加，到 H 80时，为以上h累计值
       c 0 20 30 20 30 0 为 上凹槽曲线 20为曲线的两个y(值越大凹越向下)
       c 0 20 -30 20 -30 0 为下凸槽曲线
     -->
-    <path class="blocklyPath blocklyBlockBackground" stroke="#3373CC" fill="#4C97FF" fill-opacity="1" d="
+      <path
+        class="blocklyPath blocklyBlockBackground"
+        stroke="#3373CC"
+        fill="#4C97FF"
+        fill-opacity="1"
+        d="
     m 0 20, 
     A 20 20 0 0 1 20 0, 
     H 40, 
@@ -47,20 +67,22 @@
     c 0 20 -30 20 -30 0,
     H 20,
 	  a 20 20 0 0 1 -20 -20, 
-    z"></path>
+    z"
+      ></path>
 
-    <!-- Points 第一点 -->
-    <circle cx="0" cy="0" r="1" fill="red" />
-  </svg>
+      <!-- Points 第一点 -->
+      <circle cx="0" cy="0" r="1" fill="red" />
+    </svg>
 
-  <svg xmlns="http://www.w3.org/2000/svg" version="1.1">
-    <path d="M22.68,12.2a1.6,1.6,0,0,1-1.27.63H13.72a1.59,1.59,0,0,1-1.16-2.58l1.12-1.41a4.82,4.82,0,0,0-3.14-.77,4.31,4.31,0,0,0-2,.8,4.25,4.25,0,0,0-1.34,1.73,5.06,5.06,0,0,0,.54,4.62A5.58,5.58,0,0,0,12,17.74h0a2.26,2.26,0,0,1-.16,4.52A10.25,10.25,0,0,1,3.74,18,10.14,10.14,0,0,1,2.25,8.78,9.7,9.7,0,0,1,5.08,4.64,9.92,9.92,0,0,1,9.66,2.5a10.66,10.66,0,0,1,7.72,1.68l1.08-1.35a1.57,1.57,0,0,1,1.24-.6,1.6,1.6,0,0,1,1.54,1.21l1.7,7.37A1.57,1.57,0,0,1,22.68,12.2Z"/%3E%3Cpath class="cls-2" d="M21.38,11.83H13.77a.59.59,0,0,1-.43-1l1.75-2.19a5.9,5.9,0,0,0-4.7-1.58,5.07,5.07,0,0,0-4.11,3.17A6,6,0,0,0,7,15.77a6.51,6.51,0,0,0,5,2.92,1.31,1.31,0,0,1-.08,2.62,9.3,9.3,0,0,1-7.35-3.82A9.16,9.16,0,0,1,3.17,9.12,8.51,8.51,0,0,1,5.71,5.4,8.76,8.76,0,0,1,9.82,3.48a9.71,9.71,0,0,1,7.75,2.07l1.67-2.1a.59.59,0,0,1,1,.21L22,11.08A.59.59,0,0,1,21.38,11.83Z"/>
-  </svg>
+    <svg xmlns="http://www.w3.org/2000/svg" version="1.1">
+      <path
+      d="M22.68,12.2a1.6,1.6,0,0,1-1.27.63H13.72a1.59,1.59,0,0,1-1.16-2.58l1.12-1.41a4.82,4.82,0,0,0-3.14-.77,4.31,4.31,0,0,0-2,.8,4.25,4.25,0,0,0-1.34,1.73,5.06,5.06,0,0,0,.54,4.62A5.58,5.58,0,0,0,12,17.74h0a2.26,2.26,0,0,1-.16,4.52A10.25,10.25,0,0,1,3.74,18,10.14,10.14,0,0,1,2.25,8.78,9.7,9.7,0,0,1,5.08,4.64,9.92,9.92,0,0,1,9.66,2.5a10.66,10.66,0,0,1,7.72,1.68l1.08-1.35a1.57,1.57,0,0,1,1.24-.6,1.6,1.6,0,0,1,1.54,1.21l1.7,7.37A1.57,1.57,0,0,1,22.68,12.2Z"/%3E%3Cpath
+      class="cls-2"
+      d="M21.38,11.83H13.77a.59.59,0,0,1-.43-1l1.75-2.19a5.9,5.9,0,0,0-4.7-1.58,5.07,5.07,0,0,0-4.11,3.17A6,6,0,0,0,7,15.77a6.51,6.51,0,0,0,5,2.92,1.31,1.31,0,0,1-.08,2.62,9.3,9.3,0,0,1-7.35-3.82A9.16,9.16,0,0,1,3.17,9.12,8.51,8.51,0,0,1,5.71,5.4,8.76,8.76,0,0,1,9.82,3.48a9.71,9.71,0,0,1,7.75,2.07l1.67-2.1a.59.59,0,0,1,1,.21L22,11.08A.59.59,0,0,1,21.38,11.83Z"/>
+    </svg>
 
- 
-
- <svg xmlns="http://www.w3.org/2000/svg" version="1.1">
-  <!-- 
+    <svg xmlns="http://www.w3.org/2000/svg" version="1.1">
+      <!-- 
      起点控制点  终点控制点 曲线终点 C 20 140, 40 140, 50 110
     C x1 y1, x2 y2, x y (or c dx1 dy1, dx2 dy2, dx dy)
     h的值增加，到 H 80时，为以上h累计值
@@ -68,7 +90,7 @@
     c 0 20 -30 20 -30 0 为下凸槽曲线
   -->
 
-  <!-- 
+      <!-- 
     m 0,10 
     A 10,10 0 0,1 10,0 
     H 18 
@@ -82,7 +104,12 @@
     H 10 
     a 10,10 0 0,1 -10,-10 
     z -->
-  <path class="blocklyPath blocklyBlockBackground" stroke="#3373CC" fill="#4C97FF" fill-opacity="1" d="
+      <path
+        class="blocklyPath blocklyBlockBackground"
+        stroke="#3373CC"
+        fill="#4C97FF"
+        fill-opacity="1"
+        d="
   m 0 20, 
   A 20 20 0 0 1 20 0, 
   H 30, 
@@ -95,56 +122,67 @@
   c 0 20 -30 20 -30 0,
   H 20,
   a 20 20 0 0 1 -20 -20, 
-  z"></path>
+  z"
+      ></path>
 
-  <!-- Points 第一点 -->
-  <circle cx="0" cy="0" r="1" fill="red" />
-  <circle cx="30" cy="0" r="1" fill="red" />
-  <circle cx="60" cy="0" r="1" fill="red" />
-  <circle cx="90" cy="0" r="1" fill="red" />
-  <circle cx="45" cy="30" r="1" fill="red" />
-</svg>
-  
-  <svg xmlns="http://www.w3.org/2000/svg" version="1.1">
-    <!-- 
+      <!-- Points 第一点 -->
+      <circle cx="0" cy="0" r="1" fill="red" />
+      <circle cx="30" cy="0" r="1" fill="red" />
+      <circle cx="60" cy="0" r="1" fill="red" />
+      <circle cx="90" cy="0" r="1" fill="red" />
+      <circle cx="45" cy="30" r="1" fill="red" />
+    </svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" version="1.1">
+      <!-- 
      上： "m 0,0", "m 16,0"
      右："H", 24, "a 16 16 0 0 1 0 32"
      下："H", 16
      左："a 16 16 0 0 1 0 -32", "z"
      m h v a l c 
      -->
-    <path d="m4.203,7.296 0,1.368 -0.92,0.677 -0.11,0.41 0.9,1.559 0.41,0.11 1.043,-0.457 1.187,0.683 0.127,1.134 0.3,0.3 1.8,0 0.3,-0.299 0.127,-1.138 1.185,-0.682 1.046,0.458 0.409,-0.11 0.9,-1.559 -0.11,-0.41 -0.92,-0.677 0,-1.366 0.92,-0.677 0.11,-0.41 -0.9,-1.559 -0.409,-0.109 -1.046,0.458 -1.185,-0.682 -0.127,-1.138 -0.3,-0.299 -1.8,0 -0.3,0.3 -0.126,1.135 -1.187,0.682 -1.043,-0.457 -0.41,0.11 -0.899,1.559 0.108,0.409z" stroke="#3373CC" fill="#4C97FF" />
-  </svg>
+      <path
+        d="m4.203,7.296 0,1.368 -0.92,0.677 -0.11,0.41 0.9,1.559 0.41,0.11 1.043,-0.457 1.187,0.683 0.127,1.134 0.3,0.3 1.8,0 0.3,-0.299 0.127,-1.138 1.185,-0.682 1.046,0.458 0.409,-0.11 0.9,-1.559 -0.11,-0.41 -0.92,-0.677 0,-1.366 0.92,-0.677 0.11,-0.41 -0.9,-1.559 -0.409,-0.109 -1.046,0.458 -1.185,-0.682 -0.127,-1.138 -0.3,-0.299 -1.8,0 -0.3,0.3 -0.126,1.135 -1.187,0.682 -1.043,-0.457 -0.41,0.11 -0.899,1.559 0.108,0.409z"
+        stroke="#3373CC"
+        fill="#4C97FF"
+      />
+    </svg>
 
-
-
-  <svg xmlns="http://www.w3.org/2000/svg" version="1.1">
-    <!-- 
+    <svg xmlns="http://www.w3.org/2000/svg" version="1.1">
+      <!-- 
      上： "m 0,0", "m 16,0"
      右："H", 24, "a 16 16 0 0 1 0 32"
      下："H", 16
      左："a 16 16 0 0 1 0 -32", "z"
      m h v a l c 
      -->
-    <path d="m 0 0 m 16 0
+      <path
+        d="m 0 0 m 16 0
      H 24 a 16 16 0 0 1 0 32
      H 16
      a 16 16 0 0 1 0 -32
      z
-    " stroke="#3373CC" fill="#4C97FF" />
-  </svg>
+    "
+        stroke="#3373CC"
+        fill="#4C97FF"
+      />
+    </svg>
 
-  <svg xmlns="http://www.w3.org/2000/svg" version="1.1">
-    <path d="
+    <svg xmlns="http://www.w3.org/2000/svg" version="1.1">
+      <path
+        d="
     m 0,8 
     A 34,24 0 0,1 8,0 
     H 12
 
-    " stroke="#3373CC" fill="#4C97FF" />
-  </svg>
+    "
+        stroke="#3373CC"
+        fill="#4C97FF"
+      />
+    </svg>
 
-  <svg xmlns="http://www.w3.org/2000/svg" version="1.1">
-    <!-- 
+    <svg xmlns="http://www.w3.org/2000/svg" version="1.1">
+      <!-- 
      上： "m 0,4", "A 4,4 0 0,1 4,0", "H", 12, "c 2,0 3,1 4,2 l 4,4 c 1,1 2,2 4,2 h 12 c 2,0 3,-1 4,-2 l 4,-4 c 1,-1 2,-2 4,-2"
 
      右："H", 96, "a 4,4 0 0,1 4,4", "v", 40
@@ -154,27 +192,40 @@
      左："z"
      m h v a l c 
      -->
-    <path d="m 0,4 A 4,4 0 0,1 4,0 H 12 c 2,0 3,1 4,2 l 4,4 c 1,1 2,2 4,2 h 12 c 2,0 3,-1 4,-2 l 4,-4 c 1,-1 2,-2 4,-2
+      <path
+        d="m 0,4 A 4,4 0 0,1 4,0 H 12 c 2,0 3,1 4,2 l 4,4 c 1,1 2,2 4,2 h 12 c 2,0 3,-1 4,-2 l 4,-4 c 1,-1 2,-2 4,-2
 
     H 96 a 4,4 0 0,1 4,4 v 40 
 
     a 4,4 0 0,1 -4,4 H 48   c -2,0 -3,1 -4,2 l -4,4 c -1,1 -2,2 -4,2 h -12 c -2,0 -3,-1 -4,-2 l -4,-4 c -1,-1 -2,-2 -4,-2 H 4 a 4,4 0 0,1 -4,-4 
 
     z
-    " stroke="#3373CC" fill="#4C97FF" />
-  </svg>
+    "
+        stroke="#3373CC"
+        fill="#4C97FF"
+      />
+    </svg>
 
-  <!-- 自定义svg -->
-  <svg xmlns="http://www.w3.org/2000/svg" width="120" height="100" viewBox="0 0 120 100">
-    <defs>
-      <style>
-        .cls-1 {
-          fill: #3a92ff;
-          fill-rule: evenodd;
-        }
-      </style>
-    </defs>
-    <path id="start_拷贝_3" data-name="start 拷贝 3" class="cls-1" d="M1761,627
+    <!-- 自定义svg -->
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="120"
+      height="100"
+      viewBox="0 0 120 100"
+    >
+      <defs>
+        <style>
+          .cls-1 {
+            fill: #3a92ff;
+            fill-rule: evenodd;
+          }
+        </style>
+      </defs>
+      <path
+        id="start_拷贝_3"
+        data-name="start 拷贝 3"
+        class="cls-1"
+        d="M1761,627
         h -80 
         a 20,20,0,0,1 -20 -20
         V 567 
@@ -191,10 +242,12 @@
         m -1.92,0
         a 5.886,5.886,0,0,0 -5.77,6,18.921,18.921,0,0,1-36.54,0,5.886,5.886,0,0,0-5.77-6
         h 48.08
-        Z" transform="translate(-1661 -547)" />
-  </svg>
+        Z"
+        transform="translate(-1661 -547)"
+      />
+    </svg>
 
-  <!-- 
+    <!-- 
           M = moveto  L = lineto  H = horizontal lineto  V = vertical lineto
         C = curveto  S = smooth curveto  Q = quadratic Bézier curve
         T = smooth quadratic Bézier curveto  A = elliptical Arc  Z = closepath
@@ -211,12 +264,268 @@
         上述路径是：画笔移动到(10,10)点，由此开始，向右移动80像素构成一条水平线，然后向下移动80像素，然后向左移动80像素，然后再回到起点
        -->
 
-  <!-- 
+    <!-- 
         参数为：x轴半径 y轴半径 x轴旋转角度 角度大小(0小角1大角) 弧线方向(0逆1顺)          
         A rx ry x-axis-rotation large-arc-flag sweep-flag x y
         a rx ry x-axis-rotation large-arc-flag sweep-flag dx dy
 
         -->
 
-</body>
+    <svg
+      width="250"
+      viewBox="0 0 200 85"
+      xmlns="http://www.w3.org/2000/svg"
+      version="1.1"
+    >
+      <defs>
+        <!-- Filter declaration -->
+        <filter
+          id="MyFilter"
+          filterUnits="userSpaceOnUse"
+          x="0"
+          y="0"
+          width="200"
+          height="120"
+        >
+          <!-- offsetBlur -->
+          <feGaussianBlur in="SourceAlpha" stdDeviation="4" result="blur" />
+          <feOffset in="blur" dx="4" dy="4" result="offsetBlur" />
+
+          <!-- litPaint -->
+          <feSpecularLighting
+            in="blur"
+            surfaceScale="5"
+            specularConstant=".75"
+            specularExponent="20"
+            lighting-color="#bbbbbb"
+            result="specOut"
+          >
+            <fePointLight x="-5000" y="-10000" z="20000" />
+          </feSpecularLighting>
+          <feComposite
+            in="specOut"
+            in2="SourceAlpha"
+            operator="in"
+            result="specOut"
+          />
+          <feComposite
+            in="SourceGraphic"
+            in2="specOut"
+            operator="arithmetic"
+            k1="0"
+            k2="1"
+            k3="1"
+            k4="0"
+            result="litPaint"
+          />
+
+          <!-- merge offsetBlur + litPaint -->
+          <feMerge>
+            <feMergeNode in="offsetBlur" />
+            <feMergeNode in="litPaint" />
+          </feMerge>
+        </filter>
+      </defs>
+
+      <!-- Graphic elements -->
+      <g filter="url(#MyFilter)">
+        <path
+          fill="none"
+          stroke="#D90000"
+          stroke-width="10"
+          d="M50,66 c-50,0 -50,-60 0,-60 h100 c50,0 50,60 0,60z"
+        />
+        <path
+          fill="#D90000"
+          d="M60,56 c-30,0 -30,-40 0,-40 h80 c30,0 30,40 0,40z"
+        />
+        <g fill="#FFFFFF" stroke="black" font-size="45" font-family="Verdana">
+          <text x="52" y="52">SVG</text>
+        </g>
+      </g>
+    </svg>
+
+    <svg viewBox="0 0 10 10" xmlns="http://www.w3.org/2000/svg">
+      <rect width="10" height="10">
+        <!-- 动画元素放在形状元素的内部，用来定义一个元素的某个属性如何踩着时点改变。在指定持续时间里，属性从开始值变成结束值。
+          attributeName:旋转x
+         attributeType="XML" 指定目标属性和它相对应的值处于哪个命名空间里
+          repeatCount:表示动画将发生的次数
+        -->
+        <animate
+          attributeName="rx"
+          values="0;5;0"
+          dur="10s"
+          repeatCount="indefinite"
+        />
+      </rect>
+    </svg>
+
+    <svg
+      width="120"
+      height="120"
+      viewBox="0 0 120 120"
+      xmlns="http://www.w3.org/2000/svg"
+      version="1.1"
+      xmlns:xlink="http://www.w3.org/1999/xlink"
+    >
+      <polygon points="60,30 90,90 30,90" stroke="#660000" fill="#cc3333">
+        <!-- animateTransform元素变动了目标元素上的一个变形属性，从而允许动画控制转换、缩放、旋转或斜切。 -->
+        <animateTransform
+          attributeName="transform"
+          attributeType="XML"
+          type="rotate"
+          from="0 60 70"
+          to="360 60 70"
+          dur="10s"
+          repeatCount="indefinite"
+        />
+      </polygon>
+    </svg>
+
+    <svg viewBox="0 0 10 10" xmlns="http://www.w3.org/2000/svg">
+      <style>
+        rect {
+          cursor: pointer;
+        }
+        .round {
+          rx: 5px;
+          fill: green;
+        }
+      </style>
+
+      <rect id="me" width="10" height="10">
+        <set attributeName="class" to="round" begin="me.click" dur="2s" />
+      </rect>
+    </svg>
+
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      version="1.1"
+      viewBox="0 0 100 100"
+      style="border: 1px solid; width: 100px; height: 100px"
+    >
+      <!-- 内嵌超链接 -->
+      <a
+        xlink:href="http://steam.leadersir.com/kid-pro"
+        target="_blank"
+        cursor="pointer"
+      >
+        <g id="progBar">
+          <rect
+            x="10"
+            y="45"
+            width="80"
+            height="10"
+            stroke="grey"
+            fill="white"
+          />
+          <rect id="done" x="10" y="45" width="0" height="10" fill="green" />
+        </g>
+      </a>
+    </svg>
+
+    <script>
+      function ProgressBar(info) {
+        var stem = {}; // 此函数最后返回的代表进度条的对象。
+        var done = 0,
+          length,
+          outline,
+          bar; // 声明内部变量。
+
+        bar = document.getElementById("done"); // 进度条中绿色的变化部分。
+        length = 80;
+
+        // 重置进度到零。
+        function reset() {
+          return to(0);
+        }
+        // 设置进度到某个值。
+        function to(value) {
+          if (value >= 100) {
+            done = 100;
+            bar.setAttribute("width", length);
+          } else {
+            done = value;
+            bar.setAttribute("width", Math.round((done * length) / 100));
+          }
+          return stem;
+        }
+        // 进度变化某个值。
+        function advance(step) {
+          return to(done + step);
+        }
+        // 以下给进度条对象添加方法。
+        // 获得当前进度值。
+        stem.getDone = function () {
+          return done;
+        };
+        stem.reset = reset;
+        stem.to = to;
+        stem.advance = advance;
+        return stem; // 返回可供脚本使用的进度条对象。
+      }
+      // 测试进度条对象。
+      function testBar() {
+        var bar = ProgressBar();
+        // 此内部函数每运行一次，增加进度值 1，直到进度值为 100。
+        function test() {
+          if (bar.getDone() === 100) {
+            clearInterval(id);
+          } else {
+            bar.advance(1);
+          }
+        }
+        // 每十分之一秒改变一次进度。
+        var id = setInterval(test, 100);
+      }
+      // 页面载入后开始测试。
+      window.addEventListener("load", testBar, true);
+    </script>
+
+    <svg xmlns="http://www.w3.org/2000/svg">
+      <!-- 使用该元素，可实现自动换行 -->
+      <foreignObject width="120" height="50">
+        <body xmlns="http://www.w3.org/1999/xhtml">
+          <p style="font-size: 12px; margin: 0">一段需要word wrap的文字。</p>
+        </body>
+      </foreignObject>
+    </svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg">
+      <!-- 使用该元素，可实现自动换行 -->
+      <foreignObject width="180" height="60">
+        <body xmlns="http://www.w3.org/1999/xhtml">
+          <p style="font-size: 12px; margin: 0">一段需要word wrap的文字。</p>
+          <input type="text" id="val" />
+        </body>
+      </foreignObject>
+    </svg>
+
+    <script>
+      let val = document.getElementById("val");
+      val.value = "????";
+    </script>
+
+    <script>
+      var svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+      svg.setAttribute("width", "400");
+      svg.setAttribute("height", "250");
+      svg.addEventListener("load", function () {
+        alert("loaded");
+      });
+      document.body.appendChild(svg);
+
+      var r = document.createElementNS("http://www.w3.org/2000/svg", "rect");
+      r.setAttribute("fill", "#120045");
+      r.setAttribute("x", "1");
+      r.setAttribute("y", "1");
+      r.setAttribute("width", "50%");
+      r.setAttribute("height", "50%");
+      r.addEventListener("click", function () {
+        alert("clicked");
+      });
+      svg.appendChild(r);
+    </script>
+  </body>
 </html>
