@@ -810,5 +810,163 @@
       </g>
       <circle id="blue-ball" fill="#2AABFE" cx="366.85" cy="138.25" r="16.25" />
     </svg>
+
+    <!-- 数字倒计时 -->
+    <svg version="1.1" xmlns="http://www.w3.org/2000/svg" >
+      <style type="text/css">
+        #path {
+          animation: animation 15s infinite cubic-bezier(0.34, 1.61, 0.7, 1);
+        }
+        @keyframes animation {
+          0%,
+          7% {
+            d: path("M0,100 L50,100 L50,50 L50,0 L0,0 L0,50 L50,50");
+          }
+          11%,
+          17% {
+            d: path("M0,0 L50,0 L50,100 L0,100 L0,0 L0,50 L50,50");
+          }
+          21%,
+          27% {
+            d: path("M0,0 L50,0 L50,20 L50,40 L50,60 L50,80 L50,100");
+          }
+          31%,
+          37% {
+            d: path("M50,0 L0,0 L0,50 L0,100 L50,100, L50,50 L0,50");
+          }
+          41%,
+          47% {
+            d: path("M50,0 L0,0 L0,50 L25,50 L50,50 L50,100 L0,100");
+          }
+          51%,
+          57% {
+            d: path("M0,0 L0,50 L50,50 L50,0 L50,35 L50,70 L50,100");
+          }
+          61%,
+          67% {
+            d: path("M0,0 L50,0 L50,100 L0,100 L50,100 L50,50 L0,50");
+          }
+          71%,
+          77% {
+            d: path("M0,0 L50,0 L50,50 L25,50 L0,50 L0,100 L50,100");
+          }
+          81%,
+          87% {
+            d: path("M50,0 L50,15 L50,30 L50,45 L50,60 L50,75 L50,100");
+          }
+          91%,
+          96% {
+            d: path("M0,0 L50,0 L50,50 L50,100 L0,100 L0,25 L0,0");
+          }
+        }
+      </style>
+      <path
+        id="path"
+        fill="none"
+        stroke="#1B8798"
+        stroke-width="2px"
+        d="M0,0 L50,0 L50,50 L50,100 L0,100 L0,25 L0,0"
+      ></path>
+    </svg>
+
+    <!-- 文字流光 -->
+    <svg version="1.1" viewBox="0 0 800 600" xmlns="http://www.w3.org/2000/svg" style="background-color: #000;">
+      <style type="text/css">
+        .text {
+          font-size: 200px;
+          font-family: cursive;
+        }
+        .use-text {
+          fill: none;
+          stroke: white;
+          stroke-dashoffset: 35%;
+          stroke-dasharray: 0 87.5%;
+
+          stroke-width: 2px;
+        }
+        .use-text:nth-child(1) {
+          stroke: #360745;
+          animation: animation1 8s infinite ease-in-out forwards;
+        }
+        .use-text:nth-child(2) {
+          stroke: #d61c59;
+          animation: animation2 8s infinite ease-in-out forwards;
+        }
+        .use-text:nth-child(3) {
+          stroke: #e7d84b;
+          animation: animation3 8s infinite ease-in-out forwards;
+        }
+        .use-text:nth-child(4) {
+          stroke: #efeac5;
+          animation: animation4 8s infinite ease-in-out forwards;
+        }
+        .use-text:nth-child(5) {
+          stroke: #1b8798;
+          animation: animation5 8s infinite ease-in-out forwards;
+        }
+
+        @keyframes animation1 {
+          50% {
+            stroke-dasharray: 7% 28%;
+            stroke-dashoffset: 7%;
+          }
+          70% {
+            stroke-dasharray: 7% 28%;
+            stroke-dashoffset: 7%;
+          }
+        }
+        @keyframes animation2 {
+          50% {
+            stroke-dasharray: 7% 28%;
+            stroke-dashoffset: 14%;
+          }
+          70% {
+            stroke-dasharray: 7% 28%;
+            stroke-dashoffset: 14%;
+          }
+        }
+        @keyframes animation3 {
+          50% {
+            stroke-dasharray: 7% 28%;
+            stroke-dashoffset: 21%;
+          }
+          70% {
+            stroke-dasharray: 7% 28%;
+            stroke-dashoffset: 21%;
+          }
+        }
+        @keyframes animation4 {
+          50% {
+            stroke-dasharray: 7% 28%;
+            stroke-dashoffset: 28%;
+          }
+          70% {
+            stroke-dasharray: 7% 28%;
+            stroke-dashoffset: 28%;
+          }
+        }
+        @keyframes animation5 {
+          50% {
+            stroke-dasharray: 7% 28%;
+            stroke-dashoffset: 35%;
+          }
+          70% {
+            stroke-dasharray: 7% 28%;
+            stroke-dashoffset: 35%;
+          }
+        }
+      </style>
+      <symbol id="text">
+        <text x="30%" y="35%" class="text">Alloy</text>
+        <text x="30%" y="70%" class="text">Team</text>
+      </symbol>
+      <g>
+        <use xlink:href="#text" class="use-text"></use>
+        <use xlink:href="#text" class="use-text"></use>
+        <use xlink:href="#text" class="use-text"></use>
+        <use xlink:href="#text" class="use-text"></use>
+        <use xlink:href="#text" class="use-text"></use>
+      </g>
+    </svg>
   </body>
 </html>
