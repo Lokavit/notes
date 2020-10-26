@@ -812,7 +812,7 @@
     </svg>
 
     <!-- 数字倒计时 -->
-    <svg version="1.1" xmlns="http://www.w3.org/2000/svg" >
+    <svg version="1.1" xmlns="http://www.w3.org/2000/svg">
       <style type="text/css">
         #path {
           animation: animation 15s infinite cubic-bezier(0.34, 1.61, 0.7, 1);
@@ -870,7 +870,12 @@
     </svg>
 
     <!-- 文字流光 -->
-    <svg version="1.1" viewBox="0 0 800 600" xmlns="http://www.w3.org/2000/svg" style="background-color: #000;">
+    <svg
+      version="1.1"
+      viewBox="0 0 800 600"
+      xmlns="http://www.w3.org/2000/svg"
+      style="background-color: #000"
+    >
       <style type="text/css">
         .text {
           font-size: 200px;
@@ -967,6 +972,58 @@
         <use xlink:href="#text" class="use-text"></use>
         <use xlink:href="#text" class="use-text"></use>
       </g>
+    </svg>
+
+    <!-- 路径动画 -->
+    <svg
+      version="1.1"
+      xmlns="http://www.w3.org/2000/svg"
+      xmlns:xlink="http://www.w3.org/1999/xlink"
+      x="0px"
+      y="0px"
+      width="624px"
+      height="128px"
+      viewBox="0 0 624 128"
+      style="enable-background: new 0 0 624 128"
+      xml:space="preserve"
+    >
+      <style>
+        #demo {
+          /* 指虚线段的样式（实线段长度、间隔段长度） */
+          stroke-dasharray: 633;
+          -webkit-animation: dash 2s linear;
+          animation: dash 2s linear;
+          stroke: black;
+          stroke-width: 5;
+          fill: #f00;
+          fill-opacity: 0;
+        }
+        @-webkit-keyframes dash {
+          from {
+            stroke-dashoffset: -633;
+          }
+          to {
+            stroke-dashoffset: 0;
+          }
+        }
+        @keyframes dash {
+          from {
+            stroke-dashoffset: -633;
+          }
+          to {
+            stroke-dashoffset: 0;
+          }
+        }
+      </style>
+      <path id="demo"
+        d="M274,58c9.665,7.459,16.527,12.854,10.194,24.194
+ c-6.233,11.162-10.186,9.534-18.023,3.635c-1.151-7.571,1.163-16.923,4.003-23.651c23.121,2.333-4.574,38.267-24.246,34.845
+ c-24.29-4.225-11.639-40.013-7.906-55.498c-0.728,17.849-16.004,40.561-31.745,50.662c-28.765,18.458-11.853-37.834-9.256-48.536
+ c3.229,12.612,0.08,15.385-8.324,24.071c-7.737,7.998-12.716,17.235-21.674,24.007c-10.276,7.768-22.897,13.659-29.772,0.222
+ c-4.562-8.917-5.797-21.189,7.602-14.804C145.413,89.615,142.604,97.565,129,99c-9.743,1.027-17.44-2.264-21.028-10.972
+ c-3.883-9.422,0.674-21.767-12.388-15.222C87.506,76.853,78.318,89.92,83,100.127c2.002-8.152,4.133-18.866,4.997-28.346
+ C89.029,60.441,94.371,43.283,90,33"
+      />
     </svg>
   </body>
 </html>
