@@ -1,0 +1,521 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Button</title>
+
+    <style>
+      /* .btn {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 230px;
+        height: 90px;
+        line-height: 90px;
+        text-align: center;
+        color: #fff;
+        font-size: 24px;
+        text-transform: uppercase;
+        text-decoration: none;
+        font-family: sans-serif;
+        box-sizing: border-box;
+        background: linear-gradient(90deg, #03a9f4, #f441a5, #ffeb3b, #03a9f4);
+        background-size: 400%;
+        border-radius: 60px;
+        z-index: 1;
+      }
+
+      .btn:hover {
+        animation: animate 8s linear infinite;
+      }
+
+      @keyframes animate {
+        0% {
+          background-position: 0%;
+        }
+        100% {
+          background-position: 400%;
+        }
+      }
+
+      .btn::before {
+        content: "";
+        position: absolute;
+        top: -5px;
+        left: -5px;
+        right: -5px;
+        bottom: -5px;
+        z-index: -1;
+        background: linear-gradient(90deg, #03a9f4, #f441a5, #ffeb3b, #03a9f4);
+        background-size: 400%;
+        border-radius: 40px;
+        opacity: 0;
+        transition: 0.5s;
+      }
+
+      .btn:hover::before {
+        filter: blur(20px);
+        opacity: 1;
+        animation: animate 8s linear infinite;
+      } */
+
+      /* Send button hover effect */
+      #send-btn > button {
+        background: #5f55af;
+        border: 0;
+        border-radius: 5px;
+        padding: 10px 30px 10px 20px;
+        color: white;
+        text-transform: uppercase;
+        font-weight: bold;
+      }
+
+      #send-btn > button svg {
+        display: inline-block;
+        vertical-align: middle;
+        padding-right: 5px;
+      }
+
+      #send-btn > button:hover svg {
+        animation: fly 2s ease 1;
+      }
+
+      @keyframes fly {
+        0% {
+          transform: translateX(0%);
+        }
+
+        50% {
+          transform: translateX(300%);
+        }
+
+        100% {
+          transform: translateX(0);
+        }
+      }
+
+      /* Neon button hover effect */
+      #neon-btn {
+        display: flex;
+        align-items: center;
+        justify-content: space-around;
+        background: #031628;
+      }
+
+      #neon-btn > .btn {
+        border: 1px solid;
+        background-color: transparent;
+        text-transform: uppercase;
+        font-size: 14px;
+        padding: 10px 20px;
+        font-weight: 300;
+      }
+
+      #neon-btn > .one {
+        color: #4cc9f0;
+      }
+
+      #neon-btn > .two {
+        color: #f038ff;
+      }
+
+      #neon-btn > .three {
+        color: #b9e769;
+      }
+
+      #neon-btn > .btn:hover {
+        color: white;
+        border: 0;
+      }
+
+      #neon-btn > .one:hover {
+        background-color: #4cc9f0;
+        -webkit-box-shadow: 10px 10px 99px 6px rgba(76, 201, 240, 1);
+        -moz-box-shadow: 10px 10px 99px 6px rgba(76, 201, 240, 1);
+        box-shadow: 10px 10px 99px 6px rgba(76, 201, 240, 1);
+      }
+
+      #neon-btn > .two:hover {
+        background-color: #f038ff;
+        -webkit-box-shadow: 10px 10px 99px 6px rgba(240, 56, 255, 1);
+        -moz-box-shadow: 10px 10px 99px 6px rgba(240, 56, 255, 1);
+        box-shadow: 10px 10px 99px 6px rgba(240, 56, 255, 1);
+      }
+
+      #neon-btn > .three:hover {
+        background-color: #b9e769;
+        -webkit-box-shadow: 10px 10px 99px 6px rgba(185, 231, 105, 1);
+        -moz-box-shadow: 10px 10px 99px 6px rgba(185, 231, 105, 1);
+        box-shadow: 10px 10px 99px 6px rgba(185, 231, 105, 1);
+      }
+
+      /* Draw border button hover effect */
+      #draw-border {
+        border: 0;
+        background: none;
+        text-transform: uppercase;
+        color: #4361ee;
+        font-weight: bold;
+        position: relative;
+        outline: none;
+        padding: 10px 20px;
+        box-sizing: border-box;
+      }
+
+      #draw-border::before,
+      #draw-border::after {
+        box-sizing: inherit;
+        position: absolute;
+        content: "";
+        border: 2px solid transparent;
+        width: 0;
+        height: 0;
+      }
+
+      #draw-border::after {
+        bottom: 0;
+        right: 0;
+      }
+
+      #draw-border::before {
+        top: 0;
+        left: 0;
+      }
+
+      #draw-border:hover::before,
+      #draw-border:hover::after {
+        width: 100%;
+        height: 100%;
+      }
+
+      #draw-border:hover::before {
+        border-top-color: #4361ee;
+        border-right-color: #4361ee;
+        transition: width 0.3s ease-out, height 0.3s ease-out 0.3s;
+      }
+
+      #draw-border:hover::after {
+        border-bottom-color: #4361ee;
+        border-left-color: #4361ee;
+        transition: border-color 0s ease-out 0.6s, width 0.3s ease-out 0.6s,
+          height 0.3s ease-out 1s;
+      }
+
+      /* Circle button hover effect */
+      .btn-container {
+        position: relative;
+      }
+
+      .btn-container > button {
+        border: 0;
+        border-radius: 50px;
+        color: white;
+        background: #5f55af;
+        padding: 15px 20px 16px 60px;
+        text-transform: uppercase;
+        background: linear-gradient(to right, #f72585 50%, #5f55af 50%);
+        background-size: 200% 100%;
+        background-position: right bottom;
+        transition: all 2s ease;
+      }
+
+      .btn-container > svg {
+        background: #f72585;
+        padding: 8px;
+        border-radius: 50%;
+        position: absolute;
+        left: 0;
+        top: 0%;
+      }
+
+      .btn-container > button:hover {
+        background-position: left bottom;
+      }
+
+      /* Border radius button hover effect */
+      #border-btn {
+        border: 0;
+        border-radius: 10px;
+        background: #2ec4b6;
+        text-transform: uppercase;
+        color: white;
+        font-size: 16px;
+        font-weight: bold;
+        padding: 15px 30px;
+        outline: none;
+        position: relative;
+        transition: border-radius 3s;
+        -webkit-transition: border-radius 3s;
+      }
+
+      #border-btn:hover {
+        border-bottom-right-radius: 50px;
+        border-top-left-radius: 50px;
+        border-bottom-left-radius: 10px;
+        border-top-right-radius: 10px;
+      }
+
+      /* Frozen button hover effect */
+      #frozen-btn > button {
+        border: 0;
+        margin: 20px;
+        text-transform: uppercase;
+        font-size: 20px;
+        font-weight: bold;
+        padding: 15px 50px;
+        border-radius: 50px;
+        color: white;
+        outline: none;
+        position: relative;
+      }
+
+      #frozen-btn > button:before {
+        content: "";
+        display: block;
+        background: linear-gradient(
+          to left,
+          rgba(255, 255, 255, 0) 50%,
+          rgba(255, 255, 255, 0.4) 50%
+        );
+        background-size: 210% 100%;
+        background-position: right bottom;
+        height: 100%;
+        width: 100%;
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        right: 0;
+        left: 0;
+        border-radius: 50px;
+        transition: all 1s;
+        -webkit-transition: all 1s;
+      }
+
+      #frozen-btn > .green {
+        background-image: linear-gradient(to right, #25aae1, #40e495);
+        box-shadow: 0 4px 15px 0 rgba(49, 196, 190, 0.75);
+      }
+
+      #frozen-btn > .purple {
+        background-image: linear-gradient(to right, #6253e1, #852d91);
+        box-shadow: 0 4px 15px 0 rgba(236, 116, 149, 0.75);
+      }
+
+      #frozen-btn > .purple:hover:before {
+        background-position: left bottom;
+      }
+
+      #frozen-btn > .green:hover:before {
+        background-position: left bottom;
+      }
+
+      /* Shiny shadow element button hover effect */
+      #shiny-shadow {
+        background: #1c2541;
+        width: max-content;
+      }
+
+      #shiny-shadow > button {
+        border: 2px solid white;
+        background: transparent;
+        text-transform: uppercase;
+        color: white;
+        padding: 15px 50px;
+        outline: none;
+        overflow: hidden;
+        position: relative;
+      }
+
+      #shiny-shadow > span {
+        z-index: 20;
+      }
+
+      #shiny-shadow > button:after {
+        content: "";
+        display: block;
+        position: absolute;
+        top: -36px;
+        left: -100px;
+        background: white;
+        width: 50px;
+        height: 125px;
+        opacity: 20%;
+        transform: rotate(-45deg);
+      }
+
+      #shiny-shadow > button:hover:after {
+        left: 120%;
+        transition: all 600ms cubic-bezier(0.3, 1, 0.2, 1);
+        -webkit-transition: all 600ms cubic-bezier(0.3, 1, 0.2, 1);
+      }
+
+      /* Load button hover effect */
+      #loading-btn {
+        background: transparent;
+        border: 0;
+        border-radius: 0;
+        text-transform: uppercase;
+        font-weight: bold;
+        font-size: 20px;
+        padding: 15px 50px;
+        position: relative;
+      }
+
+      #loading-btn:before {
+        transition: all 0.8s cubic-bezier(0.7, -0.5, 0.2, 2);
+        content: "";
+        width: 1%;
+        height: 100%;
+        background: #ff5964;
+        position: absolute;
+        top: 0;
+        left: 0;
+      }
+
+      #loading-btn > span {
+        mix-blend-mode: darken;
+      }
+
+      #loading-btn:hover:before {
+        background: #ff5964;
+        width: 100%;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- <a href="#" class="btn">button</a> -->
+
+    <!-- Send button hover effect -->
+    <div id="send-btn">
+      <button>
+        <svg
+          width="25px"
+          height="25px"
+          viewBox="0 0 402 403"
+          version="1.1"
+          xmlns="http://www.w3.org/2000/svg"
+          xmlns:xlink="http://www.w3.org/1999/xlink"
+        >
+          <g
+            id="Page-1"
+            stroke="none"
+            stroke-width="1"
+            fill="none"
+            fill-rule="evenodd"
+          >
+            <g
+              id="email"
+              transform="translate(-65.000000, -45.000000)"
+              fill-rule="nonzero"
+            >
+              <path
+                d="M462.409,75.155 L242.847,390.775 L139.609,372.39 L457.101,53.485 L460.81,57.194 C465.62,62.005 466.294,69.57 462.409,75.155 Z"
+                id="Path"
+                fill="#55A4F9"
+              ></path>
+              <path
+                d="M139.61,372.39 L121.225,269.152 L436.767,49.645 C442.397,45.729 450.023,46.408 454.873,51.257 L458.515,54.899 L139.61,372.39 Z M242.847,390.775 L263.045,370.577 L213.856,333.5 L242.847,390.775 Z"
+                id="Shape"
+                fill="#1380E2"
+              ></path>
+              <polygon
+                id="Path"
+                fill="#4172CC"
+                points="184.157 303.801 121.225 269.153 139.61 250.768"
+              ></polygon>
+              <path
+                d="M454.998,51.383 L184.176,303.82 L68.873,188.517 C63.654,183.298 65.694,174.417 72.667,171.998 L434.216,46.609 C441.486,44.088 449.557,45.942 454.998,51.383 Z M460.617,57.002 L213.837,333.48 L323.483,443.126 C328.702,448.345 337.583,446.305 340.002,439.332 L465.391,77.784 C467.912,70.514 466.058,62.443 460.617,57.002 Z"
+                id="Shape"
+                fill="#A7D0FC"
+              ></path>
+              <path
+                d="M465.391,77.785 L394.817,281.279 C382.208,317.636 335.906,328.271 308.696,301.061 C289.148,281.513 288.257,250.104 306.666,229.48 L460.617,57.002 C466.058,62.443 467.912,70.514 465.391,77.785 L465.391,77.785 Z M434.215,46.609 L230.721,117.183 C194.364,129.792 183.729,176.093 210.939,203.304 L214.46,206.825 C234.316,226.681 266.331,227.243 286.872,208.096 L454.998,51.383 C449.557,45.942 441.486,44.088 434.215,46.609 L434.215,46.609 Z"
+                id="Shape"
+                fill="#C8E2FD"
+              ></path>
+              <path
+                d="M199.979,352.149 L130.682,421.445 C129.706,422.422 128.426,422.91 127.147,422.91 C125.868,422.91 124.587,422.422 123.612,421.445 C121.659,419.493 121.659,416.327 123.612,414.375 L192.909,345.079 C194.86,343.126 198.028,343.126 199.979,345.079 C201.932,347.031 201.932,350.197 199.979,352.149 Z M206.519,375.661 C204.568,373.708 201.4,373.708 199.449,375.661 L164.095,411.016 C162.142,412.968 162.142,416.134 164.095,418.086 C165.071,419.063 166.351,419.551 167.63,419.551 C168.909,419.551 170.19,419.063 171.165,418.086 L206.519,382.731 C208.472,380.779 208.472,377.613 206.519,375.661 Z M149.95,425.158 L135.808,439.301 C133.856,441.253 133.856,444.419 135.809,446.372 C136.786,447.348 138.065,447.836 139.344,447.836 C140.623,447.836 141.904,447.348 142.88,446.371 L157.022,432.228 C158.974,430.276 158.974,427.11 157.021,425.157 C155.068,423.206 151.903,423.205 149.95,425.158 Z M194.765,414.816 L180.622,428.958 C178.669,430.911 178.669,434.077 180.621,436.029 C181.598,437.006 182.878,437.494 184.157,437.494 C185.436,437.494 186.717,437.006 187.692,436.03 L201.835,421.888 C203.788,419.935 203.788,416.769 201.836,414.817 C199.883,412.864 196.716,412.865 194.765,414.816 Z"
+                id="Shape"
+                fill="#FFFFFF"
+              ></path>
+            </g>
+          </g>
+        </svg>
+        Send
+      </button>
+    </div>
+
+    <hr />
+    <!-- Neon button hover effect -->
+    <div id="neon-btn">
+      <button class="btn one">Hover me</button>
+      <button class="btn two">Hover me</button>
+      <button class="btn three">Hover me</button>
+    </div>
+
+    <hr />
+    <!-- Draw border button hover effect -->
+    <button id="draw-border">Hover me</button>
+
+    <!-- Border radius button hover effect -->
+    <button id="border-btn">Hover me</button>
+
+    <!-- Load button hover effect -->
+    <button id="loading-btn"><span>Hover me</span></button>
+
+    <hr />
+    <!-- Circle button hover effect -->
+    <div class="btn-container">
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        xmlns:xlink="http://www.w3.org/1999/xlink"
+        version="1.1"
+        id="Capa_1"
+        x="0px"
+        y="0px"
+        viewBox="0 0 512 512"
+        style="enable-background: new 0 0 512 512"
+        xml:space="preserve"
+        width="30px"
+        height="30px"
+        class=""
+      >
+        <g>
+          <path
+            style="fill: #2196f3"
+            d="M511.189,259.954c1.649-3.989,0.731-8.579-2.325-11.627l-192-192  c-4.237-4.093-10.99-3.975-15.083,0.262c-3.992,4.134-3.992,10.687,0,14.82l173.803,173.803H10.667  C4.776,245.213,0,249.989,0,255.88c0,5.891,4.776,10.667,10.667,10.667h464.917L301.803,440.328  c-4.237,4.093-4.355,10.845-0.262,15.083c4.093,4.237,10.845,4.354,15.083,0.262c0.089-0.086,0.176-0.173,0.262-0.262l192-192  C509.872,262.42,510.655,261.246,511.189,259.954z"
+            data-original="#2196F3"
+          />
+          <path
+            d="M309.333,458.546c-5.891,0.011-10.675-4.757-10.686-10.648c-0.005-2.84,1.123-5.565,3.134-7.571L486.251,255.88  L301.781,71.432c-4.093-4.237-3.975-10.99,0.262-15.083c4.134-3.992,10.687-3.992,14.82,0l192,192  c4.164,4.165,4.164,10.917,0,15.083l-192,192C314.865,457.426,312.157,458.546,309.333,458.546z"
+            data-original="#000000"
+            class="active-path"
+            data-old_color="#000000"
+            style="fill: #ffffff"
+          />
+          <path
+            d="M501.333,266.546H10.667C4.776,266.546,0,261.771,0,255.88c0-5.891,4.776-10.667,10.667-10.667h490.667  c5.891,0,10.667,4.776,10.667,10.667C512,261.771,507.224,266.546,501.333,266.546z"
+            data-original="#000000"
+            class="active-path"
+            data-old_color="#000000"
+            style="fill: #ffffff"
+          />
+        </g>
+      </svg>
+      <button>Hover me</button>
+    </div>
+
+    <!-- Frozen button hover effect -->
+    <div id="frozen-btn">
+      <button class="green">Hover me</button>
+      <button class="purple">Hover me</button>
+    </div>
+
+    <!-- Shiny shadow element button hover effect -->
+    <div id="shiny-shadow">
+      <button><span>Hover me</span></button>
+    </div>
+  </body>
+</html>

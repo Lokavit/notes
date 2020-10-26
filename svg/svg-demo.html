@@ -527,5 +527,288 @@
       });
       svg.appendChild(r);
     </script>
+
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      xmlns:xlink="http://www.w3.org/1999/xlink"
+      width="552px"
+      height="552px"
+      viewBox="0 0 552 552"
+    >
+      <style type="text/css">
+        #track-circle-2 {
+          animation-name: wave1;
+          animation-timing-function: ease-in-out;
+          animation-duration: 6s;
+          animation-iteration-count: infinite;
+        }
+
+        #track-circle-3 {
+          animation-name: wave2;
+          animation-timing-function: ease-in-out;
+          animation-duration: 6s;
+          animation-iteration-count: infinite;
+        }
+
+        #top-triangel {
+          animation-name: topmove;
+          animation-timing-function: ease-in-out;
+          animation-duration: 2s;
+          animation-iteration-count: infinite;
+        }
+
+        #shadow {
+          animation-name: shadowhide;
+          animation-timing-function: linear;
+          animation-duration: 2s;
+          animation-iteration-count: infinite;
+        }
+
+        #bottom-triangel {
+          animation-name: bottommove;
+          animation-timing-function: ease-in-out;
+          animation-duration: 2s;
+          animation-iteration-count: infinite;
+        }
+
+        #right-triangel {
+          animation-name: rightmove;
+          animation-timing-function: ease-in-out;
+          animation-duration: 2s;
+          animation-iteration-count: infinite;
+        }
+
+        #main {
+          animation-name: mainrotate;
+          animation-timing-function: linear;
+          animation-duration: 6s;
+          animation-iteration-count: infinite;
+          transform-origin: 276px 276px;
+        }
+
+        #white-ball {
+          animation-name: balltransparent;
+          animation-timing-function: ease-in-out;
+          animation-duration: 2s;
+          animation-iteration-count: infinite;
+          transform-origin: 276px 276px;
+        }
+
+        #white-line {
+          animation-name: linetransparent;
+          animation-timing-function: ease-in-out;
+          animation-duration: 2s;
+          animation-iteration-count: infinite;
+        }
+
+        #blue-ball {
+          animation-name: spin;
+          animation-timing-function: linear;
+          animation-duration: 6s;
+          animation-iteration-count: infinite;
+          transform-origin: center center;
+        }
+        @keyframes wave1 {
+          50% {
+            stroke-width: 4;
+            r: 219px;
+          }
+        }
+
+        @keyframes wave2 {
+          50% {
+            stroke-width: 3;
+            r: 274.5px;
+          }
+        }
+
+        @keyframes topmove {
+          from,
+          to {
+            transform: translate(0, 0);
+          }
+          50% {
+            transform: translate(-31px, -30px);
+          }
+        }
+
+        @keyframes bottommove {
+          from,
+          to {
+            transform: translate(0, 0);
+          }
+          50% {
+            transform: translate(-31px, 30px);
+          }
+        }
+
+        @keyframes rightmove {
+          from,
+          to {
+            transform: translate(0);
+          }
+          50% {
+            transform: translate(29px);
+          }
+        }
+
+        @keyframes mainrotate {
+          from {
+            transform: translate(0, 0) rotateZ(0deg) translate(-56px, -51px);
+          }
+          to {
+            transform: translate(0, 0) rotateZ(360deg) translate(-56px, -51px);
+          }
+        }
+
+        @keyframes balltransparent {
+          50% {
+            opacity: 0;
+            transform: scale(0);
+          }
+        }
+        @keyframes linetransparent {
+          50% {
+            opacity: 0;
+            width: 0px;
+          }
+        }
+
+        @keyframes spin {
+          from {
+            transform: rotate(0turn);
+          }
+          to {
+            transform: rotate(1turn);
+          }
+        }
+
+        @keyframes shadowhide {
+          30%,
+          70% {
+            opacity: 0;
+          }
+        }
+      </style>
+      <defs>
+        <linearGradient
+          x1="87.9854905%"
+          y1="98.2150655%"
+          x2="6.36253463%"
+          y2="63.3712156%"
+          id="linearGradient-1"
+        >
+          <stop stop-color="#CFFF07" offset="0%" />
+          <stop stop-color="#18F10B" offset="100%" />
+        </linearGradient>
+
+        <linearGradient
+          x1="84.0095073%"
+          y1="23.8423391%"
+          x2="13.0606202%"
+          y2="92.7266232%"
+          id="linearGradient-2"
+        >
+          <stop stop-color="#000000" stop-opacity="0" offset="0%" />
+          <stop stop-color="#008922" offset="100%" />
+        </linearGradient>
+
+        <linearGradient
+          x1="69.3474869%"
+          y1="100%"
+          x2="6.36253463%"
+          y2="7.47071055%"
+          id="linearGradient-3"
+        >
+          <stop stop-color="#0CE6EC" offset="0%" />
+          <stop stop-color="#51F610" offset="100%" />
+        </linearGradient>
+
+        <linearGradient
+          x1="65.1823833%"
+          y1="0%"
+          x2="43.7688958%"
+          y2="71.7837243%"
+          id="linearGradient-4"
+        >
+          <stop stop-color="#1FCCFE" offset="0%" />
+          <stop stop-color="#3B7BFE" offset="100%" />
+          <stop stop-color="#3C77FE" offset="100%" />
+        </linearGradient>
+
+        <linearGradient
+          x1="50%"
+          y1="0%"
+          x2="50%"
+          y2="100%"
+          id="linearGradient-5"
+        >
+          <stop stop-color="#65C1FF" stop-opacity="0.776032561" offset="0%" />
+          <stop stop-color="#358DFE" stop-opacity="0.776032561" offset="100%" />
+        </linearGradient>
+      </defs>
+
+      <g id="track-list" fill="none" stroke-width="6" opacity="0.52969215">
+        <circle
+          id="track-circle-1"
+          stroke="url(#linearGradient-5)"
+          cx="276"
+          cy="276"
+          r="161.5"
+        />
+        <circle
+          id="track-circle-2"
+          stroke="url(#linearGradient-5)"
+          cx="276"
+          cy="276"
+          r="161.5"
+        />
+        <circle
+          id="track-circle-3"
+          stroke="url(#linearGradient-5)"
+          cx="276"
+          cy="276"
+          r="161.5"
+        />
+      </g>
+      <g id="main" transform="translate(-72.000000, -42.000000)">
+        <g id="bottom-triangel">
+          <path
+            d="M277.692119,249.374662 L401.197027,381.5771 C403.308357,383.837114 403.187824,387.380789 400.927809,389.492119 C399.890645,390.461049 398.524252,391 397.104909,391 L274.4,391 C270.865378,391 268,388.134622 268,384.6 L268,253.197562 C268,250.104768 270.507205,247.597562 273.6,247.597562 C275.151304,247.597562 276.633104,248.241069 277.692119,249.374662 Z"
+            fill="url(#linearGradient-1)"
+          />
+        </g>
+        <g id="top-triangel">
+          <path
+            id="shadow"
+            d="M347.998869,325.325925 C303.260852,366.084908 279.848431,387.294693 277.761605,388.955281 C276.43793,390.008592 273.184062,372.454581 268,336.293246 L329.66401,306 C341.984014,318.795791 348.095634,325.237766 347.998869,325.325925 Z"
+            fill="url(#linearGradient-2)"
+            opacity="0.469517299"
+          />
+          <path
+            d="M277.692119,257.374662 L401.197027,389.5771 C403.308357,391.837114 403.187824,395.380789 400.927809,397.492119 C399.890645,398.461049 398.524252,399 397.104909,399 L273.6,399 C270.507205,399 268,396.492795 268,393.4 L268,261.197562 C268,258.104768 270.507205,255.597562 273.6,255.597562 C275.151304,255.597562 276.633104,256.241069 277.692119,257.374662 Z"
+            fill="url(#linearGradient-3)"
+            transform="translate(339, 323) scale(1, -1) translate(-339, -323)"
+          />
+          <circle id="white-ball" fill="#FFFFFF" cx="301" cy="280" r="12" />
+        </g>
+        <g id="right-triangel">
+          <path
+            d="M435,254.02723 L435,383.97277 C435,387.286478 432.313708,389.97277 429,389.97277 C427.355333,389.97277 425.782767,389.297649 424.650003,388.105267 L362.925872,323.132497 C360.725867,320.816703 360.725867,317.183297 362.925872,314.867503 L424.650003,249.894733 C426.932318,247.492296 430.73006,247.394918 433.132497,249.677233 C434.324879,250.809997 435,252.382563 435,254.02723 Z"
+            fill="url(#linearGradient-4)"
+          />
+          <rect
+            id="white-line"
+            fill="#FFFFFF"
+            x="361"
+            y="312"
+            width="51"
+            height="14"
+            rx="7"
+          />
+        </g>
+      </g>
+      <circle id="blue-ball" fill="#2AABFE" cx="366.85" cy="138.25" r="16.25" />
+    </svg>
   </body>
 </html>

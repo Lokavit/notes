@@ -53,6 +53,7 @@
         <td><a href="https://lokavit.github.io/notes/ui/3ddemo.html">3D DEMO</a></td>
     </tr>
     <tr>
+        <td><a href="https://lokavit.github.io/notes/ui/button.html">Button Effect</a></td>
         <td><a href="https://lokavit.github.io/notes/svg/svg-demo.html">SVG DEMO</a></td>
         <td><a href="https://lokavit.github.io/notes/svg/load1.html">LOADING 1</a></td>
     </tr>
