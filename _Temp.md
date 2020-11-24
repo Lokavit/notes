@@ -1,3 +1,25 @@
+## Progressive Web Apps 渐进式网络应用
+- 
+
+### service worker
+- sw有以下几个特点：
+独立于主线程、在后台运行的脚本
+被install后就永远存在，除非被手动卸载
+可编程拦截请求和返回，缓存文件。sw可以通过fetch这个api，来拦截网络和处理网络请求，再配合cacheStorage来实现web页面的缓存管理以及与前端postMessage通信。
+不能直接操纵dom：因为sw是个独立于网页运行的脚本，所以在它的运行环境里，不能访问窗口的window以及dom。
+必须是https的协议才能使用。不过在本地调试时，在http://localhost 和http://127.0.0.1 下也是可以跑起来的。
+异步实现，sw大量使用promise。
+
+- service worker的生命周期
+service worker从代码的编写，到在浏览器中的运行，主要经过下面几个阶段 installing -> installed -> activating -> activated -> redundant;
+
+installing：这个状态发生在service worker注册之后，表示开始安装。在这个过程会触发install事件回调指定一些静态资源进行离线缓存。
+installed：sw已经完成了安装，进入了waiting状态，等待其他的Service worker被关闭（在install的事件回调中，可以调用skipWaiting方法来跳过waiting这个阶段）
+activating： 在这个状态下没有被其他的 Service Worker 控制的客户端，允许当前的 worker 完成安装，并且清除了其他的 worker 以及关联缓存的旧缓存资源，等待新的 Service Worker 线程被激活。
+activated： 在这个状态会处理activate事件回调，并提供处理功能性事件：fetch、sync、push。（在acitive的事件回调中，可以调用self.clients.claim()）
+redundant：废弃状态，这个状态表示一个sw的使命周期结束
+
+
 ## WebComponents另一种使用方式
 - 尝试将WebComponents的类组件形式，实现Modal的类形式
 - 如果以上成立，则可以将页面组件拆分，分别以类的形式实现
