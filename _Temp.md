@@ -1,30 +1,101 @@
 ## Progressive Web Apps 渐进式网络应用
-- 
 
-### service worker
-- sw有以下几个特点：
-独立于主线程、在后台运行的脚本
-被install后就永远存在，除非被手动卸载
-可编程拦截请求和返回，缓存文件。sw可以通过fetch这个api，来拦截网络和处理网络请求，再配合cacheStorage来实现web页面的缓存管理以及与前端postMessage通信。
-不能直接操纵dom：因为sw是个独立于网页运行的脚本，所以在它的运行环境里，不能访问窗口的window以及dom。
-必须是https的协议才能使用。不过在本地调试时，在http://localhost 和http://127.0.0.1 下也是可以跑起来的。
-异步实现，sw大量使用promise。
+### App shell 程序外壳
 
-- service worker的生命周期
-service worker从代码的编写，到在浏览器中的运行，主要经过下面几个阶段 installing -> installed -> activating -> activated -> redundant;
+- 尽快加载最小的用户界面并缓存它，以便后续访问可以离线使用.然后加载应用趁墟的所有内容。下次从设备访问时，UI 立即从缓存加载，并从服务器请求新的内容(如果它已在缓存中不可用)
+- 用户立即看到内容，而非加载动画或空白页，感觉很快，且可离线。
+- 通过 service worker 控制从服务器请求的内容以及从缓存中检索的内容。
+- 添加到主屏幕或推送通知，更像原生应用。
 
-installing：这个状态发生在service worker注册之后，表示开始安装。在这个过程会触发install事件回调指定一些静态资源进行离线缓存。
-installed：sw已经完成了安装，进入了waiting状态，等待其他的Service worker被关闭（在install的事件回调中，可以调用skipWaiting方法来跳过waiting这个阶段）
+```html
+<head>
+  <meta property="og:image" content="icons/icon-512.png" />
+  <link rel="shortcut icon" href="favicon.ico" />
+  <link rel="stylesheet" href="style.css" />
+  <!-- web manifest文件 -->
+  <link rel="manifest" href="js13kpwa.webmanifest" />
+  <!-- 数据 数组对象 用于填充到 content -->
+  <script src="data/games.js" defer></script>
+  <!-- 整个程序的初始化工作，会在app.js中完成 -->
+  <script src="app.js" defer></script>
+</head>
+<!-- html页面，除本行之外，全是App shell程序外壳 -->
+<section id="content"></section>
+```
+
+```css
+/* 响应式布局 */
+```
+
+```js
+/* app.js */
+// 模板字符串
+// 注册 service worker
+// 点击按钮时请求用户权限，用来向用户推送通知
+// 创建通知,随机展示列表中的一个项目
+
+/* sw.js */
+// 引入 game.js文件 (也就是数据 数据对象)
+self.importScripts("data/games.js");
+// 程序对app shell和主体内容(content)里面的数据创建一个缓存列表
+// 配置service worker，缓存 列表的工作在此执行
+// 如果条件允许，service worker将从缓存中请求content中所需的数据，从而提供离线应用功能
+```
+
+### Service Workers
+
+- 是浏览器和网络之间的虚拟代理。正确缓存网站资源并使其在用户设备离线时可用。
+- API 是非阻塞的，且可以在不同上下文之间发送和接收通信
+- 分配给 SW 一些任务，并在使用基于 Promise 的方法当任务完成时收到结果
+- 主要:离线功能、处理通知、在单独的线程上执行繁重的计算
+- 控制网络请求，修改网络请求，返回缓存的自定义响应，或合成响应。
+- 需使用 HTTPS，使用 web storage 无效，因其不返回 Promise。
+- 独立于主线程、在后台运行的脚本。不能直接操纵 dom
+- 被 install 后就永远存在，除非被手动卸载
+- 可编程拦截请求和返回，缓存文件。sw 可以通过 fetch 这个 api，来拦截网络和处理网络请求，再配合 cacheStorage 来实现 web 页面的缓存管理以及与前端 postMessage 通信。
+- 异步实现，sw 大量使用 promise。
+- “离线优先”或“缓存优先”模式是向用户提供内容的最流行策略。 如果资源已缓存且可脱机使用，请在尝试从服务器下载资源之前先将其返回。 如果它已经不在缓存中，请下载并缓存以备将来使用。
+
+- service worker 的生命周期
+  service worker 从代码的编写，到在浏览器中的运行，主要经过下面几个阶段 installing -> installed -> activating -> activated -> redundant;
+
+installing：这个状态发生在 service worker 注册之后，表示开始安装。在这个过程会触发 install 事件回调指定一些静态资源进行离线缓存。
+installed：sw 已经完成了安装，进入了 waiting 状态，等待其他的 Service worker 被关闭（在 install 的事件回调中，可以调用 skipWaiting 方法来跳过 waiting 这个阶段）
 activating： 在这个状态下没有被其他的 Service Worker 控制的客户端，允许当前的 worker 完成安装，并且清除了其他的 worker 以及关联缓存的旧缓存资源，等待新的 Service Worker 线程被激活。
-activated： 在这个状态会处理activate事件回调，并提供处理功能性事件：fetch、sync、push。（在acitive的事件回调中，可以调用self.clients.claim()）
-redundant：废弃状态，这个状态表示一个sw的使命周期结束
+activated： 在这个状态会处理 activate 事件回调，并提供处理功能性事件：fetch、sync、push。（在 acitive 的事件回调中，可以调用 self.clients.claim()）
+redundant：废弃状态，这个状态表示一个 sw 的使命周期结束
 
+### 版本更新
 
-## WebComponents另一种使用方式
-- 尝试将WebComponents的类组件形式，实现Modal的类形式
+```js
+contentToCache.push("/notes/pwa/js13kpwa/icons/icon-32.png");
+// ...
+self.addEventListener("install", function (e) {
+  e.waitUntil(
+    caches.open("js13kPWA-v2").then(function (cache) {
+      return cache.addAll(contentToCache);
+    })
+  );
+});
+```
+
+### 其它用途
+
+可以把比较耗时的计算从主线程中提取出来，在 SW 中计算完成，从 SW 中取得计算结果；可以在 SW 中对即将使用的资源进行预加载。
+
+### 从设备启动
+
+- js13kpwa.webmanifest：清单文件，列举网站所有信息
+
+```html
+<link rel="manifest" href="js13kpwa.webmanifest" />
+```
+
+## WebComponents 另一种使用方式
+
+- 尝试将 WebComponents 的类组件形式，实现 Modal 的类形式
 - 如果以上成立，则可以将页面组件拆分，分别以类的形式实现
 - 最终页面为拼接类组件形式展现
-
 
 ##
 

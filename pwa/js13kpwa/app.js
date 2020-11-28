@@ -27,10 +27,12 @@ for (var i = 0; i < games.length; i++) {
 document.getElementById("content").innerHTML = content;
 
 /**
- * 注册了一个 Service Worker
- * 如果浏览器支持 service worker API，则使用 ServiceWorkerContainer.register() 方法对该站点进行注册
- * 其内容在 sw.js 文件中，可以在注册成功后执行。
- * 它是 app.js 文件中唯一的Service Worker代码; 其他关于 Service Worker 的内容都写在 sw.js 文件中。
+ * 注册新 Service Worker
+ * 如果浏览器支持 service worker API 对该站点进行注册
+ * 此处注意，需已根路径为起始，如本项目在notes下，就需加上
+ * 其内容在 sw.js 文件中，在注册成功后执行。 它是 app.js 文件中唯一的SW代码;
+ * 其他关于 Service Worker 的内容都写在 sw.js 文件中
+ * 第二个参数选填，用来指定需SW控制的内容的子目录
  */
 if ("serviceWorker" in navigator)
   navigator.serviceWorker.register("/notes/pwa/js13kpwa/sw.js");

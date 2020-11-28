@@ -1,8 +1,13 @@
-// 引入 game.js文件file
+// 引入 game.js文件 (也就是数据 数据对象)
 self.importScripts("data/games.js");
 
-// Files to cache 对app shell和主体内容（content）里面的数据创建一个缓存列表
+/**
+ * 创建一个作为缓存的名字的变量
+ * 当应用有新版本，并且包含一些可用的新资源,把版本号更新到v2。
+ * SW会将所有的文件（包括那些新的文件）添加到一个新的缓存中
+ */
 var cacheName = "js13kPWA-v1";
+// app shell所需的文件被记录在一个数组上
 var appShellFiles = [
   "/notes/pwa/js13kpwa/",
   "/notes/pwa/js13kpwa/index.html",
@@ -23,6 +28,7 @@ var appShellFiles = [
   "/notes/pwa/js13kpwa/icons/icon-256.png",
   "/notes/pwa/js13kpwa/icons/icon-512.png",
 ];
+// 从data/game.js的内容中解析图片链接，赋值到另一个数组上
 var gamesImages = [];
 for (var i = 0; i < games.length; i++) {
   gamesImages.push("data/img/" + games[i].slug + ".jpg");
@@ -30,13 +36,15 @@ for (var i = 0; i < games.length; i++) {
 // 合并数组
 var contentToCache = appShellFiles.concat(gamesImages);
 
-// Installing Service Worker 监听install事件
-self.addEventListener("install", function (e) {
+/**  此处触发时缓存资源
+ * 为关键事件添加事件监听器 - 第一个是 install 事件：
+ * 初始化缓存以及添加离线应用时所需的文件
+ */
+self.addEventListener("install", function (extendableEvent) {
   console.log("[Service Worker] Install");
-  // service worker会等到 waitUntil 里面的代码执行完毕之后才开始安装。返回一个promise
-  e.waitUntil(
-    // caches 是一个特殊的 CacheStorage 对象，它能在Service Worker指定的范围内提供数据存储的能力（service worker在注册时，第二个参数是选填的，可以被用来指定你想让 service worker 控制的内容的子目录
-    // 在service worker中使用web storage 将不会有效果，因为web storage的执行是同步的（此处理解为web storage并不返回一个promise.使用Cache API作为替代
+  // sw会等到 waitUntil 里面的代码执行完,才开始安装.返回一个promise
+  extendableEvent.waitUntil(
+    // 特殊的 CacheStorage 对象,能在SW指定的范围内提供数据存储的能力
     caches.open(cacheName).then(function (cache) {
       console.log("[Service Worker] Caching all: app shell and content");
       return cache.addAll(contentToCache);
@@ -44,22 +52,43 @@ self.addEventListener("install", function (e) {
   );
 });
 
-// Fetching content using Service Worker 如果条件允许，service worker将从缓存中请求content中所需的数据，从而提供离线应用功能
-// 每次当我们的应用发起一个http请求时，我们还有一个fetch 事件可以使用。这个事件对我们来说非常有用，它允许我们拦截请求并对请求作出自定义的响应
-// 当缓存存在时，我们使用缓存来提供服务而不是重新请求数据。不管当前应用是在线还是离线，我们都这么做。当请求的文件不在缓存中时，我们会在响应之前将数据添加到缓存中
-self.addEventListener("fetch", function (e) {
-  // 接管响应控制，它会作为服务器和应用之间的代理服务。它允许我们对每一个请求作出我们想要的任何响应：Service Worker会处理这一切，从缓存中获取这些数据，并在需要的情况下对它们进行修改
-  e.respondWith(
-    caches.match(e.request).then(function (r) {
-      console.log("[Service Worker] Fetching resource: " + e.request.url);
+// activate 事件 ,通常用来删除已经不需要的文件或者做一些清理工作。(暂时未用)
+self.addEventListener("activate", function (event) {
+  event.waitUntil(
+    caches.keys().then(function (keyList) {
+      return Promise.all(
+        keyList.map(function (key) {
+          if (cacheName.indexOf(key) === -1) {
+            return caches.delete(key);
+          }
+        })
+      );
+    })
+  );
+});
+
+/**  此处触发时返回缓存中的资源
+ * 当应用发起一个http请求时,有一个fetch 事件可以使用.它允许拦截请求并对请求作出自定义的响应
+ * 请求的响应可以是任何想要的东西：请求过的文件缓存副本，或一段做具体操作的js代码，等。
+ * 当缓存存在时，使用缓存来提供服务而不是重新请求数据；无视当前是否离线。
+ * 当请求的文件不在缓存中时，在响应之前将数据添加到缓存中；为离线等做备用。
+ */
+self.addEventListener("fetch", function (event) {
+  /**
+   * 接管响应控制，作为服务器和应用之间的代理服务。
+   * 允许对每一个请求作出想要的任何响应：SW会处理一切，从缓存中获取数据，并在需要的情况下对它们进行修改
+   */
+  event.respondWith(
+    caches.match(event.request).then(function (r) {
+      console.log("[Service Worker] Fetching resource: " + event.request.url);
       return (
         r ||
         fetch(e.request).then(function (response) {
           return caches.open(cacheName).then(function (cache) {
             console.log(
-              "[Service Worker] Caching new resource: " + e.request.url
+              "[Service Worker] Caching new resource: " + event.request.url
             );
-            cache.put(e.request, response.clone());
+            cache.put(event.request, response.clone());
             return response;
           });
         })
