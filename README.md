@@ -56,7 +56,7 @@
         <td><a href="https://lokavit.github.io/notes/ui/button.html">Button Effect</a></td>
         <td><a href="https://lokavit.github.io/notes/svg/svg-demo.html">SVG DEMO</a></td>
         <td><a href="https://lokavit.github.io/notes/svg/load1.html">LOADING 1</a></td>
-        <td><a href="https://lokavit.github.io/notes/pwa/js13kpwa/table.html">PWA</a></td>
+        <td><a href="https://lokavit.github.io/notes/pwa/js13kpwa/index.html">PWA</a></td>
     </tr>
 </table>
 
