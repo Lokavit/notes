@@ -33,7 +33,7 @@ document.getElementById("content").innerHTML = content;
  * 它是 app.js 文件中唯一的Service Worker代码; 其他关于 Service Worker 的内容都写在 sw.js 文件中。
  */
 if ("serviceWorker" in navigator)
-  navigator.serviceWorker.register("/pwa-examples/js13kpwa/sw.js");
+  navigator.serviceWorker.register("/pwa/js13kpwa/sw.js");
 
 // 点击按钮时请求用户授权，用来向用户推送通知
 var button = document.getElementById("notifications");
