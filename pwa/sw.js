@@ -6,27 +6,27 @@ self.importScripts("data/games.js");
  * 当应用有新版本，并且包含一些可用的新资源,把版本号更新到v2。
  * SW会将所有的文件（包括那些新的文件）添加到一个新的缓存中
  */
-var cacheName = "js13kPWA-v1";
+var cacheName = "cache-v1";
 // app shell所需的文件被记录在一个数组上
 var appShellFiles = [
-  "/notes/pwa/js13kpwa/",
-  "/notes/pwa/js13kpwa/index.html",
-  "/notes/pwa/js13kpwa/app.js",
-  "/notes/pwa/js13kpwa/style.css",
-  "/notes/pwa/js13kpwa/fonts/graduate.eot",
-  "/notes/pwa/js13kpwa/fonts/graduate.ttf",
-  "/notes/pwa/js13kpwa/fonts/graduate.woff",
-  "/notes/pwa/js13kpwa/favicon.ico",
-  "/notes/pwa/js13kpwa/img/js13kgames.png",
-  "/notes/pwa/js13kpwa/img/bg.png",
-  "/notes/pwa/js13kpwa/icons/icon-32.png",
-  "/notes/pwa/js13kpwa/icons/icon-64.png",
-  "/notes/pwa/js13kpwa/icons/icon-96.png",
-  "/notes/pwa/js13kpwa/icons/icon-128.png",
-  "/notes/pwa/js13kpwa/icons/icon-168.png",
-  "/notes/pwa/js13kpwa/icons/icon-192.png",
-  "/notes/pwa/js13kpwa/icons/icon-256.png",
-  "/notes/pwa/js13kpwa/icons/icon-512.png",
+  "/notes/pwa/",
+  "/notes/pwa/index.html",
+  "/notes/pwa/app.js",
+  "/notes/pwa/style.css",
+  "/notes/pwa/fonts/graduate.eot",
+  "/notes/pwafonts/graduate.ttf",
+  "/notes/pwa/fonts/graduate.woff",
+  "/notes/pwa/favicon.ico",
+  "/notes/pwa/img/js13kgames.png",
+  "/notes/pwa/img/bg.png",
+  "/notes/pwa/icons/icon-32.png",
+  "/notes/pwa/icons/icon-64.png",
+  "/notes/pwa/icons/icon-96.png",
+  "/notes/pwa/icons/icon-128.png",
+  "/notes/pwa/icons/icon-168.png",
+  "/notes/pwa/icons/icon-192.png",
+  "/notes/pwa/icons/icon-256.png",
+  "/notes/pwa/icons/icon-512.png",
 ];
 // 从data/game.js的内容中解析图片链接，赋值到另一个数组上
 var gamesImages = [];
