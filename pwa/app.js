@@ -35,7 +35,9 @@ document.getElementById("content").innerHTML = content;
  * 第二个参数选填，用来指定需SW控制的内容的子目录
  */
 if ("serviceWorker" in navigator)
-  navigator.serviceWorker.register("/notes/pwa/sw.js");
+  navigator.serviceWorker.register("/notes/pwa/sw.js").then(function () {
+    console.log("Service Worker Registered");
+  });
 
 // 点击按钮时请求用户授权，用来向用户推送通知
 var button = document.getElementById("notifications");
