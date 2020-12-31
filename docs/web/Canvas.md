@@ -1,16 +1,3 @@
-```js
-function draw() {
-  var canvas = document.getElementById("tutorial");
-  // 检查支持性
-  if (canvas.getContext) {
-    // getContext()用来获得渲染上下文和它的绘画功能.参数为上下文的格式
-    var ctx = canvas.getContext("2d");
-  }
-}
-```
-
-栅格:原点左上角(0,0),实际元素距离原点 xy 轴用(x,y)
-
 ### 绘制矩形
 
 ```js
