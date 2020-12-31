@@ -1,9 +1,14 @@
-# 正则
 
-```
-console\.log\(.*?\);
-console\.warn\(.*?\);
-```
+
+## 基于 docsify
+
+### 结构
+- index.html
+- .nojekyll
+- 及封面、导航、侧边栏配置文件
+- code:所有代码相关
+- novel:所有小说
+- src:所有源代码，技术相关文章的示例等
 
 # DD PWA
 

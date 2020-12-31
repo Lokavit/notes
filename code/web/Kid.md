@@ -769,3 +769,318 @@ Error: Closure not found.  Read this:
 变量值：C:\Program Files\Java\jdk1.8.0_251
 PATH追加：%JAVA_HOME%\bin，移动到顶部
 ```
+
+# kid-py
+
+- python 在线编辑器
+
+## 浏览器显示运行
+
+### 后台调用 python shell
+
+- 在接收的代码字符串后面添加 print(solution())用于打印结果
+- 将第一步处理后的字符串写入一个文件中，例如:code/code.py
+- 使用 child_process 模块的 exec 方法调用 shell 执行 python code/code.py 命令
+- 获取打印结果
+
+```js
+const express = require("express");
+const { exec } = require("child_process");
+const router = express.Router();
+router.post("/api/runcode", (req, res) => {
+  let code = req.body.code;
+  fs.writeFile("code/code.py", code + "\nprint(solution())", (err) => {
+    let command = "python code/code.py";
+    exec(command, (err, stdout, stdin) => {
+      if (err) {
+        let reg = /[\d\D]*(line\s\d)[\d\D]*?(\w*(?:Error|Exception).*)/im;
+        let matchArr = reg.exec(err.message);
+        matchArr.shift();
+        res.send(matchArr.join(", "));
+      } else res.send(stdout);
+    });
+  });
+});
+```
+
+---
+
+# kid-code
+
+- blockly 显示及运行
+
+## TODO 功能
+
+- [x] js 和 python 的代码展示
+- [x] js 代码运行结果展示
+- [x] 文件导出 xml 至本地
+- [x] 文件导入至编辑区
+- [x] 文件新建
+- [ ]保存至服务器 xml
+- [ ]服务器拉取 xml
+
+脱机:
+新建
+打开
+下载
+联机:
+云存储
+云拉取
+
+## 云存储
+
+- 将 xml 转为 text，以 base64 形式传入服务器
+- 需对该操作进行以下判断:用户登入状态、用户联网状态
+- 每个文件需有文件名。
+
+## 云拉取
+
+- 点击打开云存储的列表
+
+### 相关扩展功能
+
+- 文件存储列表管理[删除]
+
+# KID-DEV
+
+- kid-xxx 中的库必须以 kid 开头，不然要在 webpack 中写每个库的配置
+
+## 已更改的库
+
+```bash
+# 2020.07.11 KID-SVG 渲染器 通用版
+# 2020.07.11 KID-VM 虚拟引擎
+# 2020.07.11 KID-Storage 存储加载 通用版
+# 2020.07.11 KID-Render 渲染 通用版
+```
+
+## PRO 及 JR
+
+- 两个版本之间，目前有各自的 Blocks，编译时 VM 中 需更改设置
+- 后期优化时，考虑将两版的积木块指令合并。即 blocks 库中对 jr 积木块全部作为新增
+
+```js
+/** src\engine\runtime.js */
+const defaultBlockPackages = {
+  /** kid-pro版 */
+  // scratch3_control: require("../blocks/scratch3_control"),
+  // scratch3_event: require("../blocks/scratch3_event"),
+  // scratch3_looks: require("../blocks/scratch3_looks"),
+  // scratch3_motion: require("../blocks/scratch3_motion"),
+  // scratch3_operators: require("../blocks/scratch3_operators"),
+  // scratch3_sound: require("../blocks/scratch3_sound"),
+  // scratch3_sensing: require("../blocks/scratch3_sensing"),
+  // scratch3_data: require("../blocks/scratch3_data"),
+  // scratch3_procedures: require("../blocks/scratch3_procedures"),
+
+  /** kid-jr版 */
+  scratch3_control: require("../blocks/jr_control"),
+  scratch3_event: require("../blocks/jr_event"),
+  scratch3_looks: require("../blocks/jr_looks"),
+  scratch3_motion: require("../blocks/jr_motion"),
+  // 引入 音乐分类 绘画分类 （在blocks文件夹下，自定义绘画类积木块逻辑主文件 ）
+  scratch3_pen: require("../blocks/jr_pen"),
+  scratch3_music: require("../blocks/jr_music"),
+};
+```
+
+## blocks
+
+- 已模块化形式重新边写。就可以按照 Pro 和 js 所需，导出不同版本的 blocks 库
+
+---
+
+```bash
+scratch-paint # 绘图拓展,暂时不可link，否则编译报错
+```
+
+```bash
+# scratch-audio：声音拓展
+$ git clone https://github.com/LLK/scratch-audio.git
+$ npm install
+$ npm test
+```
+
+```bash
+# scratch-l10n：国际化
+$ git clone https://github.com/LLK/scratch-l10n.git
+$ npm install
+$ npm test
+# 通常以该方式，装载进所需项目
+$ npm install -D scratch-l10n
+```
+
+# GUI 渲染 通用版
+
+## 依赖变更
+
+```bash
+# 移除的依赖
+babel-eslint eslint eslint-config-scratch gh-pages
+eslint-import-resolver-webpack eslint-plugin-import
+eslint-plugin-jest eslint-plugin-react @babel/cli babel-core @babel/plugin-proposal-object-rest-spread @babel/plugin-syntax-dynamic-import @babel/plugin-transform-async-to-generator chromedriver enzyme enzyme-adapter-react-16 jest jest-junit mkdirp rimraf selenium-webdriver uglifyjs-webpack-plugin minlog raf
+react-ga react-test-renderer redux-mock-store
+lodash.isequal lodash.pick
+
+# 更新的依赖
+webpack webpack-cli webpack-dev-server
+react react-dom react-redux redux
+@babel/core @babel/preset-env babel-loader @babel/preset-react
+copy-webpack-plugin core-js
+
+# 新增的依赖
+terser-webpack-plugin # 打包压缩
+
+# link的依赖
+kid-vm kid-storage kid-render kid-svg-renderer
+```
+
+## 解决 HTTPS 问题
+
+- 该项目设置为 HTTPS 请求方式后，需将内中使用外链资源及 API 皆改为 HTTPS
+
+## 代码优化
+
+- 压缩使用 terser-webpack-plugin
+- 代码分块 optimization.splitChunks{}中设置
+
+# KID-Render 渲染 通用版
+
+`舞台渲染，在舞台区域出现的基于 WebGL 的处理器`
+
+```bash
+# 2020.07.11
+npm install # 装载依赖
+npm link # 开启链接
+npm run build # 有所更改后，执行重新编译
+```
+
+## 依赖变更
+
+```bash
+# 移除的依赖
+babel-eslint docdash eslint eslint-config-scratch
+gh-pages jsdoc json webpack-dev-server travis-after-all
+tap playwright-chromium babel-polyfill
+minilog
+
+# 更新的依赖
+webpack webpack-cli copy-webpack-plugin
+@babel/core babel-loader @babel/preset-env
+
+# 新增的依赖
+terser-webpack-plugin
+
+# link的依赖
+kid-svg-renderer # 虽然用到，但在打包时该库被排除
+```
+
+## 改动
+
+- 更改为 import export 模式
+- playground 从 src 中拿出来
+- webpack 打包去掉.min.js，因为输出 kid-render.js 已带有压缩
+
+# KID-Storage 存储加载 通用版
+
+`存储加载`
+
+```bash
+# 2020.07.11
+npm install # 装载依赖
+npm link # 开启链接
+npm run build # 有所更改后，执行重新编译
+```
+
+## 依赖变更
+
+```bash
+# 移除的依赖
+travis-after-all node-fetch uglifyjs-webpack-plugin @babel/polyfill minilog cz-conventional-changelog json babel-eslint eslint eslint-config-scratch eslint-plugin-react semantic-release @commitlint/cli
+ @commitlint/config-conventional @commitlint/travis-cli tap husky file-loader
+# 更新的依赖
+webpack webpack-cli @babel/core @babel/preset-env babel-loader
+
+# 新增的依赖
+terser-webpack-plugin # 打包压缩
+```
+
+# KID-SVG 渲染器 通用版
+
+`svg 处理`
+
+```bash
+# 2020.07.11
+npm install # 装载依赖
+npm link # 开启链接
+npm run build # 有所更改后，执行重新编译
+```
+
+## 依赖变更
+
+```bash
+# 移除的依赖
+minilog babel-eslint eslint eslint-config-scratch
+json scratch-render-fonts rimraf xmldom jsdom mkdirp tap
+copy-webpack-plugin eslint-plugin-import
+
+# 更新的依赖
+webpack webpack-cli
+@babel/core babel-loader @babel/preset-env
+```
+
+```js
+/** font-converter.js 2.0字体转换为3.0 移除该文件 */
+/** font-inliner.js 移除该文件 */
+```
+
+- 该库改为 import export 模式
+
+## 问题
+
+- 报错找不到 identity 之类的问题。
+
+```js
+/* kid-svg-renderer\src\transform-applier.js */
+// import Matrix from "transformation-matrix";
+// 该库的内容需要已{}方式引入
+import {
+  identity,
+  compose,
+  rotateDEG,
+  translate,
+  scale,
+  skewDEG,
+  toString,
+  applyToPoint,
+} from "transformation-matrix";
+```
+
+# KID-VM 虚拟引擎
+
+`虚拟机，管理状态并执行业务逻辑`
+
+```bash
+# 2020.07.11
+npm install # 装载依赖
+npm link # 开启链接
+npm run build # 有所更改后，执行重新编译
+```
+
+## 依赖变更
+
+```bash
+# 移除的依赖
+minilog nets docdash eslint eslint-config-scratch gh-pages jsdoc json tap tiny-worker babel-eslint webpack-dev-server uglifyjs-webpack-plugin
+
+# 更新的依赖
+webpack webpack-cli @babel/core @babel/preset-env babel-loader copy-webpack-plugin
+
+# 新增的依赖
+terser-webpack-plugin
+```
+
+## 改动
+
+- playground 文件夹中可以作为示例，暂时不删除
+- 将原本 VM 中的 jr 版指令实现合并到 pro 版指令实现中
