@@ -1,10 +1,10 @@
 - [Home](README.md)
 
-- [Algorithm](docs/Algorithm.md)
-- [DesignPattern](docs/DesignPattern.md)
-- [RegExp](docs/RegExp.md)
-- [C#](docs/Csharp.md)
-- [Python](docs/Python.md)
+- [Algorithm](notes/docs/Algorithm.md)
+- [DesignPattern](notes/docs/DesignPattern.md)
+- [RegExp](notes/docs/RegExp.md)
+- [C#](notes/docs/Csharp.md)
+- [Python](notes/docs/Python.md)
 
 - WEB
 - - [HTML](docs/web/HTML.md)
