@@ -65,15 +65,16 @@
       plugins: [
         function (hook, vm) {
           hook.beforeEach(function (html) {
+            console.log('？？？html:', html);
             // var url = 'https://github.com/Lokavit/notes/master/docs/' + vm.route.file;
-            // var editHtml = '更新时间：{docsify-updated}<hr>\n';
-            // 文档更新时间
-            let date = "> ? Last modified at {docsify-updated}\r\n";
-            // 水平分割线
-            let hr = "\r\n---\r\n";
+            let editHtml = '更新时间：{docsify-updated}\r\n<hr>';
+            // // 文档更新时间
+            // let date = "> ? Last modified at {docsify-updated}\r\n";
+            // // 水平分割线
+            // let hr = "\r\n---\r\n";
             // 最终追加内容
-            let markdown = date + hr;
-            return html.replace(/\s*(^# .*[\r\n]+)/g, `$1${markdown}`);
+            // let markdown = date + hr;
+            // return html.replace(/\s*(^# .*[\r\n]+)/g, `$1${markdown}`);
 
             let footer = [
               '<hr>',
@@ -82,8 +83,8 @@
               '</footer>'
             ].join('');
 
-            // return editHtml + html + footer;
-            return html.replace(/\s*(^# .*[\r\n]+)/g, `$1${markdown}`) + footer;
+            return editHtml + html + footer;
+            // return html.replace(/\s*(^# .*[\r\n]+)/g, `$1${markdown}`) + footer;
           });
         }
       ],
