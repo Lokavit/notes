@@ -15,8 +15,8 @@
       const res = await response.json();
       let section = document.createElement('section');
       section.innerHTML = `
-        <h3 style="text-align:center;">${res.name}</h3>
-        <h5 style="text-align:center;">${res.bio}</h5>
+        <h1 style="text-align:center;color:aqua;">${res.name}</h1>
+        <small style="text-align:center;color:aqua;">${res.bio}</small>
       `;
       document.querySelector('.app-name').appendChild(section);
     }
