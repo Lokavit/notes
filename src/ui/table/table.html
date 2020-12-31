@@ -3,8 +3,42 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Table</title>
-    <link rel="stylesheet" href="./table.css" />
+    <title>Table data-action</title>
+    <style>
+      body {
+        margin: unset;
+        font: normal 14px/1.5 "Open Sans", sans-serif;
+        color: #444;
+        background-color: lightblue;
+        padding: 1rem;
+      }
+
+      input[type="checkbox"] {
+        margin: unset;
+      }
+
+      table {
+        max-width: 70vw;
+        margin: auto;
+        border-collapse: collapse;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+      }
+
+      th {
+        text-align: left;
+        padding: 10px;
+        background-color: rgba(0, 0, 0, 0.15);
+      }
+
+      td {
+        background-color: white;
+        padding: 10px;
+      }
+
+      tr:not(:last-of-type) td {
+        border-bottom: 1px solid #ddd;
+      }
+    </style>
   </head>
   <body>
     <table>
@@ -64,6 +98,32 @@
       </tbody>
     </table>
 
-    <script src="./table.js"></script>
+    <script>
+      (function () {
+        // "use strict";
+
+        function getUserId(target) {
+          return target.closest("[data-userid]").dataset.userid;
+        }
+
+        function handleClick(evt) {
+          var { action } = evt.target.dataset;
+
+          if (action) {
+            let userId = getUserId(evt.target);
+
+            if (action == "edit") {
+              alert(`Edit user with ID of ${userId}`);
+            } else if (action == "delete") {
+              alert(`Delete user with ID of ${userId}`);
+            } else if (action == "select") {
+              alert(`Selected user with ID of ${userId}`);
+            }
+          }
+        }
+
+        window.addEventListener("click", handleClick);
+      })();
+    </script>
   </body>
 </html>
