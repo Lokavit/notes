@@ -1,16 +1,16 @@
-- [Home](README.md)
+- [Home](/README.md)
 
-- [Algorithm](/docs/Algorithm.md)
-- [DesignPattern](/docs/DesignPattern.md)
-- [RegExp](/docs/RegExp.md)
-- [C#](/docs/Csharp.md)
-- [Python](/docs/Python.md)
+- [Algorithm](docs/Algorithm.md)
+- [DesignPattern](docs/DesignPattern.md)
+- [RegExp](docs/RegExp.md)
+- [C#](docs/Csharp.md)
+- [Python](docs/Python.md)
 
 - WEB
-- - [HTML](/docs/web/HTML.md)
-- - [CSS](/docs/web/CSS.md)
-- - [JavaScript](/docs/web/Javascript.md)
-- - [Node](/docs/web/Nodejs.md)
+- - [HTML](docs/web/HTML.md)
+- - [CSS](docs/web/CSS.md)
+- - [JavaScript](docs/web/Javascript.md)
+- - [Node](docs/web/Nodejs.md)
 - - [Charts](/docs/web/Charts.md)
 - - [Optimization](/docs/web/Optimization.md)
 - - [Functional](/docs/web/Functional.md)
@@ -36,13 +36,13 @@
 ---
 
 - 为龙
-- - [国丧](/novel/为龙/01.国丧.md)
+- - [国丧](novel/为龙/01.国丧.md)
 
 - 为妖
-- - [息丹城](/novel/为妖/01.息丹城.md)
-- - [自戮](/novel/为妖/02.自戮.md)
-- - [宫羽](/novel/为妖/03.宫羽.md)
-- - [逍遥坊](/novel/为妖/04.逍遥坊.md)
+- - [息丹城](novel/为妖/01.息丹城.md)
+- - [自戮](novel/为妖/02.自戮.md)
+- - [宫羽](novel/为妖/03.宫羽.md)
+- - [逍遥坊](novel/为妖/04.逍遥坊.md)
 - - [钰鑫](/novel/为妖/05.钰鑫.md)
 - - [破招](/novel/为妖/06.破招.md)
 - - [藏书阁](/novel/为妖/07.藏书阁.md)
