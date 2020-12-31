@@ -13,14 +13,12 @@
     async function getGithubInfo() {
       const response = await fetch('https://api.github.com/users/Lokavit');
       const res = await response.json();
-      console.log('res:', res);
       let section = document.createElement('section');
       section.innerHTML = `
-        <img src="${res.avatar_url}"/>
-        <h1>${res.name}</h1>
-        <h3>${res.bio}</h3>
+        <h3 style="text-align:center;">${res.name}</h3>
+        <h5 style="text-align:center;">${res.bio}</h5>
       `;
-      document.querySelector('.markdown-section h2').appendChild(section);
+      document.querySelector('.app-name').appendChild(section);
     }
     getGithubInfo();
 </script>
