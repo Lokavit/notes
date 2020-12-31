@@ -1,29 +1,29 @@
-- [Home](master/README.md)
+- [Home](README.md)
 
-- [Algorithm](notes/master/docs/Algorithm.md)
-- [DesignPattern](notes/master/docs/DesignPattern.md)
-- [RegExp](notes/master/docs/RegExp.md)
-- [C#](notes/master/docs/Csharp.md)
-- [Python](notes/master/docs/Python.md)
+- [Algorithm](docs/Algorithm.md)
+- [DesignPattern](docs/DesignPattern.md)
+- [RegExp](docs/RegExp.md)
+- [C#](docs/Csharp.md)
+- [Python](docs/Python.md)
 
 - WEB
-- - [HTML](notes/docs/web/HTML.md)
-- - [CSS](notes/docs/web/CSS.md)
-- - [JavaScript](notes/docs/web/Javascript.md)
-- - [Node](notes/docs/web/Nodejs.md)
-- - [Charts](notes/docs/web/Charts.md)
-- - [Optimization](notes/docs/web/Optimization.md)
-- - [Functional](notes/docs/web/Functional.md)
-- - [Canvas](notes/docs/web/Canvas.md)
-- - [Bundle](notes/docs/web/Bundle.md)
-- - [Vue](notes/docs/web/Vue.md)
-- - [React](notes/docs/web/React.md)
-- - [KID](notes/docs/web/Kid.md)
-- - [Game](notes/docs/web/Game.md)
+- - [HTML](docs/web/HTML.md)
+- - [CSS](docs/web/CSS.md)
+- - [JavaScript](docs/web/Javascript.md)
+- - [Node](docs/web/Nodejs.md)
+- - [Charts](docs/web/Charts.md)
+- - [Optimization](docs/web/Optimization.md)
+- - [Functional](docs/web/Functional.md)
+- - [Canvas](docs/web/Canvas.md)
+- - [Bundle](docs/web/Bundle.md)
+- - [Vue](docs/web/Vue.md)
+- - [React](docs/web/React.md)
+- - [KID](docs/web/Kid.md)
+- - [Game](docs/web/Game.md)
 
-- [Develop](notes/docs/Develop.md)
-- [Git](notes/docs/Git.md)
-- [RIME](notes/docs/RIME.md)
+- [Develop](docs/Develop.md)
+- [Git](docs/Git.md)
+- [RIME](docs/RIME.md)
 
 - Example
 - - [UI](docs/web/UI.md)
@@ -35,14 +35,14 @@
 
 ---
 
-<!-- - 为龙
-- - [国丧](novel/为龙/01.国丧.md) -->
+- 为龙
+- - [国丧](novel/为龙/01.国丧.md)
 
 - 为妖
-- - [息丹城](novel/master/为妖/01.息丹城.md)
-- - [自戮](novel/master/为妖/02.自戮.md)
-- - [宫羽](novel/master/为妖/03.宫羽.md)
-- - [逍遥坊](novel/master/为妖/04.逍遥坊.md)
+- - [息丹城](novel/为妖/01.息丹城.md)
+- - [自戮](novel/为妖/02.自戮.md)
+- - [宫羽](novel/为妖/03.宫羽.md)
+- - [逍遥坊](novel/为妖/04.逍遥坊.md)
 - - [钰鑫](novel/为妖/05.钰鑫.md)
 - - [破招](novel/为妖/06.破招.md)
 - - [藏书阁](novel/为妖/07.藏书阁.md)
