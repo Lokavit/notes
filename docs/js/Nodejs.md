@@ -4,12 +4,6 @@
 
 Node 支持 WebAssembly
 
-## TOC
-
-- [Server](#Server)
-- [递归文件](#fileDisplay)
-- [合并 HTML](#compileHTML)
-
 # nodejs 服务端
 
 ```js

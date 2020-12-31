@@ -1,16 +1,6 @@
 # Vue
 
-[解决错误](#VUE-ERROR)
-[使用](#USE)
-[路由管理器](#vue-router)
-[状态管理](#VueX)
-[自封装 UI](#UI)
-[EL-UI](#EL-UI)
-[EL-UI&Axios](#Axios)
-[示例](#Example)
-[Electron](#Electron)
-
-# 3.0
+## 3.0
 
 - 逻辑提取和重用
 
