@@ -1,5 +1,6 @@
 <!-- _coverpage.md -->
 
-![logo](https://i.loli.net/2020/07/29/vCoweN1RHd8M4GF.jpg)
+![](https://i.loli.net/2020/12/31/4YKyPvtWNRICzge.png)
 
 [Go](/README.md)
+
