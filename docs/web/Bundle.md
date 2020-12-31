@@ -35,7 +35,7 @@ $ npm i -D uglify-js
 $ npm i -D terser-webpack-plugin
 ```
 
-## babel.config.json 配置文件
+# babel.config.json 配置文件
 
 ```json
 // 应用开发者
@@ -74,7 +74,7 @@ $ npm i -D terser-webpack-plugin
 "targets": "> 0.25%, not dead"
 ```
 
-## webpack.config.js 打包配置
+# webpack.config.js 打包配置
 
 ```js
 const path = require("path");
@@ -171,7 +171,7 @@ module.exports = {
 };
 ```
 
-## 代码拆分
+# 代码拆分
 
 - 注意 splitChunks 代码后，需在 HtmlWebpackPlugin 生成 Html 中的 chunks[]中做对应配置。才能保证生成的 html 带有对应 script 引用
 
