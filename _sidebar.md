@@ -1,10 +1,10 @@
-- [Home](README.md)
+- [Home](master/README.md)
 
-- [Algorithm](notes/docs/Algorithm.md)
-- [DesignPattern](notes/docs/DesignPattern.md)
-- [RegExp](notes/docs/RegExp.md)
-- [C#](notes/docs/Csharp.md)
-- [Python](notes/docs/Python.md)
+- [Algorithm](notes/master/docs/Algorithm.md)
+- [DesignPattern](notes/master/docs/DesignPattern.md)
+- [RegExp](notes/master/docs/RegExp.md)
+- [C#](notes/master/docs/Csharp.md)
+- [Python](notes/master/docs/Python.md)
 
 - WEB
 - - [HTML](notes/docs/web/HTML.md)
@@ -39,10 +39,10 @@
 - - [国丧](novel/为龙/01.国丧.md) -->
 
 - 为妖
-- - [息丹城](novel/为妖/01.息丹城.md)
-- - [自戮](novel/为妖/02.自戮.md)
-- - [宫羽](novel/为妖/03.宫羽.md)
-- - [逍遥坊](novel/为妖/04.逍遥坊.md)
+- - [息丹城](novel/master/为妖/01.息丹城.md)
+- - [自戮](novel/master/为妖/02.自戮.md)
+- - [宫羽](novel/master/为妖/03.宫羽.md)
+- - [逍遥坊](novel/master/为妖/04.逍遥坊.md)
 - - [钰鑫](novel/为妖/05.钰鑫.md)
 - - [破招](novel/为妖/06.破招.md)
 - - [藏书阁](novel/为妖/07.藏书阁.md)
