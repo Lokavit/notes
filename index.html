@@ -32,7 +32,7 @@
       // 执行文档里的 script 标签里的脚本，只执行第一个 script
       executeScript: true,
       // 通过 {docsify-updated} 变量显示文档更新日期
-      formatUpdated: '{MM}/{DD} {HH}:{mm}',
+      formatUpdated: '{YYYY}/{MM}/{DD} {HH}:{mm}',
       // 路由模式
       // routerMode: 'history',
       // basePath: '/',
@@ -42,7 +42,7 @@
         paths: "auto",
         placeholder: "搜索",
         noData: "找不到结果",
-        depth: 4,
+        depth: 3,
         hideOtherSidebarContent: false,
         namespace: "notes",
       },
@@ -60,6 +60,25 @@
         crossChapter: true,
         crossChapterText: true,
       },
+
+      // 插件
+      plugins: [
+        function (hook, vm) {
+          hook.beforeEach(function (html) {
+            var url = 'https://github.com/Lokavit/notes/master/docs/' + vm.route.file;
+            var editHtml =
+              '最后编辑时间：{docsify-updated}\n';
+            var footer = [
+              '<hr>',
+              '<footer>',
+              '<span><a href="https://github.com/Lokavit/notes" target="_blank">Lokavit</a> &copy;2021.</span>',
+              '</footer>'
+            ].join('');
+
+            return editHtml + html + footer;
+          });
+        }
+      ],
     };
   </script>
   <!-- Docsify v4 -->

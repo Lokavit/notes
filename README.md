@@ -1,13 +1,8 @@
-# 主页
+# 专注内容
 
-<!--
-- 主页侧边栏只显示一级
-- 如WEB等含有二级的项，做在其对应README.md中
+{docsify-updated}
 
-- 可以把超链接的列项，做在这里。
-- 例如: [WEB](docs/web/README.md) -->
-
-## 前端不死，折腾不止
+- 采用`docsify`构建，目前比较喜欢的发布生成方式。
 
 <script>
     async function getGithubInfo() {
@@ -15,8 +10,8 @@
       const res = await response.json();
       let section = document.createElement('section');
       section.innerHTML = `
-        <h1 style="text-align:center;color:aqua;">${res.name}</h1>
-        <small style="text-align:center;color:aqua;">${res.bio}</small>
+        <h1 style="text-align:center;color:aqua;font-size:xxx-large;margin:0;">${res.name}</h1>
+        <span style="text-align:center;color:aqua;">${res.bio}</span>
       `;
       document.querySelector('.app-name').appendChild(section);
     }
