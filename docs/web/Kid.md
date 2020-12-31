@@ -1,8 +1,6 @@
-# KID-Block 积木库
+## KID-Block 积木库
 
 `pro版及jr版，分别输出单文件。`
-
-# 需求
 
 - 积木块
 - 生成多语言代码
@@ -12,7 +10,7 @@
 - 分为 jr 和 pro 两版
 - 每版又有纵横两版布局
 
-# Blockly 多个二开版本比较
+## Blockly 多个二开版本比较
 
 - 经过比较，采用 pxt-blockly 为基础版本
 
@@ -320,8 +318,6 @@ goog.require("goog.math.Size");
 ```py
 # 256行:指向core中的blockly.js文件 读入所有源文件
 ```
-
-# TODO
 
 ## 变更分类及其积木块
 
@@ -770,7 +766,7 @@ Error: Closure not found.  Read this:
 PATH追加：%JAVA_HOME%\bin，移动到顶部
 ```
 
-# kid-py
+## kid-py
 
 - python 在线编辑器
 
@@ -805,7 +801,7 @@ router.post("/api/runcode", (req, res) => {
 
 ---
 
-# kid-code
+## kid-code
 
 - blockly 显示及运行
 
@@ -841,7 +837,7 @@ router.post("/api/runcode", (req, res) => {
 
 - 文件存储列表管理[删除]
 
-# KID-DEV
+## KID-DEV
 
 - kid-xxx 中的库必须以 kid 开头，不然要在 webpack 中写每个库的配置
 
@@ -910,7 +906,7 @@ $ npm test
 $ npm install -D scratch-l10n
 ```
 
-# GUI 渲染 通用版
+## GUI 渲染 通用版
 
 ## 依赖变更
 

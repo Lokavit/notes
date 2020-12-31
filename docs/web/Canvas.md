@@ -1,5 +1,3 @@
-# Canvas
-
 ```js
 function draw() {
   var canvas = document.getElementById("tutorial");

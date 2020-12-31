@@ -1,22 +1,4 @@
-﻿# JavaScript
-
-- [函数式编程入门经典](#函数式编程入门经典)
-- - [纯函数](#纯函数)
-- - [高阶函数](#高阶函数)
-- - [数组的函数式编程](#数组的函数式编程)
-- [Document](#Document)
-- - [浏览器事件](#浏览器事件)
-- [Class 类](#Class类)
-- - [extends](#extends)
-- - [super](#super)
-- [destructuring 解构](#destructuring-解构)
-- [Module](#Module)
-- [Promise](#Promise)
-- [AJAX](#AJAX)
-- [Array 数组方法](#Array数组方法)
-- [GitHub API](#GitHub)
-
-## Progressive Web Apps 渐进式网络应用
+﻿## Progressive Web Apps 渐进式网络应用
 
 ### App shell 程序外壳
 

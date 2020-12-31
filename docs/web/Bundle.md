@@ -1,6 +1,4 @@
-# BundleCompile
-
-`webpack & babel`
+## webpack & babel
 
 ```bash
 # 4.43.0 打包相关
@@ -37,7 +35,7 @@ $ npm i -D uglify-js
 $ npm i -D terser-webpack-plugin
 ```
 
-- babel.config.json 配置文件
+## babel.config.json 配置文件
 
 ```json
 // 应用开发者
@@ -76,7 +74,7 @@ $ npm i -D terser-webpack-plugin
 "targets": "> 0.25%, not dead"
 ```
 
-- webpack.config.js 打包配置
+## webpack.config.js 打包配置
 
 ```js
 const path = require("path");

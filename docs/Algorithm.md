@@ -1,5 +1,3 @@
-# Algorithm
-
 ## Filter
 
 ```js

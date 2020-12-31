@@ -1,58 +1,62 @@
-
-# VSCode
+## VSCode
 
 ```json setting.json
 {
-    "workbench.colorTheme": "Eva Dark Bold", // 主题
-    "workbench.iconTheme": "vscode-icons", // 图标
-    // git bash作为终端
-    "terminal.integrated.shell.windows": "C:\\Program Files\\Git\\bin\\bash.exe",
-    // 隐藏右侧缩略图
-    "editor.minimap.enabled": false,
-    // 字体设置
-    "editor.fontFamily": "'Source Code Pro', Consolas, 'Courier New', monospace",
+  "workbench.colorTheme": "Eva Dark Bold", // 主题
+  "workbench.iconTheme": "vscode-icons", // 图标
+  // git bash作为终端
+  "terminal.integrated.shell.windows": "C:\\Program Files\\Git\\bin\\bash.exe",
+  // 隐藏右侧缩略图
+  "editor.minimap.enabled": false,
+  // 字体设置
+  "editor.fontFamily": "'Source Code Pro', Consolas, 'Courier New', monospace"
 }
 ```
 
 ### 插件
-- **GitLens** : git信息查看
 
-- Auto Close Tag :自动闭合tag
+- **GitLens** : git 信息查看
 
-- Beautify:美化javascript，JSON，CSS，Sass，和HTML在VS代码
+- Auto Close Tag :自动闭合 tag
+
+- Beautify:美化 javascript，JSON，CSS，Sass，和 HTML 在 VS 代码
 - Prettier formatter:代码格式化
 - Bracket Pair Colorizer:着色匹配括号的可自定义扩展
 - Chinese (Simplified) Language Pack for VS Code:简体中文
 - ESLint:代码更加一致并避免错误 https://eslint.org/
-- npm:支持运行文件中定义的npm脚本，并根据中定义的依赖项验证已安装的模块package.json
+- npm:支持运行文件中定义的 npm 脚本，并根据中定义的依赖项验证已安装的模块 package.json
 - Path Intellisense:自动路径文件名
 - vscode-icons:图标
 - Eva Theme:主题
-- Material Theme:VSCode主题
+- Material Theme:VSCode 主题
 
 #### 未装载
-- HTML Boilerplate:HTML模板
+
+- HTML Boilerplate:HTML 模板
 - HTML CSS Support
-- jQuery Code Snippets:JQuery代码片段
+- jQuery Code Snippets:JQuery 代码片段
 - stylelint
 - Import Cost:显示导入包的大小
 - Quokka.js:一个调试工具插件，能够根据正在编写的代码提供实时反馈。Ctrl+SHIFT+P->StartOnCurrent File
 
+## VSCode 快捷键
 
-## VSCode快捷键
 ### 终端内容操作
+
 - Ctrl+C:复制终端命令
 - Ctrl+Alt+C:复制终端选中内容
 - Ctrl+B:隐藏/显示左侧活动栏
 - Ctrl+/:切换行注释
 - Shift+Alt+A:切换块注释
 
+=**装载程式弹窗提示没有.vbs 脚本引擎**：
 
-=**装载程式弹窗提示没有.vbs脚本引擎**： 
 ```
 regedit.exe 注册表 - Root找到.vbs ，将其值改为"VBSFile"
 ```
-**装载TortoiseGit出现could not open key的解决办法**：
+
+**装载 TortoiseGit 出现 could not open key 的解决办法**：
+
 ```
 尝试使用管理员权限安装 或者采用以下操作：
 HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Installer\UserData\S-1-5-18\Components
@@ -63,8 +67,8 @@ HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Installer\UserData\
 ```
 
 ---
----
 
+---
 
 # NPM 包管理
 
@@ -115,6 +119,7 @@ $ npm -v  # 查看npm的当前版本
 ```
 
 ## npm link
+
 ```bash
 $ cd scratch-vm # 以该库为例
 $ npm link # 将以上项目link到全局
@@ -197,8 +202,6 @@ $ npm -g outdated --depth=0 # 输出所有可更新的包
 $ npm update @vue/cli -g # 更新某个包
 ```
 
-
-
 npm cache clean –force
 
 即可解决 pm install 出现”Unexpected end of JSON input while parsing near”错误。
@@ -238,7 +241,7 @@ $ nvm install  <version> # 装载node，指定版本号
 $ nvm install latest # 装载node，最新版本
 ```
 
-$ nvm ls # 查看已装载的所有node版本
+$ nvm ls # 查看已装载的所有 node 版本
 $ node -v # 查看正在使用的 node 版本
 
 ### NVM for Windows 命令行工具
@@ -257,12 +260,6 @@ nvm version：显示NVM for Windows的当前运行版本。
 nvm node_mirror <node_mirror_url>：设置节点镜像。国内https://npm.taobao.org/mirrors/node/
 nvm npm_mirror <npm_mirror_url>：设置npm镜像。国内https://npm.taobao.org/mirrors/npm/
 ```
-
-
-
-
-
-
 
 ## 发布/删除 npm 包
 

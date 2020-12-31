@@ -1,9 +1,3 @@
-# Charts
-- gojs
-- d3js
-- echart
-
-
 # GOJS
 
 - 两个基本元素[node,link],点和线。可以组成一个Group

@@ -1,6 +1,4 @@
-# React 16.13
-
-## TOC
+## React 16.13
 
 ```html
 <!-- 项目结构/src
