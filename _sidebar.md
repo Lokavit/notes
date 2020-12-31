@@ -1,4 +1,4 @@
-- [Home](/README.md)
+- [Home](README.md)
 
 - [Algorithm](docs/Algorithm.md)
 - [DesignPattern](docs/DesignPattern.md)
