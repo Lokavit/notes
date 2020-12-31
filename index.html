@@ -64,18 +64,13 @@
       // 插件
       plugins: [
         function (hook, vm) {
-          hook.beforeEach(function (html) {
-            console.log('？？？html:', html);
+          hook.beforeEach(function (content) {
+            console.log('vm:', vm);
             // var url = 'https://github.com/Lokavit/notes/master/docs/' + vm.route.file;
-            let editHtml = '更新时间：{docsify-updated}\r\n<hr>';
-            // // 文档更新时间
-            // let date = "> ? Last modified at {docsify-updated}\r\n";
-            // // 水平分割线
-            // let hr = "\r\n---\r\n";
-            // 最终追加内容
-            // let markdown = date + hr;
-            // return html.replace(/\s*(^# .*[\r\n]+)/g, `$1${markdown}`);
-
+            // 文档更新时间
+            let showDate = '> ? 更新时间：{docsify-updated}\r\n';
+            // 水平分割线
+            let hr = "\r\n---\r\n";
             let footer = [
               '<hr>',
               '<footer>',
@@ -83,11 +78,23 @@
               '</footer>'
             ].join('');
 
-            return editHtml + html + footer;
-            // return html.replace(/\s*(^# .*[\r\n]+)/g, `$1${markdown}`) + footer;
+            return showDate + hr + content + footer;
           });
         }
       ],
+      // // 在文章标题下面追加文档内容
+      // window.$docsify.plugins.push(function (hook) {
+      //   hook.beforeEach(function (content) {
+      //     // 文档更新时间
+      //     let date = "> ? Last modified at {docsify-updated}\r\n";
+      //     // 水平分割线
+      //     let hr = "\r\n---\r\n";
+
+      //     // 最终追加内容
+      //     let markdown = date + hr;
+      //     return content.replace(/\s*(^# .*[\r\n]+)/g, `$1${markdown}`);
+      //   });
+      // });
     };
   </script>
   <!-- Docsify v4 -->
