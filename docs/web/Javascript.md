@@ -1,4 +1,28 @@
-﻿## Progressive Web Apps 渐进式网络应用
+﻿```js
+/**
+ * @function 在指定范围内，生成随机不重复指定长度的整数
+ * @param {*} len 指定长度
+ * @param {*} start 开始值
+ * @param {*} end 结束值
+ * @example generateRandInt(30, 0, 35);
+ */
+export function generateRandInt(len, start, end) {
+  let temp = [];
+  function _inner(start, end) {
+    let span = end - start;
+    return parseInt(Math.random() * span + start);
+  }
+  while (temp.length < len) {
+    let num = _inner(start, end);
+    if (temp.indexOf(num) == -1) {
+      temp.push(num);
+    }
+  }
+  return temp;
+}
+```
+
+## Progressive Web Apps 渐进式网络应用
 
 ### App shell 程序外壳
 
