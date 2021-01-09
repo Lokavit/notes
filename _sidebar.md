@@ -32,6 +32,8 @@
 - - [WebComponents](https://lokavit.github.io/notes/src/web-components/index.html)
 - - [Memory](https://lokavit.github.io/notes/src/game/memory/index.html)
 - - [Chess](https://lokavit.github.io/notes/src/game/chhess.html)
+- - [PointerEvent](https://lokavit.github.io/notes/src/vanillajs/pointer-event.html)
+- - [Typing](https://lokavit.github.io/notes/src/game/typing.html)
 
 ---
 

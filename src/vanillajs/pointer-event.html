@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>Pointer Event</title>
+    <style>
+      body {
+        font-family: helvetica, arial, sans-serif;
+      }
+
+      h1 {
+        color: #3a241d;
+        text-align: center;
+      }
+
+      #left-container {
+        left: 0px;
+      }
+
+      #right-container {
+        right: 0px;
+      }
+
+      .container {
+        background-color: #eee;
+        width: 15%;
+        top: 0px;
+        position: absolute;
+        height: 100%;
+        padding: 10px;
+      }
+
+      .plant-holder {
+        position: relative;
+        height: 13%;
+        left: -10px;
+      }
+
+      .plant {
+        position: absolute;
+        max-width: 100%;
+        max-height: 100%;
+        z-index: 2;
+      }
+
+      /*https://codepen.io/Rotarepmi/pen/rjpNZY*/
+
+      .jar-walls {
+        height: 80%;
+        width: 60%;
+        background: #d1e1df;
+        border-radius: 10%;
+        position: absolute;
+        bottom: 0.5%;
+        left: 20%;
+        opacity: 0.5;
+        z-index: 1;
+      }
+
+      .jar-top {
+        width: 50%;
+        height: 5%;
+        background: #d1e1df;
+        position: absolute;
+        bottom: 80.5%;
+        left: 25%;
+        opacity: 0.7;
+        z-index: 1;
+      }
+
+      .jar-bottom {
+        width: 50%;
+        height: 1%;
+        background: #d1e1df;
+        position: absolute;
+        bottom: 0%;
+        left: 25%;
+        opacity: 0.7;
+      }
+
+      .dirt {
+        width: 58%;
+        height: 5%;
+        background: #3a241d;
+        position: absolute;
+        border-radius: 0 0 4rem 4rem;
+        bottom: 1%;
+        left: 21%;
+        opacity: 0.7;
+        z-index: -1;
+      }
+
+      .jar-glossy-long {
+        width: 3%;
+        height: 20%;
+        border-radius: 2rem;
+        background: #ddfbff;
+        position: absolute;
+        bottom: 20%;
+        left: 5%;
+      }
+
+      .jar-glossy-short {
+        width: 3%;
+        height: 5%;
+        border-radius: 2rem;
+        background: #ddfbff;
+        position: absolute;
+        bottom: 45%;
+        left: 5%;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="page">
+      <h1>My Terrarium</h1>
+
+      <div id="left-container" class="container">
+        <div class="plant-holder">
+          <img
+            class="plant"
+            alt="plant"
+            id="plant1"
+            src="https://beta.pili.com.tw/img/wallpaper/pw01752.jpg"
+          />
+        </div>
+        <div class="plant-holder">
+          <img
+            class="plant"
+            alt="plant"
+            id="plant2"
+            src="https://beta.pili.com.tw/img/wallpaper/pw01749.jpg"
+          />
+        </div>
+        <div class="plant-holder">
+          <img
+            class="plant"
+            alt="plant"
+            id="plant3"
+            src="https://beta.pili.com.tw/img/wallpaper/pw01745.jpg"
+          />
+        </div>
+        <div class="plant-holder">
+          <img
+            class="plant"
+            alt="plant"
+            id="plant4"
+            src="https://beta.pili.com.tw/img/wallpaper/pw01743.jpg"
+          />
+        </div>
+        <div class="plant-holder">
+          <img
+            class="plant"
+            alt="plant"
+            id="plant5"
+            src="https://beta.pili.com.tw/img/wallpaper/pw01741.jpg"
+          />
+        </div>
+        <div class="plant-holder">
+          <img
+            class="plant"
+            alt="plant"
+            id="plant6"
+            src="https://beta.pili.com.tw/img/wallpaper/pw01739.jpg"
+          />
+        </div>
+        <div class="plant-holder">
+          <img
+            class="plant"
+            alt="plant"
+            id="plant7"
+            src="https://beta.pili.com.tw/img/wallpaper/pw01737.jpg"
+          />
+        </div>
+      </div>
+      <div id="right-container" class="container">
+        <div class="plant-holder">
+          <img
+            class="plant"
+            alt="plant"
+            id="plant8"
+            src="https://beta.pili.com.tw/img/wallpaper/pw01733.jpg"
+          />
+        </div>
+        <div class="plant-holder">
+          <img
+            class="plant"
+            alt="plant"
+            id="plant9"
+            src="https://beta.pili.com.tw/img/wallpaper/pw01731.jpg"
+          />
+        </div>
+        <div class="plant-holder">
+          <img
+            class="plant"
+            alt="plant"
+            id="plant10"
+            src="https://beta.pili.com.tw/img/wallpaper/pw01478.jpg"
+          />
+        </div>
+        <div class="plant-holder">
+          <img
+            class="plant"
+            alt="plant"
+            id="plant11"
+            src="https://beta.pili.com.tw/img/wallpaper/pw01482.jpg"
+          />
+        </div>
+        <div class="plant-holder">
+          <img
+            class="plant"
+            alt="plant"
+            id="plant12"
+            src="https://beta.pili.com.tw/img/wallpaper/pw01333.jpg"
+          />
+        </div>
+        <div class="plant-holder">
+          <img
+            class="plant"
+            alt="plant"
+            id="plant13"
+            src="https://beta.pili.com.tw/img/wallpaper/pw01113.jpg"
+          />
+        </div>
+        <div class="plant-holder">
+          <img
+            class="plant"
+            alt="plant"
+            id="plant14"
+            src="https://beta.pili.com.tw/img/wallpaper/pw01001.jpg"
+          />
+        </div>
+      </div>
+
+      <div id="terrarium">
+        <div class="jar-top"></div>
+        <div class="jar-walls">
+          <div class="jar-glossy-long"></div>
+          <div class="jar-glossy-short"></div>
+        </div>
+        <div class="dirt"></div>
+        <div class="jar-bottom"></div>
+      </div>
+    </div>
+
+    <script>
+      /*可拖动元素的解决方案是受w3schools解决方案启发而创建的[Draggable HTML Element](https://www.w3schools.com/howto/howto_js_draggable.asp).*/
+
+      dragElement(document.getElementById("plant1"));
+      dragElement(document.getElementById("plant2"));
+      dragElement(document.getElementById("plant3"));
+      dragElement(document.getElementById("plant4"));
+      dragElement(document.getElementById("plant5"));
+      dragElement(document.getElementById("plant6"));
+      dragElement(document.getElementById("plant7"));
+      dragElement(document.getElementById("plant8"));
+      dragElement(document.getElementById("plant9"));
+      dragElement(document.getElementById("plant10"));
+      dragElement(document.getElementById("plant11"));
+      dragElement(document.getElementById("plant12"));
+      dragElement(document.getElementById("plant13"));
+      dragElement(document.getElementById("plant14"));
+
+      /*"闭包是捆绑在一起（封闭）的函数及其周围状态（词汇环境）的组合。换句话说，闭包使您可以从内部函数访问外部函数的作用域" 创建一个闭合，以便您可以跟踪拖动的元素*/
+
+      function dragElement(terrariumElement) {
+        //设置4个位置以在屏幕上定位
+        let pos1 = 0,
+          pos2 = 0,
+          pos3 = 0,
+          pos4 = 0;
+        terrariumElement.onpointerdown = pointerDrag;
+
+        function pointerDrag(e) {
+          e.preventDefault();
+          console.log(e);
+          // 获取pos3和pos4的初始鼠标光标位置
+          pos3 = e.clientX;
+          pos4 = e.clientY;
+          // 当鼠标移动时，开始拖动
+          document.onpointermove = elementDrag;
+          // 抬起鼠标时，停止拖动
+          document.onpointerup = stopElementDrag;
+        }
+
+        function elementDrag(e) {
+          // 计算新的光标位置
+          // pos1 = where the Xmouse WAS - where it IS
+          pos1 = pos3 - e.clientX;
+          // pos2 = where the Ymouse WAS - where it IS
+          pos2 = pos4 - e.clientY;
+          //将pos3重置为Xmouse的当前位置
+          pos3 = e.clientX;
+          //将pos4重置为Ymouse的当前位置
+          pos4 = e.clientY;
+          console.log(pos1, pos2, pos3, pos4);
+          // set the element's new position:
+          terrariumElement.style.top = terrariumElement.offsetTop - pos2 + "px";
+          terrariumElement.style.left =
+            terrariumElement.offsetLeft - pos1 + "px";
+        }
+
+        function stopElementDrag() {
+          // 释放鼠标时停止计算
+          document.onpointerup = null;
+          document.onpointermove = null;
+        }
+      }
+    </script>
+  </body>
+</html>
