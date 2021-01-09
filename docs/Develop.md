@@ -14,6 +14,7 @@
 ```
 
 ### 插件
+- REST Client:测试REST API
 
 - **GitLens** : git 信息查看
 
