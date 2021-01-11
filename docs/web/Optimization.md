@@ -8,6 +8,52 @@
 - 操作 dom 时，优先使用#id 及 dataset
 - obj.name 比 obj.xxx.name 访问更快，访问属性的速度，与其在对象中的深度有关。[.]操作的次数直接影响着访问对象属性的耗时。
 
+- 预解析 CDN 的地址的 DNS
+- preload:对于当前页面很有必要的资源使用.对浏览器指示预先请求当前页需要的资源（关键的脚本，字体，主要图片）
+- prefetch:对于可能在将来的页面中使用的资源使用.用户将来可能在其他部分（比如视图或页面）使用到的资源
+- preload 和 prefetch 都被存储在 HTTP 缓存中
+
+```html
+<!-- 预解析CDN的地址的DNS  -->
+<link rel="dns-prefetch" href="//example.com" />
+<!-- 立刻开始下载main.js(不阻塞parser)，并放在内存中，但不会执行其中的JS语句 -->
+<link rel="preload" href="/main.js" as="script" />
+<!-- 浏览器会在空闲的时候，下载main.js, 并缓存到disk。当有页面使用的时候，直接从disk缓存中读取。其实就是把决定是否和什么时间加载这个资源的决定权交给浏览器。如果prefetch还没下载完之前，浏览器发现script标签也引用了同样的资源，浏览器会再次发起请求，这样会严重影响性能的，加载了两次，，所以不要在当前页面马上就要用的资源上用prefetch，要用preload。 -->
+<link href="main.js" rel="prefetch" />
+
+<!-- 首先，Parser在遇到head中preload时开始下载JS，读到script标签的时候，如果已经下载完了，直接按顺序执行之。如果没下载完，则会等到下载完再执行。这样就可以在刚进入页面时开始非阻塞的下载JS代码了。其次，页面会在空闲时，加载prefetch的JS，如果之后页面发生跳转，跳转的目标页面引入了prefetch.js，浏览器会直接从disk缓存中读取执行。将script标签依然放在</body>之前，并增加defer标签，确保老浏览器兼容，并在所有DOM元素解析完成之后执行其中的代码。 -->
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Faster</title>
+    <link rel="dns-prefetch" href="//cdn.com/" />
+    <link rel="preload" href="//js.cdn.com/currentPage-part1.js" as="script" />
+    <link rel="preload" href="//js.cdn.com/currentPage-part2.js" as="script" />
+    <link rel="preload" href="//js.cdn.com/currentPage-part3.js" as="script" />
+
+    <link rel="prefetch" href="//js.cdn.com/prefetch.js" />
+  </head>
+  <body>
+    <script
+      type="text/javascript"
+      src="//js.cdn.com/currentPage-part1.js"
+      defer
+    ></script>
+    <script
+      type="text/javascript"
+      src="//js.cdn.com/currentPage-part2.js"
+      defer
+    ></script>
+    <script
+      type="text/javascript"
+      src="//js.cdn.com/currentPage-part3.js"
+      defer
+    ></script>
+  </body>
+</html>
+```
+
 ## DOM 操作
 
 - 增删改查
