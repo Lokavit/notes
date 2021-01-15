@@ -3,7 +3,6 @@
 ```json setting.json
 {
   "workbench.colorTheme": "Eva Dark Bold", // 主题
-  "workbench.iconTheme": "vscode-icons", // 图标
   // git bash作为终端
   "terminal.integrated.shell.windows": "C:\\Program Files\\Git\\bin\\bash.exe",
   // 隐藏右侧缩略图
@@ -19,26 +18,14 @@
 - **GitLens** : git 信息查看
 
 - Auto Close Tag :自动闭合 tag
-
-- Beautify:美化 javascript，JSON，CSS，Sass，和 HTML 在 VS 代码
 - Prettier formatter:代码格式化
 - Bracket Pair Colorizer:着色匹配括号的可自定义扩展
 - Chinese (Simplified) Language Pack for VS Code:简体中文
-- ESLint:代码更加一致并避免错误 https://eslint.org/
-- npm:支持运行文件中定义的 npm 脚本，并根据中定义的依赖项验证已安装的模块 package.json
-- Path Intellisense:自动路径文件名
-- vscode-icons:图标
 - Eva Theme:主题
-- Material Theme:VSCode 主题
+- vscode-fileheader:文件头注释
+- Svg Preview for VSCode：SVG预览
+- Markdown Preview Enhanced：MD文件预览
 
-#### 未装载
-
-- HTML Boilerplate:HTML 模板
-- HTML CSS Support
-- jQuery Code Snippets:JQuery 代码片段
-- stylelint
-- Import Cost:显示导入包的大小
-- Quokka.js:一个调试工具插件，能够根据正在编写的代码提供实时反馈。Ctrl+SHIFT+P->StartOnCurrent File
 
 ## VSCode 快捷键
 
