@@ -1,6 +1,6 @@
 - [Home](README.md)
 
-- [Thai](thai/Thai.md)
+- [Thai](thai/ThaiLyrics.md)
 
 ---
 
