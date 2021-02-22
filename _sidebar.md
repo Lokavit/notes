@@ -1,5 +1,9 @@
 - [Home](README.md)
 
+- [Thai](thai/Thai.md)
+
+---
+
 - [Algorithm](docs/Algorithm.md)
 - [DesignPattern](docs/DesignPattern.md)
 - [RegExp](docs/RegExp.md)
