@@ -62,3 +62,11 @@ extension=mysqli
 extension=openssl
 extension=pdo_mysql
 ```
+
+db.conf.php里面定义数据库相关常量(域名、端口、用户名、密码、数据库名)
+db.php 引入以上文件，实现基本数据库操作(连接数据库、销毁数据库、设置编码、CURD)
+model.php 实体类。引入上一步文件(介于实体类与数据库表之间的存在)
+controller.php 控制层。引入实体。
+
+Router/Router.php 路由类。路由函数，根据路由中包含的控制器名做一些处理(调用哪些控制器.php)
+数据表=(映射)=>实体类.php。对实体类的一些操作(CURD)。通常用在对应控制器.php中

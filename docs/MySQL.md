@@ -22,12 +22,19 @@ port=3306
 
 ```bash
 cd mysql-8.0.23-winx64\bin
-mysqld --install # 未安装便安装，已安装会给出提示
 # 初始化数据文件 成功之后mysql根目录下才会出现data文件夹
 mysqld --initialize-insecure --user=mysql
+mysqld --install # 未安装便安装，已安装会给出提示
+net start mysql # 启动MYSQL
+mysql -u root -p 
+Enter password: # 输入初始化时生成的密码
+# 修改root密码，Mysql8.0方式
+ALTER user 'root'@'localhost' IDENTIFIED BY '新密码';
+net stop mysql # 关闭mysql服务
+
+##========= 以下方式用于出现问题时 ============##
 # 绕过密码验证
 mysqld --console --skip-grant-tables --shared-memory
-
 # 另启一个CMD cd到bin下
 net start mysql
 # 使用无密码进入修改root密码
