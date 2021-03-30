@@ -1,8 +1,6 @@
-
-
 - win10 x64 8.0.23
-https://dev.mysql.com/downloads/
-MySQL Community Server -> Windows (x86, 64-bit), ZIP Archive
+  https://dev.mysql.com/downloads/
+  MySQL Community Server -> Windows (x86, 64-bit), ZIP Archive
 - zip 版解压安装报错如下
 
 ```
@@ -12,41 +10,46 @@ MySQL Community Server -> Windows (x86, 64-bit), ZIP Archive
 然后，卸载干净msi版本。继续操作zip版。
 
 ```
-根目录下创建my.ini文件
-```
+
+根目录下创建 my.ini 文件
+
+```ini
 [mysqld]
-basedir=D:\mysql-8.0.23-winx64
-datadir=D:\mysql-8.0.23-winx64\data\
-port=3306
+# 设置mysql的安装目录
+basedir= C:\dev\mysql\8.0.23
+# 设置mysql数据库的数据的存放目录
+datadir= C:\dev\mysql\8.0.23\data
+# 设置3306端口
+port = 3306
 ```
 
 ```bash
 cd mysql-8.0.23-winx64\bin
-# 初始化数据文件 成功之后mysql根目录下才会出现data文件夹
-mysqld --initialize-insecure --user=mysql
-mysqld --install # 未安装便安装，已安装会给出提示
-net start mysql # 启动MYSQL
-mysql -u root -p 
-Enter password: # 输入初始化时生成的密码
-# 修改root密码，Mysql8.0方式
-ALTER user 'root'@'localhost' IDENTIFIED BY '新密码';
-net stop mysql # 关闭mysql服务
-
-##========= 以下方式用于出现问题时 ============##
-# 绕过密码验证
-mysqld --console --skip-grant-tables --shared-memory
-# 另启一个CMD cd到bin下
-net start mysql
-# 使用无密码进入修改root密码
-mysql -u root -p # 出现输入密码直接按ENTER
-# 修改root密码，Mysql8.0方式
-ALTER user 'root'@'localhost' IDENTIFIED BY '新密码';
-flush privileges; # 刷新数据库
-exit # 退出mysql管理界面
-net stop mysql # 关闭mysql服务
-
-# 重新启动MYSQL，测试帐密问题
+# 初始化 此时会在根目录下创建data文件夹
+mysqld --initialize --console
+# pwd: # 初始化时，生成的初始密码
+mysqld --install # 装载 mysql
+net start mysql #启动mysql
+mysql -u root -p # 连接数据库
+Enter password: # 输入初始化时的密码
+# 此时已进入mysql命令模式。 更改新密码的mysql语句
+ALTER USER USER() IDENTIFIED BY ‘NewPassword’;
+quit; # 退出 MySQL
+net stop mysql # 关闭服务
+# 执行以下几句命令，测试更改密码是否生效
 net start mysql
 mysql -u root -p
-# 输入密码，显示连接成功。
+Enter password: # 更改的新密码
+```
+
+### 常用命令
+
+```sql
+mysql -u root -p -- 登入
+create database dbname; -- 创建数据库
+drop database dbname; -- 删除数据库
+use dbname -- 打开数据库
+-- create table user(); -- 创建数据库表
+desc user; -- 查看数据表
+-- insert into user values(1,'satya','13163108231');
 ```
