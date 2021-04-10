@@ -40,11 +40,11 @@ npm -v  # 查看npm的当前版本 6.4.1
 
 ```bash
 # ===== npm link ===== #
-$ cd scratch-vm # 以该库为例
-$ npm link # 将以上项目link到全局
+cd scratch-vm # 以该库为例
+npm link # 将以上项目link到全局
 # 在需要用到该库的项目根目录下，如：
-$ cd scratch-gui
-$ npm link scratch-vm # 将库链接到此项目
+cd scratch-gui
+npm link scratch-vm # 将库链接到此项目
 
 # ===== npm update ===== #
 npm outdated # 查看包版本信息
