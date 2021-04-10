@@ -30,9 +30,9 @@
 - - [Node](docs/nodejs/Nodejs.md)
 
 - TOOL
-- [Git](docs/tool/Git.md)
-- [VSCode](docs/tool/VSCode.md)
-- [RIME](docs/tool/RIME.md)
+- - [Git](docs/tool/Git.md)
+- - [VSCode](docs/tool/VSCode.md)
+- - [RIME](docs/tool/RIME.md)
 <!-- - [RegExp](docs/tool/RegExp.md) -->
 
 - Example
