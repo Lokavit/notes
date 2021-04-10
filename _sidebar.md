@@ -1,13 +1,13 @@
 - [Home](README.md)
 
-- Thai
-- - [ThaiLyrics](thai/ThaiLyrics.md)
+
+<!-- - Rust
+- - [](docs/rust/ReadFile) -->
 
 ---
 
 - [Algorithm](docs/Algorithm.md)
 - [DesignPattern](docs/DesignPattern.md)
-- [RegExp](docs/RegExp.md)
 - [C#](docs/Csharp.md)
 - [Python](docs/Python.md)
 
@@ -15,7 +15,6 @@
 - - [HTML](docs/web/HTML.md)
 - - [CSS](docs/web/CSS.md)
 - - [JavaScript](docs/web/Javascript.md)
-- - [Node](docs/web/Nodejs.md)
 - - [Charts](docs/web/Charts.md)
 - - [Optimization](docs/web/Optimization.md)
 - - [Functional](docs/web/Functional.md)
@@ -26,9 +25,15 @@
 - - [KID](docs/web/Kid.md)
 - - [Game](docs/web/Game.md)
 
-- [Develop](docs/Develop.md)
-- [Git](docs/Git.md)
-- [RIME](docs/RIME.md)
+- NODEJS
+- - [NPM](docs/nodejs/NPM.md)
+- - [Node](docs/nodejs/Nodejs.md)
+
+- TOOL
+- [Git](docs/tool/Git.md)
+- [VSCode](docs/tool/VSCode.md)
+- [RIME](docs/tool/RIME.md)
+<!-- - [RegExp](docs/tool/RegExp.md) -->
 
 - Example
 - - [UI](docs/web/UI.md)
@@ -113,3 +118,8 @@
 - - [丘山云雨时](novel/衍生/丘山云雨时.md)
 - - [拓斗提奢](novel/衍生/拓斗提奢.md)
 - - [香尘葬云霄](novel/衍生/香尘葬云霄.md)
+
+---
+
+- LANG
+- - [ThaiLyrics](lang/ThaiLyrics.md)
