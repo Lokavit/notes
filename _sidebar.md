@@ -4,6 +4,7 @@
 - Rust
 - - [Dir&File](docs/rust/Dir&File.md)
 - - [DateTime](docs/rust/DateTime.md)
+- - [String](docs/rust/String.md)
 
 ---
 
@@ -11,6 +12,8 @@
 - [DesignPattern](docs/DesignPattern.md)
 - [C#](docs/Csharp.md)
 - [Python](docs/Python.md)
+
+---
 
 - WEB
 - - [HTML](docs/web/HTML.md)
@@ -26,17 +29,23 @@
 - - [KID](docs/web/Kid.md)
 - - [Game](docs/web/Game.md)
 
+---
+
 - NODEJS
 - - [NPM](docs/nodejs/NPM.md)
 - - [Flie](docs/nodejs/Flie.md)
 - - [Server](docs/nodejs/Server.md)
 <!-- - - [Node](docs/nodejs/Nodejs.md) -->
 
+---
+
 - TOOL
 - - [Git](docs/tool/Git.md)
 - - [VSCode](docs/tool/VSCode.md)
 - - [RIME](docs/tool/RIME.md)
 <!-- - [RegExp](docs/tool/RegExp.md) -->
+
+---
 
 - Example
 - - [UI](docs/web/UI.md)
@@ -48,6 +57,7 @@
 - - [PointerEvent](https://lokavit.github.io/notes/src/vanillajs/pointer-event.html)
 - - [Typing](https://lokavit.github.io/notes/src/game/typing.html)
 
+---
 ---
 
 - 为龙
