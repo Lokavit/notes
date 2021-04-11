@@ -1,3 +1,8 @@
+<!--
+title:NPM
+dir:nodejs
+-->
+
 `Node Version Manager（Node 版本管理器）`
 
 - [下载 nvm 包 exe 版本](https://github.com/coreybutler/nvm-windows/releases)
