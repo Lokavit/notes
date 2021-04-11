@@ -84,6 +84,7 @@
       plugins: [
         function (hook, vm) {
           hook.beforeEach(function (content) {
+            console.warn('content:',content);
             let footer = [
               '<hr>',
               '<footer>',
@@ -117,6 +118,9 @@
       document.querySelector('.app-name').appendChild(section);
     }
     getGithubInfo();
+
+    // 处理高亮
+    //  article id="main" -> h1(文章标题) div(字数和时长) 
   </script>
 </body>
 
