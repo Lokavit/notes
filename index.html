@@ -31,6 +31,7 @@
   <div id="app"></div>
 
   <script>
+    hljs.highlightAll(); // 代码高亮
     window.$docsify = {
       // 站点名称
       name: "लोकवित्",
@@ -95,6 +96,7 @@
         }
       ],
     };
+    hljs.highlightAll(); // 代码高亮
   </script>
   <!-- Docsify v4 -->
   <script src="//cdn.jsdelivr.net/npm/docsify@4"></script>
@@ -117,12 +119,7 @@
       document.querySelector('.app-name').appendChild(section);
     }
     getGithubInfo();
-    // 代码高亮
-    // document.addEventListener('DOMContentLoaded', (event) => {
-    //   document.querySelectorAll('pre code').forEach((block) => {
-    //     hljs.highlightBlock(block);
-    //   });
-    // });
+    hljs.highlightAll(); // 代码高亮
   </script>
 </body>
 
