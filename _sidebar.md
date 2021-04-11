@@ -2,9 +2,12 @@
 
 
 - Rust
+- - [Basic](docs/rust/Basic.md)
 - - [Dir&File](docs/rust/Dir&File.md)
 - - [DateTime](docs/rust/DateTime.md)
 - - [String](docs/rust/String.md)
+- - [MySQL](docs/rust/MySQL.md)
+- - [WebAssembly](docs/rust/WebAssembly.md)
 
 ---
 
