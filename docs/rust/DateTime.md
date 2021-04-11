@@ -7,7 +7,7 @@ dir:rust
 
 ### 时间戳格式化为日期时间(暂未实现)
 
-```rs
+```rust
 /**
  * 尝试自己写个时间戳转人类易读
  * use example:
@@ -43,7 +43,7 @@ fn format_data_time(time: SystemTime) {
 chrono = "0.4" # 时间格式化
 ```
 
-```rs
+```rust
 /**
  * 格式化传入的SystemTime类型的日期时间
  * 返回格式化后的字符串
@@ -62,7 +62,7 @@ fn format_datetime(time: SystemTime) -> String {
 
 # SystemTime To UNIX Timestamp
 
-```rs
+```rust
 /**
  * 将传入的值转为 13位时间戳
  * SystemTime:参数类型
@@ -78,7 +78,7 @@ fn get_epoch_ms(time: SystemTime) -> u128 {
 
 # Rust 1.8 SystemTime 处理
 
-```rs
+```rust
 // 19位时间戳 转 10位时间戳
 let temp = time.duration_since(UNIX_EPOCH).expect("时间倒退");
 // 10位时间戳 转 13位时间戳

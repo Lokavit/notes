@@ -5,7 +5,7 @@ dir:rust
 
 - 读取指定路径下的目录或文件
 
-```rs
+```rust
 /**
  * 读取指定path下的目录或文件
  * use example:
