@@ -3,26 +3,25 @@ title:WebAssembly
 dir:rust
 -->
 
-- [MDN 编译 Rust 为 WebAssembly](https://developer.mozilla.org/zh-CN/docs/WebAssembly/Rust_to_wasm)
-
 # WebAssembly & Deno
 
 - `rust`代码编译为`wasm`在`deno`中使用
+- `deno`部分使用 TS/JS 皆可。
 
 ```bash
+# 创建用于构建wasm库的项目
+cargo new --lib <project-name>
 # 获取用于生成TS/JS适配器文件的CLI工具
 cargo install wasm-bindgen-cli
+# wasm-pack编译deno不友好；ssvmup无win系统版。
 ```
 
 ```toml
 [dependencies]
-rand = "0.8.3"
-# 该引用表明，wasm文件的getrandom正在js下运行，需使用js接口。无此句则wasm无法创建随机数
-getrandom = { version = "0.2", features = ["js"] }
-wasm-bindgen = "0.2.70" wasm与js交互库
+wasm-bindgen = "0.2.70" # wasm与js交互库
 
 [lib]
-name = "wisesayings"
+name = "libname" # 此处定义，命令时就无需再指定
 # 告知rust编译器创建一个没有启动函数的wasm二进制文件。
 # 编译器创建动态库(win.dll，linux.so，macos.dylib)
 # 由于部署单元为wasm，因此编译器创建.wasm文件(如:wisesayings.wasm)
@@ -49,11 +48,26 @@ fn main() -> std::io::Result<()> {
     println!("{}", str);
     Ok(())
 }
+
+/* 这是MDN教程的示例代码 src/lib.rs 只有这一个文件 */
+extern crate wasm_bindgen;
+
+use wasm_bindgen::prelude::*;
+
+#[wasm_bindgen]
+extern {
+    pub fn alert(s: &str);
+}
+
+#[wasm_bindgen]
+pub fn greet(name: &str) {
+    alert(&format!("Hello, {}!", name));
+}
 ```
 
 ```bash
 # 将源代码编译为wasm
-# # --lib指针对./lib目录中的源代码构建库
+# # --lib 指针对./lib目录中的源代码构建库
 # # --target 指明使用编译器，并将构建工件及wasm文件存储到该目录下
 cargo build --lib --target wasm32-unknown-unknown
 # 此处如果报错 error[E0463]: can't find crate for core|  = note: the "wasm32-unknown-unknown" target may not be ins。
@@ -73,18 +87,19 @@ rustup target add wasm32-unknown-unknown
 
 ```bash
 # wasm-bindgen 创建适配器文件和特殊wasm的命令
-# --out-dir ./server 创建的适配器文件存储位置选项
-# 其余部分为指示适配器文件针对Deno的选项，以及表示原始wasm文件的位置
-wasm-bindgen --target deno ./target/wasm32-unknown-unknown/debug/wisesayings.wasm --out-dir ./server
+# --target deno 编译为deno版本
+# --out-dir ./server 编译完成，文件的存放位置
+# ./target/xxxx.wasm 表示原始wasm文件的位置
+wasm-bindgen --target deno ./target/wasm32-unknown-unknown/debug/demo.wasm --out-dir ./server
 # server 中可见生成的文件清单。`xxx_bg.wasm`为 bindgen 缩写
-# # wisesayings_bg.wasm
-# # wisesayings_bg.wasm.d.ts
-# # wisesayings.d.ts
-# # wisesayings.js
+# # demo_bg.wasm
+# # demo_bg.wasm.d.ts
+# # demo.d.ts
+# # demo.js
 ```
 
 ```ts
-/* server/main.ts */
+/* server/main.ts 也可以写js */
 import { serve } from "https://deno.land/std/http/server.ts";
 import { get_wise_saying } from "./wisesayings.js";
 
@@ -104,6 +119,21 @@ for await (const request of server) {
   const saying = get_wise_saying();
   // 乱码，但如果是给前端，则不会有乱码问题。
   request.respond({ status: 200, body: JSON.stringify({ data: saying }) });
+}
+```
+
+```js
+/* MDN教程示例代码的编译后使用 main.js */
+import { serve } from "https://deno.land/std@0.92.0/http/server.ts";
+import { greet } from "./demo.js";
+
+const s = serve({ port: 8080 });
+console.log("http://localhost:8080/");
+// 注意：需有参数值。否则会报错。
+console.warn("greet:", greet("Lokavit"));
+
+for await (const req of s) {
+  req.respond({ body: "Hello World\n" });
 }
 ```
 

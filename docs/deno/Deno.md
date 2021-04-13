@@ -12,6 +12,6 @@ deno cache https://deno.land/std/http/server.ts
 # # --allow-read：允许读取磁盘文件
 # # --allow-net:允许访问网路
 # # --allow-env:读取环境变量
-deno run --allow-read --allow-net --allow-env main.ts
+deno run --allow-read --allow-net --allow-env main.ts # main.js亦可。
 # url:http://localhost:8080/
 ```
