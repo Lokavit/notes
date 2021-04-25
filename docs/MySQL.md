@@ -3,15 +3,10 @@
   MySQL Community Server -> Windows (x86, 64-bit), ZIP Archive
 - zip 版解压安装报错如下
 
-```
-由于找不到vcruntime140_1 dll
-没有VC库导致
-为了解决该问题，使用msi版本安装，主要是为了装载dll库。
-然后，卸载干净msi版本。继续操作zip版。
+`由于找不到vcruntime140_1 dll`
+没有 VC 库导致。为了解决该问题，使用 msi 版本安装，主要是为了装载 dll 库。然后，卸载干净 msi 版本。继续操作 zip 版。
 
-```
-
-根目录下创建 my.ini 文件
+- 根目录下创建`my.ini`文件，内容如下:
 
 ```ini
 [mysqld]

@@ -3,6 +3,505 @@ title:Basic Programming Language
 dir:rust
 -->
 
+# 错误处理
+
+- `panic!`,打印错误信息，展开并清理数据，而后退出。
+- `RUST_BACKTRACE=1`,backtrace 是一个执行到目前位置所有被调用的函数的列表。
+
+```toml
+# 另一种painc! 展开切换为终止
+[profile.release]
+panic = 'abort'
+```
+
+```bash
+RUST_BACKTRACE=1 cargo run
+```
+
+```rust
+/*=========== 传播错误及使用?运算符简写 ==========*/
+use std::io;
+use std::io::Read;
+use std::fs::File;
+
+fn read_username_from_file() -> Result<String, io::Error> {
+    let mut s = String::new();
+    let mut f = File::open("hello.txt")?;
+    f.read_to_string(&mut s)?;
+    // 以上两行可以链式为一行代码
+    File::open("hello.txt")?.read_to_string(&mut s)?;
+
+    Ok(s)
+}
+
+/*=========== 失败时 panic 的简写：unwrap 和 expect ==========*/
+use std::fs::File;
+
+fn main() {
+    // 返回Result中Ok的值，或Err下调用panic!
+    let f = File::open("hello.txt").unwrap();
+    // 允许选择panic!的错误信息，更易于追踪panic的根源。
+    let f = File::open("hello.txt").expect("Failed to open hello.txt");
+}
+
+/*=========== Result panic! 更优写法 ==========*/
+use std::fs::File;
+use std::io::ErrorKind;
+
+fn main() {
+    let f = File::open("hello.txt").unwrap_or_else(|error| {
+        if error.kind() == ErrorKind::NotFound {
+            File::create("hello.txt").unwrap_or_else(|error| {
+                panic!("Problem creating the file: {:?}", error);
+            })
+        } else {
+            panic!("Problem opening the file: {:?}", error);
+        }
+    });
+}
+/*=========== Result panic! ==========*/
+use std::fs::File;
+use std::io::ErrorKind;
+
+fn main() {
+    let f = File::open("hello.txt");
+
+    let f = match f {
+        Ok(file) => file,
+        Err(error) => match error.kind() {
+            // 尝试打开的文件不存在，则创建该文件
+            ErrorKind::NotFound => match File::create("hello.txt") {
+                Ok(fc) => fc,
+                Err(e) => panic!("Problem creating the file: {:?}", e),
+            },
+            other_error => panic!("Problem opening the file: {:?}", other_error),
+        },
+    };
+}
+```
+
+# 常见集合
+
+- 存储在堆中。常用集合(vector、字符串、哈希 map)
+- - vector:相同类型的值。相邻排列。(文本行或购物车中商品价格)
+- - HashMap:键值类型需相同。可以使用元组
+- - - 字符串值插入 HashMap，其所有权亦转到 HashMap。
+
+```rust
+/*=========== 哈希 map 储存键值对 ==========*/
+use std::collections::HashMap;
+
+fn main() {
+  // 新建
+  let mut scores = HashMap::new();
+
+  // 插入数据
+  scores.insert(String::from("a"), 10);
+  scores.insert(String::from("b"), 30);
+
+  // 使用元素
+  let teams = vec![String::from('a'), String::from('b')];
+  let init_scores = vec![10, 30];
+
+  /*
+     使用HashMap类型注解，
+     zip():创建一个元组的vector。
+     collect()将元组转换为HashMap。
+  */
+  let scores: HashMap<_, _> = teams.iter().zip(init_scores.iter()).collect();
+  println!("{:?}", scores);
+
+  // 访问值 返回 Option<V>。有值装入Some，无值返回None。
+  let team_name = "a".to_string();
+  let score = scores.get(&team_name);
+
+  // 遍历的方式访问
+  for (key, value) in &scores {
+    println!("{}: {}", key, value);
+  }
+
+  // 更新 直接覆盖
+  let mut scores = HashMap::new();
+  scores.insert(String::from("b"), 11);
+
+  // 只在键没有对应值时插入
+  let mut scores = HashMap::new();
+  scores.insert(String::from("Blue"), 10);
+  /*
+    entry()返回枚举。无值则插入值，
+    or_insert():有值则使用返回值的可变引用，
+      无值则将参数作为心智插入并返回新值的可变引用
+  */
+  scores.entry(String::from("Yellow")).or_insert(50);
+  scores.entry(String::from("Blue")).or_insert(50);
+  println!("{:?}", scores);
+
+  // 根据旧值更新一个值
+  let text = "hello world wonderful world";
+  let mut map = HashMap::new();
+  for word in text.split_whitespace() {
+    let count = map.entry(word).or_insert(0);
+    *count += 1;
+  }
+  println!("{:?}", map);
+}
+
+/*=========== String及常用处理 ==========*/
+fn main() {
+  // 创建空字符串
+  let mut s = String::new();
+  // 创建并初始化字符串
+  let data = "hello".to_string();
+  // 与上行代码等效
+  let data = String::from("hello");
+  // 增加字符串
+  let mut temp = "hello".to_string();
+  temp.push_str(" world");
+  // 使用+连接字符串
+  let temp1 = "hello".to_string();
+  let temp3 = " world".to_string();
+  // 返回结果所有权 = 获取temp1的所有权 + temp3引用的内容 (temp1无法继续使用)
+  let temp5 = temp + &temp3;
+  // 使用宏命令进行 复杂的字符串拼接
+  let s = format!("{}{}{}", temp1, temp3, temp5);
+  // 遍历字符串
+  for c in "नमस्ते".chars() {
+    println!("{}", c);
+  }
+
+  // 需要被替换的字符串
+  let temp_comment = "<!--  -->".to_string();
+  // 文本内容
+  let temp = "替换注释".to_string();
+  // 模板
+  let templ = "<pre><code><!--  --></code></pre>";
+  // 最终输出 <pre><code>替换注释</code></pre>
+  println!("{:?}", &templ.replace(&temp_comment, &temp));
+
+  // 类型转换
+  let s1 = String::from("test");
+  let s3 = s1.as_str();
+
+  let s1 = "汉字-Test";
+  // 是否包含指定字符串
+  assert_eq!(true, s1.contains("汉字"));
+  // 是否以指定字符串开头
+  assert_eq!(true, s1.starts_with("汉字"));
+  // 是否以指定字符串结尾
+  assert_eq!(true, s1.ends_with("Test"));
+  // 字母全转大写
+  println!("{:?}", s1.to_uppercase());
+  //请注意与  to_uppercase() 的不同
+  let mut s3 = String::from("汉字-Test");
+  s3.make_ascii_uppercase();
+  // 字母全转小写
+  println!("{:?}", s1.to_lowercase());
+  //请注意与  to_lowercase() 的不同
+  let mut s3 = String::from("汉字-Test");
+  s3.make_ascii_lowercase();
+  // 字符串切割
+  let mut s = String::from("汉字-Test");
+  let result: Vec<&str> = s.split("-").collect();
+  println!("{:?}", result); // -> ["汉字", "Test"]
+}
+
+/*=========== vector 用来储存一系列的值 ==========*/
+fn main() {
+    // 新建vector 用于存储i32类型的值
+    let v: Vec<i32> = Vec::new();
+    // 新建时包含初始值。使用宏。根据提供值创建一个新的vec
+    let v = vec![1, 2, 3];
+
+    // 更新vector。 可变变量。不可变则不能增加元素
+    let mut v = Vec::new();
+    v.push(3); // 增加值
+    v.push(5); // 同类型值
+    v.push(7); // 所以无需使用<i32>注解
+
+    // 丢弃vector时，其所有元素亦会丢弃
+    {
+        let v = vec![1, 2, 3, 4];
+    } // <- 这里 v 离开作用域并被丢弃
+
+    // 读取vector元素。
+    let v = vec![1, 2, 3, 4, 5];
+    // 以索引语法获取vector中的值。索引超出范围会引发错误
+    let third: &i32 = &v[2];
+    println!("The third element is {}", third);
+    // 以get方法获取vector中的值。超出范围返回None。
+    match v.get(2) {
+        Some(third) => println!("The third element is {}", third),
+        None => println!("There is no third element."),
+    }
+
+    // 遍历vector中的元素
+    let v = vec![33, 66, 99];
+    for i in &v {
+        println!("{}", i)
+    }
+
+    // 遍历可变vector中每个元素的可变引用
+    let mut v = vec![11, 55, 77];
+    for i in &mut v {
+        *i += 50; // 解引用i += 50;
+        println!("{}", i)
+    }
+
+    // 使用枚举来存储多种类型
+    enum SpreadsheetCell {
+        Int(i32),
+        Float(f64),
+        Text(String),
+    }
+    let row = vec![
+        SpreadsheetCell::Int(3),
+        SpreadsheetCell::Text(String::from("blue")),
+        SpreadsheetCell::Float(10.12),
+    ];
+}
+```
+
+# 使用包、Crate 和模块
+
+- 模块树都植根于名为 crate 的隐式模块下
+- 模块可嵌套，模块中支持结构体、枚举、常量、特性、函数
+- 路径后跟一个或多个由双冒号（::）分割的标识符
+- - 绝对路径（absolute path）从 crate 根开始，以 crate 名或者字面值 crate 开头。
+- - 相对路径（relative path）从当前模块开始，以 self、super 或当前模块的标识符开头。
+- - super 起始的相对路径，移动模块时，变更很少代码。
+- - use:使用该关键字将名称引入作用域
+- - as:使用该关键字提供新的名称。用于 use 至相同名称的情况
+- Rust 中默认所有项（函数、方法、结构体、枚举、模块和常量）都是私有的
+- - 父模块中的项不能使用子模块中的私有项,子模块中的项可以使用他们父模块中的项
+
+```bash
+cargo new --lib rust-lib # 建库项目
+```
+
+```rust
+/*=========== 使用 as 关键字提供新的名称 ==========*/
+use std::fmt::Result;
+use std::io::Result as IoResult;
+fn function1() -> Result {}
+fn function2() -> IoResult<()> {}
+
+/*=========== 使用 use  ==========*/
+// 通过 glob 运算符将所有的公有定义引入作用域。慎用。
+use std::collections::*;
+// 一个是另外一个子路径，同时引入作用域
+use std::io::{self, Write};
+ // 嵌套引入
+use std::{cmp::Ordering, io};
+// 标准库引入，无需修改Cargo.toml
+use std::collections::HashMap;
+// 外部引入。需在Cargo.toml中添加库
+use rand::Rng;
+
+/*=========== 模块分割入不同文件 示例及注释 ==========*/
+/* src/front_of_house/hosting.rs */
+pub fn add_to_waitlist() {} // 模块中函数 使用 pub 关键字变为公有
+
+/* src/front_of_house.rs */
+pub mod hosting;// 子模块 使用 pub 关键字暴露路径
+
+/* src/lib.rs */
+mod front_of_house; // 加载同名模块文件的内容
+
+/*=========== 模块的相关要点 示例及注释 ==========*/
+mod front_of_house { // 这部分已拆分为单独的文件
+    // 子模块 使用 pub 关键字暴露路径
+    pub mod hosting {
+        // 模块中函数 使用 pub 关键字变为公有
+        pub fn add_to_waitlist() {}
+    }
+}
+
+// 使用use和相对路径将项引入作用域
+use front_of_house::hosting;
+// 使用pub use 重导出名称
+// pub use crate::front_of_house::hosting;
+
+/** 公有函数 */
+pub fn eat_at_restaurant() {
+    // 绝对路径
+    crate::front_of_house::hosting::add_to_waitlist();
+    // 相对路径
+    front_of_house::hosting::add_to_waitlist();
+    // use 与相对路径结合
+    hosting::add_to_waitlist();
+
+    // 公有结构体实例
+    let mut meal = back_of_house::Breakfast::summer("Rye");
+    meal.toast = String::from("Wheat");
+    println!("{}", meal.toast);
+
+    // 公有枚举成员使用
+    let order1 = back_of_house::Appetizer::Soup;
+    let order2 = back_of_house::Appetizer::Salad;
+}
+
+fn server_order() {}
+mod back_of_house {
+    /** 公有枚举 所有成员皆为公有 */
+    pub enum Appetizer {
+        Soup,
+        Salad,
+    }
+    /** 公有结构体 所有成员默认私有，公有pub需指定 */
+    pub struct Breakfast {
+        pub toast: String,      // 公有字段
+        seasonal_fruit: String, // 默认私有字段
+    }
+    // 结构体方法
+    impl Breakfast {
+        //
+        //
+        /**
+         * 公有函数 传入字符串，返回结构体
+         * 具有私有字段的结构体，需要提供该公共关联函数来构造结构体实例
+         * 若无该函数则无法在 eat_at_restaurant 中创建该结构体的实例
+         */
+        pub fn summer(toast: &str) -> Breakfast {
+            // 结构体实例化
+            Breakfast {
+                toast: String::from(toast),
+                seasonal_fruit: String::from("peaches"),
+            }
+        }
+    }
+
+    fn cook_order() {}
+    fn fix_incorrect_order() {
+        cook_order();
+        // 使用 super 起始的相对路径
+        super::server_order();
+    }
+}
+```
+
+# 枚举和模式匹配
+
+- match:先匹配模式，匹配到则执行关联代码
+- if let:处理只匹配一个模式的值而忽略其他模式的情况。
+
+```rust
+/*=========== if let 简单控制流 ==========*/
+fn main() {
+    #[derive(Debug)]
+    enum UsState {
+        Alabama,
+        Alaska,
+    }
+    enum Coin {
+        Penny,
+        Nickel,
+        Dime,
+        Quarter(UsState),
+    }
+    let coin = Coin::Penny;
+    let mut count = 0;
+    if let Coin::Quarter(state) = coin {
+        println!("State quarter from {:?}!", state);
+    } else {
+        count += 1; // 对非state的进行计数
+    }
+}
+
+/*=========== 匹配 Option<T> ==========*/
+fn plus_one(x: Option<i32>) -> Option<i32> {
+    match x {
+        None => None, // 要有，否则造成BUG
+        Some(i) => Some(i + 1),
+    }
+}
+
+fn main() {
+    let five = Some(5);
+    let six = plus_one(five); // 6
+    let none = plus_one(None);
+    println!("{:?},{:?}", six, none);
+
+    /* _ 通配符 */
+    let some_u8_value = 0u8;
+    match some_u8_value {
+        1 => println!("one"),
+        3 => println!("three"),
+        5 => println!("five"),
+        7 => println!("seven"),
+        _ => (), // 匹配所有之前没有指定的可能的值
+    }
+}
+
+/*=========== match 控制流运算符 及绑定值的模式 ==========*/
+#[derive(Debug)]
+
+/** 用于传递给 Coin枚举中的Quarter项 */
+enum UsState { Alabama, Alaska, }
+enum Coin { Penny, Nickel, Dime, Quarter(UsState), }
+
+/** 返回值可以是任何类型 */
+fn value_in_cents(coin: Coin) -> u8 {
+    match coin {
+        // 对应枚举中每项，此处亦可用{}
+        Coin::Penny => {
+            println!("Penny!");
+            1
+        }
+        Coin::Nickel => 5,
+        Coin::Dime => 10,
+        Coin::Quarter(state) => {
+            println!("state:{:?}", state);
+            25
+        }
+    }
+}
+
+fn main() {
+    let temp = value_in_cents(Coin::Quarter(UsState::Alaska));
+    println!("temp:{:?}", temp);
+}
+
+
+/*=========== Option<T> 编码存在或不存在 ==========*/
+use std::option::Option; // 引入库
+
+fn main() {
+    let some_num = Some(5);
+    let some_str = Some("a string");
+    let absent_num: Option<i32> = None;
+}
+
+
+/*=========== 枚举使用示例 ==========*/
+/* 定义枚举 */
+enum IpAddr {
+    V4(u8, u8, u8, u8), // 可以单独定义数据类型
+    V6(String),
+}
+
+enum Message {
+    Quit,                       //没有关联任何数据
+    Move { x: i32, y: i32 },    //包含一个匿名体结构
+    Write(String),              //包含一个单独String
+    ChangeColor(i32, i32, i32), //包含三个i32类型数据
+}
+
+impl Message {
+    fn call(&self) {
+        println!("方法体")
+    }
+}
+
+fn main() {
+    // 实例化枚举::枚举项，并为其赋值
+    let home = IpAddr::V4(127, 0, 0, 1);
+    let loopback = IpAddr::V6(String::from("::1"));
+
+    let m = Message::Write(String::from("Hello!"));
+    m.call(); // 调用枚举的方法
+}
+```
+
 # struct 结构体
 
 - 自定义数据类型。允许命名和包装多个相关的值，形成有意义的组合。
