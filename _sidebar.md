@@ -66,6 +66,12 @@
 - - [Typing](https://lokavit.github.io/notes/src/game/typing.html)
 
 ---
+
+- 观后感
+- - [布袋戏](read/布袋戏.md)
+- - [佛缘](read/佛缘.md)
+- - [编程](read/编程.md)
+- - [影视](read/影视.md)
 ---
 
 - 为龙
@@ -139,7 +145,6 @@
 - - [丘山云雨时](novel/衍生/丘山云雨时.md)
 - - [拓斗提奢](novel/衍生/拓斗提奢.md)
 - - [香尘葬云霄](novel/衍生/香尘葬云霄.md)
-
 ---
 
 - LANG
