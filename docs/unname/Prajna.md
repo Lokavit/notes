@@ -1,17 +1,98 @@
 ## 网站
 
-<!-- 
+<!--
 prajna目录下
-- docs:所有页面
-- src:源代码。或许会放rust代码
-- index.html 主页面
+- docs:所有页面。由Rust程序生成。
+- src:源代码，以及Rust代码
+
 
 使用rust 读取目录，读取文件.md，整理文章标题、分类、更新时间。
 拼接为HTML文件，写入docs目录下，最终结果为 docs/目录名/文章名.html
 
-
 不采用:拼接为一个JSON结构的字符串，用于前端处理。(需要请求，或许要走wasm)
  -->
+
+- index.html 主页面。单独做。
+- - 页面内容：分类在左，列表在右。
+- - 使用 Rust 写为 js 数据文件，达到动态效果。
+- - 由 index.html 点击进入的所有文章内容页，皆为沉寂式，只含 P/N
+
+Rust 中对读取的文件列表做文章信息数组处理
+遍历 Vec 类型存储的文章数组，将每项作为参数传入
+一个处理文章信息的函数。局部 HTML 结构。
+HTML 文件结构拼接大致如下：
+body 元素起始及之上(会有必要 cdn 库，md 解析/代码高亮)
+article 文章(标题/更新时间/字数/阅读估时/正文)
+P/N:上下.直接写上变量.html,最前/最后皆指向 index.html;
+body 元素结尾及之后。
+所有文章页上有一个回到 index.html 页面的按钮。
+
+```rust
+/*  文章与目录关系，将目录名字，映射为分类JS，默认排序。每个目录下的文章列表，作为对应分类的数组元素。整体为一个JS文件。文章需使用ID，便于排序，技术类生成ID(使用默认排序方式，或根据更新时间排序)，创作类根据文章标题的序号，作为ID，进行排序。
+*/
+write="
+    const CONTENT =[
+    {name:"建站",list:[
+    {id:0,title:'标题0',url:'view/文章0.html',desc:'来一句长点儿描述'},
+    {id:1,title:'标题1',url:'view/文章1.html',desc:'截取正文第一句'}]},
+    {name:"随便",list:[
+    {id:0,title:'标题0',url:'view/文章0.html',desc:'也许不加这一项'},
+    {id:1,title:'标题1',url:'view/文章1.html',desc:'能省则省'}]},
+]
+"
+
+/* 模拟rust写入分类.js文件 ID用于文章对应找寻 */
+write = " const 分类 =[{id:0,name:'建站记录'},{id:1,name:'随便补补'}] ";
+/* 模拟rust写入文章列表.js文件 有些文章需排序 */
+write = " const 文章列表 =[{id:0,title:'文章0',分类:'建站记录',url:'view/文章0.html'},{id:1,title:'文章1',分类:'随便补补',url:'view/文章1.html'}] ";
+```
+
+```rust
+pub trait Summary{
+    fn summarize(&self)->String;
+}
+#[derive(Debug)]
+pub struct Article{
+    pub title:String, // 标题
+    pub author:String, // 作者
+    pub content:String, // 内容
+    pub lasttime:String, // 最后更新时间
+}
+impl Summary for Article{
+    fn summarize(&self)->String{
+        format!("{},by{} ({}) /{}",self.title,self.author,self.content,self.lasttime)
+    }
+}
+
+fn main() {
+    println!("Hello, world!");
+    let mut v = Vec::new(); // 创建Vector
+    // while循环所需，因为for无法直接遍历数字。
+    let mut index = 0;
+    while index<5{
+        // 每个循环都实例化一个文章信息对象
+        let article = Article{
+            // 为文章信息结构体中的每个属性赋值 (后面加下标，只为效果)
+            title:"标题".to_string()+&index.to_string(),
+            author:"作者".to_string()+&index.to_string(),
+            content:"文章内容".to_string()+&index.to_string(),
+            lasttime:"最后更新时间".to_string()+&index.to_string()
+        };
+        println!("文章信息:{}",article.summarize());
+        v.push(article); // 每个实例化完成的文章信息结构体，添加到Vec中
+        index = index + 1; // 改变下标值，用于下一次while条件判断
+    }
+    println!("v:{:#?}", &v); // 最终输出Vec类型v变量中的所有内容
+
+    // 在使用的地方，可以采用for遍历&v
+    for item in &v{
+        println!("item:{:#?}",item);
+        // 具体使用。如在此调用处理文件生成的函数，将item作为参数传入。
+        println!("TITLE:{}",item.title); // 输出标题。其它同理。
+    }
+}
+
+```
 
 - dir。读取之后，单词目录名转为全大写作为分类名；汉字直接作为分类名
 - - prajna：建站事记。记录整个网站从无到有的过程。
@@ -19,10 +100,6 @@ prajna目录下
 - - nodejs:
 - - rust:
 - - tool:
-
-
-
-
 
 - 服务架构(1)： 所有后端相关技术栈，及 Nodejs 相关
 - 善事利器(1)：GIT、DEV、RIME 等
