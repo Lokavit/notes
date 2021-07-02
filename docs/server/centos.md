@@ -39,3 +39,10 @@ yum install -y wget && wget -O install.sh http://download.bt.cn/install/install_
 - - app/admin/controller/Login.php 注释密码
 - - 登入成功后，解除注释，并由面板中更改密码，退出重登做测试。
 
+
+## 安卓系统
+- 下载Android x86安装镜像、下载并安装UltraISO软件
+在菜单栏依次点击【文件】->【打开】，选择刚才下载好的安卓x86安装镜像。
+镜像打开后，在菜单栏依次点击【启动】->【写入硬盘映像】检查硬盘驱动器是否是刚才插入的U盘，写入方式选择“USE-HDD+”，然后点击【写入】按钮。
+镜像写入完成后，不要拔U盘，重新启动电脑。参照屏幕提示按F12/ESC等(留意屏幕提示或翻阅说明书)启动菜单键，进入Boot Menu，选择U盘启动
+安装选择含有(harddisk)字样的选项，然后选择「Yes」
