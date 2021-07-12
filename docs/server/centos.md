@@ -38,6 +38,17 @@ yum install -y wget && wget -O install.sh http://download.bt.cn/install/install_
 - 登入账密错误:
 - - app/admin/controller/Login.php 注释密码
 - - 登入成功后，解除注释，并由面板中更改密码，退出重登做测试。
+- vueadmin配置后，一堆杂问题
+```js
+// ui/vue.config.js 添加及修改如下
+publicPath:'/dist/', // 公共资源指向/dist/
+outputDir: '../public/dist', // 输出目录指向php项目的public/dist
+
+// ui/src/api/request.js 改API请求地址
+axios.defaults.baseURL = 'http://a.dd.ifncloud.com:88/admin';
+
+// 缓存Token 跳转
+```
 
 
 ## 安卓系统
