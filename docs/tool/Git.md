@@ -1,3 +1,5 @@
+## VSCode设置同步
+- Settings sync on
 
 ```bash
 $ git branch modal # 新建分支
